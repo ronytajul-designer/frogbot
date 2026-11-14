@@ -12,11 +12,11 @@
   // Per-seat list prices are the ones FrogBot publishes with a date (Sept 2026).
   const TOOLS = {
     airtable: {
-      name: 'Airtable', ws: 'Ops workspace', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
+      name: 'Airtable', done: 'Synced', config: ['Inventory', 'Suppliers', 'PurchaseOrders'], agentName: 'supplierMatcher', ws: 'Ops workspace', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
       title: 'Ops and Inventory Base', meta: '54,200 rows. Unlimited editors at $0 per seat.',
       agent: 'Agent built 4 collections, 3 roles, 2 automations',
       steps: ['Reading your Airtable base', 'Creating 4 collections', 'Setting 3 roles', 'Wiring 2 automations'],
-      note: 'Agent matched 212 of 215 supplier rows from your CSV import. 3 rows held for your review.',
+      note: 'Agent matched 212 of 215 supplier rows from your CSV import. 2 rows held for your review.',
       side: ['Inventory', 'Suppliers', 'Purchase orders', 'Automations'],
       rows: [
         ['INV-9042 Apex Industrial', '$14,820, net 30', 'ok', 'Synced'],
@@ -26,11 +26,11 @@
       ]
     },
     salesforce: {
-      name: 'Salesforce', ws: 'Revenue workspace', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
+      name: 'Salesforce', done: 'Active deal', config: ['Deals', 'Accounts', 'Contacts'], agentName: 'followUpWriter', ws: 'Revenue workspace', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
       title: 'Revenue CRM', meta: 'The 5 fields reps use. Gmail and Slack connected.',
       agent: 'Agent built 5 collections, 4 roles, 3 automations',
       steps: ['Reading your Salesforce export', 'Creating 5 collections', 'Setting 4 roles', 'Wiring 3 automations'],
-      note: 'Follow-up agent drafted 14 check-in emails from call notes. 2 deals held for rep review.',
+      note: 'Follow-up agent drafted 14 check-in emails from call notes. 1 deal held for rep review.',
       side: ['Deals', 'Accounts', 'Contacts', 'Follow-ups'],
       rows: [
         ['Meridian Logistics', '$84,000, security review', 'ok', 'Active deal'],
@@ -40,11 +40,11 @@
       ]
     },
     zendesk: {
-      name: 'Zendesk', ws: 'Support workspace', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
+      name: 'Zendesk', done: 'Auto-resolved', config: ['Tickets', 'Customers', 'HelpArticles'], agentName: 'ticketTriage', ws: 'Support workspace', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
       title: 'Support Inbox', meta: 'Unlimited support agents. Answers drawn from your docs.',
       agent: 'Agent built 3 collections, 3 roles, 4 automations',
       steps: ['Reading your Zendesk tickets', 'Creating 3 collections', 'Setting 3 roles', 'Wiring 4 automations'],
-      note: 'Triage agent answered 64 routine tickets from your docs. 2 billing questions held for a person.',
+      note: 'Triage agent answered 64 routine tickets from your docs. 1 billing question held for a person.',
       side: ['Tickets', 'Customers', 'Help articles', 'Automations'],
       rows: [
         ['#4812 Permission mapping question', 'Beacon Financial', 'ok', 'Auto-resolved'],
@@ -102,6 +102,21 @@
 
   let currentRent = TOOLS.airtable.perSeat * SEATS * 12;
 
+  const state = { tool: null, rows: [] };
+  const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const rowsMarkup = () => state.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td><span class="tag tag--${r[2]}">${esc(r[3])}</span></td></tr>`).join('');
+  function renderSideViews() {
+    const t = state.tool;
+    const board = $('[data-pane="board"]');
+    const cols = [['Needs review', 'warn'], [t.done, 'ok']];
+    board.innerHTML = cols.map(([label, kind]) => `<div class="board__col"><p class="board__head"><span class="tag tag--${kind}">${esc(label)}</span><i>${state.rows.filter(r => r[2] === kind).length}</i></p>${state.rows.filter(r => r[2] === kind).map(r => `<div class="board__card"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div>`).join('') || '<p class="board__empty">Nothing waiting</p>'}</div>`).join('');
+    $('[data-config]').textContent = `// frogbot.config.ts\nexport default buildConfig({\n  collections: [${t.config.join(', ')}],\n  roles: ['admin', 'member', 'end user'],\n  agents: [${t.agentName}],\n});`;
+  }
+  function resetApprove() {
+    const b = $('[data-approve]');
+    if (!b) return;
+    b.disabled = false; b.textContent = 'Approve flagged';
+  }
   function showTool(key, animate = true) {
     const t = TOOLS[key];
     const rent = t.perSeat * SEATS * 12;
@@ -126,7 +141,9 @@
     const win = $('[data-window]');
     side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''} style="--c:${SIDE_COLORS[i % 4]}"><i></i>${x}</li>`).join('');
     $('[data-ws]').textContent = t.ws;
-    const rowsHtml = t.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="tag tag--${r[2]}">${r[3]}</span></td></tr>`).join('');
+    state.tool = t; state.rows = t.rows.map(r => r.slice()); resetApprove();
+    const rowsHtml = rowsMarkup();
+    renderSideViews();
 
     if (!animate || reduce) {
       body.innerHTML = rowsHtml;
@@ -162,6 +179,29 @@
 
   if (typed) {
     $$('[data-tool]').forEach(b => b.addEventListener('click', () => showTool(b.dataset.tool)));
+    // Views: table, board, config
+    $$('[data-view]').forEach(b => b.addEventListener('click', () => {
+      $$('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      $$('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== b.dataset.view; });
+    }));
+    // Approve flagged rows
+    const approve = $('[data-approve]');
+    if (approve) approve.addEventListener('click', () => {
+      const n = state.rows.filter(r => r[2] === 'warn').length;
+      state.rows.forEach(r => { if (r[2] === 'warn') { r[2] = 'ok'; r[3] = state.tool.done; } });
+      $('[data-rows]').innerHTML = rowsMarkup();
+      renderSideViews();
+      $('[data-note]').textContent = `${n} flagged ${n === 1 ? 'row' : 'rows'} approved. The agent logged who approved ${n === 1 ? 'it' : 'them'} in the audit trail.`;
+      approve.disabled = true; approve.textContent = 'Approved';
+    });
+    // Roles
+    const roleNotes = { admin: 'Full access. Every role costs $0 per seat.', member: 'Members edit records but not settings. $0 per seat.', 'end user': 'End users see only their own records. $0 per seat.' };
+    $$('[data-role]').forEach(b => b.addEventListener('click', () => {
+      $$('[data-role]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      $('[data-role-note]').textContent = roleNotes[b.dataset.role];
+      $('[data-window]').dataset.role = b.dataset.role;
+    }));
+    state.tool = TOOLS.airtable; state.rows = TOOLS.airtable.rows.map(r => r.slice()); renderSideViews();
     // First view: type the sentence and resolve the rows once the hero has risen.
     if (!reduce) setTimeout(() => showTool('airtable'), 500);
   }
