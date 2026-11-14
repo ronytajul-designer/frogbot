@@ -672,17 +672,30 @@
   if (document.fonts) document.fonts.ready.then(place);
 })();
 
-/* FAQ: one answer open at a time, with a smooth close. */
+/* FAQ: answers slide open and closed; one open at a time. */
 (() => {
   const list = document.querySelector('[data-faq]');
   if (!list) return;
   const items = [...list.querySelectorAll('details')];
-  const close = d => { if (!d.open) return; d.classList.add('is-closing'); setTimeout(() => { d.open = false; d.classList.remove('is-closing'); }, 380); };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const open = d => {
+    d.open = true;
+    const a = d.querySelector('p'); if (reduce || !a) return;
+    const h = a.scrollHeight;
+    a.animate([{ height: '0px', opacity: 0, transform: 'translateY(-6px)' }, { height: h + 'px', opacity: 1, transform: 'none' }], { duration: 450, easing: ease });
+  };
+  const close = d => {
+    if (!d.open) return;
+    const a = d.querySelector('p'); if (reduce || !a) { d.open = false; return; }
+    const anim = a.animate([{ height: a.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0, paddingBottom: '0px' }], { duration: 350, easing: ease });
+    anim.onfinish = () => { d.open = false; };
+  };
   items.forEach(d => d.querySelector('summary').addEventListener('click', e => {
     e.preventDefault();
     if (d.open) { close(d); return; }
     items.forEach(o => o !== d && close(o));
-    d.open = true; d.classList.remove('is-opening'); void d.offsetWidth; d.classList.add('is-opening');
+    open(d);
   }));
 })();
 
