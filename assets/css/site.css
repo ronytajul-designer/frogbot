@@ -1486,3 +1486,10 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 .dev { border: 0; background: none; padding: 0; margin-top: 72px; }
 .term { box-shadow: 0 24px 48px -32px rgb(0 0 0 / 0.9); }
 @media (max-width: 960px) { .dev { padding: 0; margin-top: 56px; } }
+/* One call-to-action pair everywhere (hero and closing): filled primary + quiet text secondary with an arrow */
+.close__cta { gap: 8px; }
+.close__cta .btn--primary { box-shadow: 0 8px 24px -12px rgb(var(--green-rgb) / 0.7); }
+.close__cta .btn--ghost { border-color: transparent; background: none; color: var(--ink-2); }
+.close__cta .btn--ghost:hover { color: var(--fb-ink); background: rgb(255 255 255 / 0.04); transform: none; }
+.close__cta .btn--ghost::after { content: "→"; margin-left: 2px; transition: transform 0.25s var(--ease); }
+.close__cta .btn--ghost:hover::after { transform: translateX(3px); }
