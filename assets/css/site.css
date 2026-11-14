@@ -826,3 +826,30 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 @media (max-width: 560px) { .hero__cta .btn { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .header__actions .btn { transition: none; } }
 .hero__offer { text-wrap: balance; }
+
+/* Calmer dashboard: fewer boxes, one accent per region */
+.window .side { border: 0; background: none; box-shadow: none; border-right: 1px solid var(--line); border-radius: 0; padding: 8px 16px 8px 4px; }
+.window .side__ws { border-bottom: 0; padding-bottom: 8px; }
+.window .top { border: 0; background: none; box-shadow: none; border-bottom: 1px solid var(--line); border-radius: 0; padding: 4px 4px 0 8px; }
+.window__col { gap: 16px; }
+.window__content { gap: 24px; }
+.window__main { padding: 0 0 0 8px; }
+.side__tools s { color: var(--ink-3); text-decoration: none; }
+.side__tools button[aria-pressed="true"] s { color: var(--rent); text-decoration: line-through; }
+.side__tools button[aria-pressed="true"] { background: rgb(255 255 255 / 0.05); box-shadow: none; }
+.side__tools button[aria-pressed="true"] span { color: var(--fb-ink); font-weight: 600; }
+.window__note { border: 0; background: rgb(var(--green-rgb) / 0.07); }
+.roles { margin-top: 12px; }
+.roles button { min-height: 32px; padding: 0 12px; }
+.rows th:nth-child(1) { width: 38%; }
+.rows th:nth-child(2) { width: 128px; }
+.rows th:nth-child(3) { width: auto; }
+.window .saving { background: var(--fb-surface); }
+.saving__label .saving__tag { background: none; padding: 0; color: var(--ink-3); }
+.window .saving__note { border-top: 0; padding-top: 0; margin-top: 12px; }
+.chrome__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.chrome__agent { display: inline-flex; align-items: center; gap: 8px; min-width: 0; font-size: 14px; color: var(--fb-green); }
+.chrome__agent span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chrome__agent .pulse { flex: none; }
+@media (max-width: 1180px) { .chrome__agent span { display: none; } }
+.window { height: 612px; }

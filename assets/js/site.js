@@ -149,7 +149,7 @@
 
   const state = { tool: null, rows: [] };
   const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const rowsMarkup = () => state.rows.map(r => `<tr><td title="${esc(r[0])}">${esc(r[0])}</td><td title="${esc(r[1])}">${esc(r[1])}</td><td><span class="tag tag--${r[2]}">${esc(r[3])}</span></td><td class="rows__note" title="${esc(r[4])}">${esc(r[4])}</td></tr>`).join('');
+  const rowsMarkup = () => state.rows.map(r => `<tr><td title="${esc(r[0])}">${esc(r[0])}</td><td><span class="tag tag--${r[2]}">${esc(r[3])}</span></td><td class="rows__note" title="${esc(r[4])}">${esc(r[4])}</td></tr>`).join('');
   function renderSideViews() {
     const t = state.tool;
     const board = $('[data-pane="board"]');
@@ -258,7 +258,6 @@
     const roleNotes = { admin: 'Full access. Every role costs $0 per seat.', member: 'Members edit records but not settings. $0 per seat.', 'end user': 'End users see only their own records. $0 per seat.' };
     $$('[data-role]').forEach(b => b.addEventListener('click', () => {
       $$('[data-role]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-      $('[data-role-note]').textContent = roleNotes[b.dataset.role];
       $('[data-window]').dataset.role = b.dataset.role;
     }));
     state.tool = TOOLS.airtable; state.rows = TOOLS.airtable.rows.map(r => r.slice()); renderSideViews();

@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794672116">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794672116">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794672353">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794672353">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -92,7 +92,7 @@
 
         <div class="window" data-window>
           <div class="chrome">
-            <span class="chrome__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="chrome__left"><span class="chrome__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="chrome__agent"><i class="pulse" aria-hidden="true"></i><span data-agent>Agent built 4 collections, 3 roles, 2 automations</span></span></span>
             <span class="chrome__url"><i aria-hidden="true"></i><span>https://<span data-url>airtable.frogbot.app/admin</span></span></span>
             <div class="chrome__mode" role="group" aria-label="Show">
               <button type="button" data-mode="live" aria-pressed="true">Live app</button>
@@ -112,10 +112,6 @@
               <button type="button" data-tool="zendesk" aria-pressed="false"><span>Zendesk</span><s data-side-price="zendesk">$34,500/yr</s></button>
               <button type="button" data-tool="jira" aria-pressed="false"><span>Jira</span><s data-side-price="jira">$5,400/yr</s></button>
               <button type="button" data-tool="asana" aria-pressed="false"><span>Asana</span><s data-side-price="asana">$7,500/yr</s></button>
-            </div>
-            <div class="side__agent">
-              <span class="side__agent-mark"><img src="brand/logo/frogbot-icon.svg?v=2" alt="" width="32" height="32"><i class="pulse" aria-hidden="true"></i></span>
-              <div><p class="side__agent-name">FrogBot agent</p><p class="side__agent-status" data-agent>Agent built 4 collections, 3 roles, 2 automations</p></div>
             </div>
           </aside>
 
@@ -140,16 +136,15 @@
                   <button type="button" data-role="admin" aria-pressed="true">Admin</button>
                   <button type="button" data-role="member" aria-pressed="false">Member <b>$0</b></button>
                   <button type="button" data-role="end user" aria-pressed="false">End user <b>$0</b></button>
-                  <span class="roles__note" data-role-note>Full access. Every role costs $0 per seat.</span>
                 </div>
                 <div class="view" data-pane="table">
                   <table class="rows">
-                    <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th><th scope="col">Agent note</th></tr></thead>
+                    <thead><tr><th scope="col">Record</th><th scope="col">Status</th><th scope="col">Agent note</th></tr></thead>
                     <tbody data-rows>
-                      <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Warehouse Supplies (99%)</td></tr>
-                      <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">Split line item, confirm the account</td></tr>
-                      <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Packaging costs (97%)</td></tr>
-                      <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">New vendor, waiting for ops approval</td></tr>
+                      <tr><td>INV-9042 Apex Industrial</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Warehouse Supplies (99%)</td></tr>
+                      <tr><td>INV-9043 Northstar Freight</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">Split line item, confirm the account</td></tr>
+                      <tr><td>INV-9044 Kestrel Packaging</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Packaging costs (97%)</td></tr>
+                      <tr><td>INV-9045 Pacific Customs</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">New vendor, waiting for ops approval</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -161,7 +156,6 @@
                 <div class="saving__row">
                   <p class="saving__name">Rented, <span data-tool-name>Airtable</span></p>
                   <p class="saving__rent"><s data-rent>$13,500</s></p>
-                  <span class="bar bar--rent" aria-hidden="true"></span>
                 </div>
                 <div class="saving__row">
                   <p class="saving__name">Owned, FrogBot</p>
@@ -173,7 +167,7 @@
                   <input type="range" id="win-seats" min="5" max="200" step="5" value="25" data-win-seats>
                 </div>
                 <button type="button" class="saving__copy" data-copy-tool>Copy Airtable prompt</button>
-                <p class="saving__note">Pro plan, one app, unlimited users. Add-ons extra. <span data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
+                <p class="saving__note">Pro plan, one app. Add-ons extra. <span class="sr" data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
               </aside>
             </div>
           </div>
@@ -574,6 +568,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794672116" defer></script>
+  <script src="assets/js/site.js?v=1794672353" defer></script>
 </body>
 </html>
