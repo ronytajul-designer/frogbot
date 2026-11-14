@@ -1381,3 +1381,5 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .footer .foot__social li a { display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 0; color: var(--ink-2); }
 .footer .foot__social li a:hover { color: var(--fb-ink); }
 .foot__word { color: rgb(var(--green-rgb) / 0.2); background: none; -webkit-background-clip: border-box; background-clip: border-box; -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 85%); mask-image: linear-gradient(180deg, #000 20%, transparent 85%); }
+.footer .foot__social li a:hover { color: var(--b); border-color: color-mix(in srgb, var(--b) 50%, transparent); background: color-mix(in srgb, var(--b) 12%, transparent); }
+.foot__word { color: rgb(248 250 252 / 0.09); }
