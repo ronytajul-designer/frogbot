@@ -1465,3 +1465,24 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 .term__copy:hover { border-color: rgb(var(--green-rgb) / 0.6); }
 @media (max-width: 960px) { .dev { grid-template-columns: 1fr; gap: 24px; padding: 24px; } }
 @media (max-width: 560px) { .dev { padding: 16px; } .term__panel { padding: 16px 16px 64px; } .term__copy { min-height: 44px; } .dev__tabs button { min-height: 44px; } }
+
+/* ---------- Hero focus pass: the headline leads, everything else steps back ---------- */
+/* Background: softer light, no dot grid, fewer and fainter particles */
+.hero__light { background: radial-gradient(56% 460px at 50% -60px, rgb(var(--green-rgb) / 0.32), rgb(var(--green-rgb) / 0.06) 55%, transparent 78%); }
+.hero__light::after { display: none; }
+.hero__dots { opacity: 0.55; }
+/* Sub line: quieter, price in plain ink without the heavy weight */
+.hero__offer { margin-top: 20px; font-size: 18px; line-height: 28px; color: var(--ink-3); }
+.hero__offer strong { font-weight: 500; color: var(--ink-2); }
+/* Actions: one clear primary, a quiet text-like secondary */
+.hero__cta { margin-top: 36px; gap: 8px; }
+.hero__cta .btn--primary { box-shadow: 0 8px 24px -12px rgb(var(--green-rgb) / 0.7); }
+.hero__cta .btn--ghost { border-color: transparent; background: none; color: var(--ink-2); }
+.hero__cta .btn--ghost:hover { color: var(--fb-ink); background: rgb(255 255 255 / 0.04); transform: none; }
+.hero__cta .btn--ghost::after { content: "→"; margin-left: 2px; transition: transform 0.25s var(--ease); }
+.hero__cta .btn--ghost:hover::after { transform: translateX(3px); }
+
+/* Builder strip: no outer card, so only the terminal is a box */
+.dev { border: 0; background: none; padding: 0; margin-top: 72px; }
+.term { box-shadow: 0 24px 48px -32px rgb(0 0 0 / 0.9); }
+@media (max-width: 960px) { .dev { padding: 0; margin-top: 56px; } }
