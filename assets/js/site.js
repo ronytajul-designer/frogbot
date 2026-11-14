@@ -254,3 +254,24 @@
     new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(closing);
   }
 })();
+
+/* Smooth scrolling with Lenis. Skipped when the visitor prefers reduced motion or the library failed to load. */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || typeof window.Lenis !== 'function') return;
+  const lenis = new window.Lenis({ duration: 1.15, easing: t => 1 - Math.pow(1 - t, 4), smoothWheel: true, anchors: { offset: -96 } });
+  const raf = time => { lenis.raf(time); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+  // Keep keyboard users in sync: move focus to the target of in-page links.
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || a.getAttribute('href').length < 2) return;
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    setTimeout(() => target.focus({ preventScroll: true }), 1200);
+  });
+  // Pause while the mobile menu is open so the page underneath does not move.
+  const toggle = document.querySelector('[data-menu-toggle]');
+  if (toggle) new MutationObserver(() => toggle.getAttribute('aria-expanded') === 'true' ? lenis.stop() : lenis.start()).observe(toggle, { attributes: true, attributeFilter: ['aria-expanded'] });
+  window.lenis = lenis;
+})();
