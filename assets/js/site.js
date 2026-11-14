@@ -356,7 +356,11 @@
     let pastHero = false, atClose = false;
     const sync = () => { sticky.hidden = !(pastHero && !atClose); };
     new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; sync(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
-    new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(closing);
+    let atFoot = false;
+    const sync2 = () => { sticky.hidden = !(pastHero && !atClose && !atFoot); };
+    new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync2(); }, { threshold: 0.2 }).observe(closing);
+    const foot = document.querySelector('.footer');
+    if (foot) new IntersectionObserver(([e]) => { atFoot = e.isIntersecting; sync2(); }).observe(foot);
   }
 })();
 
