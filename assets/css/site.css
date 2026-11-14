@@ -1147,3 +1147,10 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .hub__tile[title="Notion"].is-on { background: #fff; border-color: #fff; }
 .hub__tile[title="Notion"].is-on svg { fill: #000; }
 .hub__line.is-on { stroke: #fff; stroke-width: 1.5; }
+
+/* Agents flow v3: original shape, every label centred under or over its own dot */
+.flow__nodes circle { fill: var(--fb-surface-raised); stroke: var(--ink-3); stroke-width: 1.5; }
+.flow__nodes .is-join { fill: var(--ink-3); stroke: none; }
+.flow__nodes .is-end { fill: var(--fb-green); stroke: none; }
+.flow__labels text { fill: var(--ink-2); font: 500 13px var(--font-text); text-anchor: middle; }
+.flow__labels text.is-end { fill: var(--fb-green); font-weight: 600; }
