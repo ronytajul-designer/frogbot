@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794679439">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794679439">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794679655">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794679655">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -494,7 +494,7 @@
           <div class="costbar"><span class="costbar__name">Retool, Airtable</span><span class="costbar__track"><i style="--w:30%"></i></span><span class="costbar__val">$1,500 to $5,000</span></div>
           <div class="costbar costbar--own"><span class="costbar__name"><img src="brand/logo/frogbot-icon.svg?v=2" alt="" width="20" height="20">FrogBot</span><span class="costbar__track"><i style="--w:1.5%"></i></span><span class="costbar__val">$29, flat</span></div>
         </div>
-        <div class="compare__scroll reveal">
+        <div class="compare__scroll reveal"><span class="matrix__hl" aria-hidden="true"></span>
           <table class="matrix">
             <thead>
               <tr><td></td><th scope="col" class="is-own"><span class="matrix__brand"><img src="brand/logo/frogbot-icon.svg?v=2" alt="" width="24" height="24">FrogBot</span></th><th scope="col">Per-seat SaaS</th><th scope="col">Retool, Airtable</th><th scope="col">Lovable, Bolt</th></tr>
@@ -515,98 +515,45 @@
     <!-- Pricing -->
     <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
       <div class="wrap">
-        <h2 class="display reveal" id="pricing-title">Pay for the app. <span class="own">Never for the seat.</span></h2>
-        <p class="lede reveal">Deploy it yourself on Dojo, or have our engineers build and run it for you.</p>
-
-        <div class="calc reveal" data-calc>
-          <div class="calc__controls">
-            <fieldset class="seg">
-              <legend>Tool you rent today</legend>
-              <label><input type="radio" name="calc-tool" value="airtable" checked><span>Airtable</span></label>
-              <label><input type="radio" name="calc-tool" value="salesforce"><span>Salesforce</span></label>
-              <label><input type="radio" name="calc-tool" value="zendesk"><span>Zendesk</span></label>
-            </fieldset>
-            <div class="range">
-              <label for="calc-seats">Team size <output for="calc-seats" data-calc-seats>25 seats</output></label>
-              <input type="range" id="calc-seats" min="5" max="200" step="5" value="25">
-              <div class="range__ends" aria-hidden="true"><span>5</span><span>200</span></div>
-            </div>
-          </div>
-          <div class="calc__result" aria-live="polite">
-            <div class="calc__line">
-              <p class="calc__name">Rented, <span data-calc-name>Airtable</span>, per year</p>
-              <p class="calc__num calc__num--rent" data-calc-rent>$13,500</p>
-              <span class="bar bar--rent" data-calc-rent-bar aria-hidden="true"></span>
-            </div>
-            <div class="calc__line">
-              <p class="calc__name">Owned, FrogBot, per year</p>
-              <p class="calc__num calc__num--own">$348</p>
-              <span class="bar bar--own" data-calc-own-bar aria-hidden="true"></span>
-            </div>
-            <p class="calc__keep">You keep <strong data-calc-keep>$13,152</strong> a year.</p>
-            <p class="fine" data-calc-source>Airtable list price $45 per seat, September 2026. FrogBot Pro, one app, unlimited users. Add-ons extra.</p>
-          </div>
+        <div class="pricing__head">
+          <h2 class="display display--md reveal" id="pricing-title">Pay for the app. <span class="own">Never for the seat.</span></h2>
+          <p class="lede reveal">Every plan has unlimited users. You pay per app, and the price never grows with your team.</p>
         </div>
-
-        <div class="plans">
-          <article class="plan reveal">
-            <h3>Free</h3>
-            <p class="plan__for">For developers who self-host</p>
-            <p class="plan__price"><b>$0</b> forever</p>
-            <p class="plan__what">The MIT-licensed framework on your own servers.</p>
+        <div class="plans2">
+          <article class="plan2 reveal">
+            <div class="plan2__top"><h3>Free</h3></div>
+            <p class="plan2__for">Developers who self-host</p>
+            <p class="plan2__price"><b>$0</b><span>forever</span></p>
+            <p class="plan2__what">The MIT framework on your own servers.</p>
+            <ul class="plan2__list"><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Collections, admin, jobs and agents</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Row-level permissions and API keys</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Unlimited apps and users</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Self-host anywhere Docker runs</li></ul>
             <a class="btn btn--ghost" href="https://docs.frogbot.ai">Read the docs</a>
-            <ul class="ticks">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Collections, admin screens, jobs and agents</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Row-level permissions, API keys and MCP</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Unlimited apps and users</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Self-host anywhere Docker runs</li>
-            </ul>
           </article>
-          <article class="plan plan--lit reveal">
-            <h3>Pro</h3>
-            <p class="plan__for">For solo builders and internal teams</p>
-            <p class="plan__price"><b>$29</b> per app per month</p>
-            <p class="plan__what">Hosted on Dojo. Deploy with one command.</p>
+          <article class="plan2 plan2--lit reveal">
+            <div class="plan2__top"><h3>Pro</h3><span class="plan2__tag">Start here</span></div>
+            <p class="plan2__for">Solo builders and internal teams</p>
+            <p class="plan2__price"><b>$29</b><span>per app per month</span></p>
+            <p class="plan2__what">Hosted on Dojo. One-command deploy.</p>
+            <ul class="plan2__list"><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Managed hosting and custom domains</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>10 GB database, 50 GB files</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Unlimited users at $0 per seat</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>2,000 AI credits per month</li></ul>
             <a class="btn btn--primary" href="https://app.frogbot.ai/login">Deploy first app</a>
-            <ul class="ticks">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Managed hosting and custom domains</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>10 GB database and 50 GB files</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Unlimited users at $0 per seat</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>2,000 AI credits per month</li>
-            </ul>
           </article>
-          <article class="plan reveal">
-            <h3>Business</h3>
-            <p class="plan__for">For agencies and multi-app teams</p>
-            <p class="plan__price"><b>$79</b> per app per month</p>
-            <p class="plan__what">Separate client projects, handoffs and team controls.</p>
+          <article class="plan2 reveal">
+            <div class="plan2__top"><h3>Business</h3></div>
+            <p class="plan2__for">Agencies and multi-app teams</p>
+            <p class="plan2__price"><b>$79</b><span>per app per month</span></p>
+            <p class="plan2__what">Client projects, handoffs and team controls.</p>
+            <ul class="plan2__list"><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Client projects and access lists</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Activity log and team permissions</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Web autoscaling</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Zero-fee client handoff</li></ul>
             <a class="btn btn--ghost" href="https://app.frogbot.ai/login">Start on Business</a>
-            <ul class="ticks">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Client projects and access lists</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Activity log and team permissions</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Web autoscaling</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Zero-fee client handoff</li>
-            </ul>
           </article>
-          <article class="plan plan--wide reveal">
-            <div>
-              <h3>Enterprise</h3>
-              <p class="plan__for">Built and run for you</p>
-              <p class="plan__price"><b>Custom</b> fixed price per build</p>
-              <p class="plan__what">Our engineers build, migrate and run your app.</p>
-              <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
-            </div>
-            <ul class="ticks ticks--two">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Working prototype in 48 hours</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Production app in 2 weeks</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Full data migration and setup</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Dojo hosted in your cloud</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Security review and custom DPA</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Ongoing updates and a dedicated engineer</li>
-            </ul>
+          <article class="plan2 plan2--ent reveal">
+            <div class="plan2__top"><h3>Enterprise</h3></div>
+            <p class="plan2__for">Built and run for you</p>
+            <p class="plan2__price"><b>Custom</b><span>fixed price</span></p>
+            <p class="plan2__what">Our engineers build, migrate and run it.</p>
+            <ul class="plan2__list"><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Prototype in 48 hours</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Production app in 2 weeks</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Data migration and setup</li><li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Security review and custom DPA</li></ul>
+            <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
           </article>
         </div>
-        <p class="fine reveal">Add workers or replicas for a fixed $10, $20 or $40 per month. We never auto-scale your bill. <a class="link" href="/pricing">Full pricing and add-ons</a></p>
+        <p class="pricing__foot reveal"><span>Add workers or replicas for a fixed $10, $20 or $40 per month. We never auto-scale your bill.</span><a class="link" href="/pricing">Full pricing and add-ons</a></p>
       </div>
     </section>
 
@@ -681,6 +628,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794679439" defer></script>
+  <script src="assets/js/site.js?v=1794679655" defer></script>
 </body>
 </html>

@@ -657,3 +657,18 @@
   }, { threshold: 0.4 }).observe(track);
 })();
 
+/* Comparison: size the rounded highlight to the FrogBot column. */
+(() => {
+  const wrap = document.querySelector('.compare__scroll'), hl = document.querySelector('.matrix__hl');
+  if (!wrap || !hl) return;
+  const place = () => {
+    const cells = [...wrap.querySelectorAll('.is-own')];
+    if (!cells.length) return;
+    const w = wrap.getBoundingClientRect(), a = cells[0].getBoundingClientRect(), z = cells[cells.length - 1].getBoundingClientRect();
+    Object.assign(hl.style, { left: (a.left - w.left) + 'px', top: (a.top - w.top) + 'px', width: a.width + 'px', height: (z.bottom - a.top) + 'px' });
+  };
+  place();
+  addEventListener('resize', place);
+  if (document.fonts) document.fonts.ready.then(place);
+})();
+
