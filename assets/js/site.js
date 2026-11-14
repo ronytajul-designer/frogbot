@@ -188,4 +188,39 @@
       $('[data-brand-code-accent]', brand).textContent = `"${b.accent}"`;
     }, 3200);
   }
+
+  /* Seat calculator */
+  const calc = $('[data-calc]');
+  if (calc) {
+    const range = $('#calc-seats', calc);
+    const update = () => {
+      const t = TOOLS[$('input[name="calc-tool"]:checked', calc).value];
+      const seats = Number(range.value);
+      const rent = t.perSeat * seats * 12;
+      $('[data-calc-seats]', calc).textContent = `${seats} ${t.unit}s`;
+      $('[data-calc-name]', calc).textContent = t.name;
+      $('[data-calc-rent]', calc).textContent = money(rent);
+      $('[data-calc-keep]', calc).textContent = money(rent - OWN_PER_YEAR);
+      $('[data-calc-own-bar]', calc).style.width = Math.max(0.6, (OWN_PER_YEAR / rent) * 100) + '%';
+      $('[data-calc-source]', calc).textContent = `${t.name} list price $${t.perSeat} per ${t.unit}, September 2026. FrogBot Pro, one app, unlimited users. Add-ons extra.`;
+      range.style.setProperty('--fill', ((seats - range.min) / (range.max - range.min)) * 100 + '%');
+      range.setAttribute('aria-valuetext', `${seats} ${t.unit}s`);
+    };
+    calc.addEventListener('input', update);
+    update();
+  }
+
+  /* Draw-on-entry pieces */
+  $$('[data-draw]').forEach(el => io.observe(el));
+
+  /* Mobile sticky action: shown after the hero, hidden near the closing call to action */
+  const sticky = $('[data-sticky]');
+  const hero = $('.hero');
+  const closing = $('.close');
+  if (sticky && hero && closing) {
+    let pastHero = false, atClose = false;
+    const sync = () => { sticky.hidden = !(pastHero && !atClose); };
+    new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; sync(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
+    new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(closing);
+  }
 })();
