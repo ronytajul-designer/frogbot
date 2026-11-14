@@ -69,7 +69,8 @@ Scope (confirmed by designer): the home page is redesigned first. Other pages fo
 - Redesign rules (binding, confirmed by designer): use the site's colors and logo, a free Google font, reusable components, and an 8px grid.
 - Voice (confirmed by designer): follow the tone of the leading companies in this industry, adapted to this business. The working guide is `brand/voice.md`.
 - Voice on the live site today: combative, short absolute statements, developer vocabulary. Examples: "Pay for the app. Never for the seat." "Built to own, not rent." "Own your code and data forever."
-- Open: whether the "Killer" and "Kill X" naming stays. Options are listed in `brand/voice.md`.
+- Brand green (binding, confirmed by designer): `#3acf6a` is the single brand and primary color everywhere.
+- "Killer" language (decided by designer, pending client sign-off): keep "The SaaS Killer" as the brand line, say "Replace X" instead of "Kill X" elsewhere.
 
 ## Evidence on Hand
 

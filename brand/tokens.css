@@ -1,16 +1,16 @@
 /*
   FrogBot brand tokens.
-  Colors are copied from the live frogbot.ai stylesheet (read 2026-11-14), not invented.
+  Colors are copied from the live frogbot.ai site (read 2026-11-14), not invented.
+  The brand green is unified to the logo green, #3acf6a.
   Spacing follows the 8px grid required for the redesign.
   Type families and the final type scale are decided when the home page redesign starts.
 */
 
 :root {
-  /* Brand green */
-  --fb-green: #22e05a;          /* --color-primary on the live site: CTAs, links, highlights */
+  /* Brand green. One green everywhere (designer decision, 2026-11-14).
+     The live site mixes #22e05a, #3acf6a and #2f964f; the redesign uses only this one. */
+  --fb-green: #3acf6a;          /* logo, CTAs, links, highlights */
   --fb-green-ink: #04210d;      /* text on a green fill */
-  --fb-green-logo: #3acf6a;     /* fill used inside the header logo SVG */
-  --fb-green-icon: #2f964f;     /* fill used in the favicon / app icon */
 
   /* Dark surfaces, darkest to lightest */
   --fb-surface-sunken: #050912;

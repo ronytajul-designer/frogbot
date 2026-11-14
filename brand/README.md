@@ -7,8 +7,8 @@ Everything here was taken from the live site, https://frogbot.ai/, on 2026-11-14
 | Path | What it is |
 |---|---|
 | `logo/frogbot-logo.svg` | Header logo: frog mark plus "FrogBot" wordmark, green `#3acf6a`. Made for dark backgrounds. |
-| `logo/frogbot-icon.svg` | App icon: white frog on a green `#2f964f` circle. |
-| `logo/favicon.ico`, `logo/apple-icon.png` | Favicon files as served by the site. |
+| `logo/frogbot-icon.svg` | App icon: white frog on a green circle, recolored to the brand green `#3acf6a`. |
+| `logo/favicon.ico`, `logo/apple-icon.png` | Favicon files as served by the site (still the old `#2f964f`, to be re-exported in `#3acf6a`). |
 | `tokens.css` | Colors as CSS variables, plus the 8px spacing and radius scale. |
 | `voice.md` | Tone of voice guide for the redesign. |
 | `reference/original-home-*.png` | Screenshots of the current home page (desktop 1440, hero, mobile 390) for before/after comparison. |
@@ -17,10 +17,8 @@ Everything here was taken from the live site, https://frogbot.ai/, on 2026-11-14
 
 | Role | Hex | Where the site uses it |
 |---|---|---|
-| Primary green | `#22e05a` | CTA fill, links, highlighted hero word |
+| Brand green | `#3acf6a` | The only green in the redesign: logo, CTA fill, links, highlights |
 | Green ink | `#04210d` | Text on green buttons |
-| Logo green | `#3acf6a` | Header logo |
-| Icon green | `#2f964f` | Favicon circle |
 | Page background | `#090e1b` | Body |
 | Sunken surface | `#050912` | Deep panels |
 | Mid surface | `#0e1422` | Section bands |
@@ -44,6 +42,6 @@ Both families already satisfy the "free Google font" rule. The final choice is m
 
 ## Facts worth knowing before redesign
 
-- Three different greens are in use (`#22e05a`, `#3acf6a`, `#2f964f`). The redesign needs one rule for which green goes where.
+- The live site uses three greens: `#22e05a` (CTAs), `#3acf6a` (logo), `#2f964f` (favicon). Decision (designer, 2026-11-14): the redesign uses `#3acf6a` everywhere as the single brand and primary green.
 - Current sizes are off the 8px grid: text at 13.76px, 13.28px, 14.8px, radii at 7.2px and 13.6px. The redesign moves these onto the grid.
 - The hero headline rotates its middle word: "The SaaS Killer.", "The Salesforce Killer.", "The Zendesk Killer.", "The Atlassian Killer."

@@ -49,12 +49,13 @@ The redesign follows the tone used by the leading companies in developer tools a
 - No exclamation marks.
 - Numbers as digits, with the unit: "$29 per app per month", "48 hours".
 
-## Open decision for the client
+## Decision on "Killer" language
 
-The current site uses "Killer" and "Kill X" language ("The SaaS Killer.", "Kill Airtable"). It is memorable and it matches the product's point of view. It also conflicts with rule 3 and with how the reference companies speak. Three options:
+Decided by the designer on 2026-11-14: keep "The SaaS Killer" as the brand line, soften everything else.
 
-1. **Keep it everywhere.** Strongest personality. Risk: reads as aggressive to cautious buyers and enterprise IT.
-2. **Keep "SaaS Killer" as the brand line, soften the rest.** Solution pages become "Replace Airtable". Keeps the hook, lowers the hostility.
-3. **Drop it.** Safest tone, closest to the references. Risk: loses the one thing visitors remember.
+- "The SaaS Killer." stays as the brand line.
+- Solution pages and section copy say "Replace Airtable", not "Kill Airtable".
+- No rotating competitor names in the headline ("The Salesforce Killer.", "The Zendesk Killer."). One promise for every visitor.
+- Criticism targets seat pricing and lock-in, never a competitor's customers.
 
-Working assumption until the client decides: option 2.
+Still needs the client's sign-off before it ships.
