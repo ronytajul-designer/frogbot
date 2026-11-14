@@ -7,53 +7,98 @@
   // Owned price: Pro plan, one app, $29 per month.
   const OWN_PER_YEAR = 29 * 12;
   const SIDE_COLORS = ['var(--fb-green)', '#fbbf24', '#6aa8ff', '#c59bff'];
-  const SEATS = 25;
+  let SEATS = 25;
 
-  // Per-seat list prices are the ones FrogBot publishes with a date (Sept 2026).
+  // Rates are the ones FrogBot's live site uses for this calculator. Airtable, Salesforce and Zendesk are dated list prices (Sept 2026).
   const TOOLS = {
     airtable: {
-      name: 'Airtable', done: 'Synced', config: ['Inventory', 'Suppliers', 'PurchaseOrders'], agentName: 'supplierMatcher', ws: 'Ops workspace', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
+      name: 'Airtable', perSeat: 45, unit: 'seat', ws: 'Ops workspace', noun: 'base', url: 'airtable.frogbot.app/admin',
+      source: 'Airtable list price $45 per seat, Sept 2026.', done: 'Synced', config: ['Inventory', 'Suppliers', 'PurchaseOrders'], agentName: 'supplierMatcher',
       title: 'Ops and Inventory Base', meta: '54,200 rows. Unlimited editors at $0 per seat.',
       agent: 'Agent built 4 collections, 3 roles, 2 automations',
       steps: ['Reading your Airtable base', 'Creating 4 collections', 'Setting 3 roles', 'Wiring 2 automations'],
       note: 'Agent matched 212 of 215 supplier rows from your CSV import. 2 rows held for your review.',
       side: ['Inventory', 'Suppliers', 'Purchase orders', 'Automations'],
       rows: [
-        ['INV-9042 Apex Industrial', '$14,820, net 30', 'ok', 'Synced'],
-        ['INV-9043 Northstar Freight', '$3,410, due Friday', 'warn', 'Needs review'],
-        ['INV-9044 Kestrel Packaging', '$8,190, approved', 'ok', 'Synced'],
-        ['INV-9045 Pacific Customs', '$1,950, customs hold', 'warn', 'Needs review']
+        ['INV-9042 Apex Industrial', '$14,820, net 30', 'ok', 'Synced', 'Matched to Warehouse Supplies (99%)'],
+        ['INV-9043 Northstar Freight', '$3,410, due Friday', 'warn', 'Needs review', 'Split line item, confirm the account'],
+        ['INV-9044 Kestrel Packaging', '$8,190, approved', 'ok', 'Synced', 'Matched to Packaging costs (97%)'],
+        ['INV-9045 Pacific Customs', '$1,950, customs hold', 'warn', 'Needs review', 'New vendor, waiting for ops approval']
       ]
     },
     salesforce: {
-      name: 'Salesforce', done: 'Active deal', config: ['Deals', 'Accounts', 'Contacts'], agentName: 'followUpWriter', ws: 'Revenue workspace', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
+      name: 'Salesforce', perSeat: 175, unit: 'seat', ws: 'Revenue workspace', noun: 'CRM', url: 'crm.frogbot.app/admin',
+      source: 'Salesforce list price $175 per seat, Sept 2026.', done: 'Active deal', config: ['Deals', 'Accounts', 'Contacts'], agentName: 'followUpWriter',
       title: 'Revenue CRM', meta: 'The 5 fields reps use. Gmail and Slack connected.',
       agent: 'Agent built 5 collections, 4 roles, 3 automations',
       steps: ['Reading your Salesforce export', 'Creating 5 collections', 'Setting 4 roles', 'Wiring 3 automations'],
       note: 'Follow-up agent drafted 14 check-in emails from call notes. 1 deal held for rep review.',
       side: ['Deals', 'Accounts', 'Contacts', 'Follow-ups'],
       rows: [
-        ['Meridian Logistics', '$84,000, security review', 'ok', 'Active deal'],
-        ['Vanguard Health', '$140,000, redlines', 'warn', 'Needs review'],
-        ['Redwood Manufacturing', '$42,000, verbal commit', 'ok', 'Active deal'],
-        ['Atlas Partners', '$65,000, discovery', 'ok', 'Active deal']
+        ['Meridian Logistics', '$84,000, security review', 'ok', 'Active deal', 'Sent the security packet, follow-up Tuesday'],
+        ['Vanguard Health', '$140,000, redlines', 'warn', 'Needs review', 'Custom DPA drafted, ready to approve'],
+        ['Redwood Manufacturing', '$42,000, verbal commit', 'ok', 'Active deal', 'Order form generated in Stripe'],
+        ['Atlas Partners', '$65,000, discovery', 'ok', 'Active deal', 'Enriched from Gmail, next touch in 3 days']
+      ]
+    },
+    hubspot: {
+      name: 'HubSpot', perSeat: 90, base: 1500, unit: 'seat', ws: 'Growth workspace', noun: 'pipeline', url: 'pipeline.frogbot.app/admin',
+      source: 'HubSpot rate as used on frogbot.ai: $90 per seat plus a $1,500 yearly base.', done: 'Routed', config: ['Leads', 'Companies', 'Sequences'], agentName: 'inboundRouter',
+      title: 'Inbound and Pipeline Hub', meta: 'No contact-tier price jumps. Lifecycle workflows that finish.',
+      agent: 'Agent built 4 collections, 3 roles, 3 automations',
+      steps: ['Reading your HubSpot export', 'Creating 4 collections', 'Setting 3 roles', 'Wiring 3 automations'],
+      note: 'Inbound agent enriched 38 new signups and routed 4 high-intent accounts. 1 intro email held for approval.',
+      side: ['Leads', 'Companies', 'Sequences', 'Automations'],
+      rows: [
+        ['claire@ironclad-ops.io', '340 employees, from the calculator', 'warn', 'Needs review', 'High intent, approve a personal intro'],
+        ['david@kinetix-agency.com', 'AI agency, from GitHub', 'ok', 'Routed', 'Tagged as agency, partner deck sent'],
+        ['ops@summitfreight.com', '180 employees, from YouTube', 'ok', 'Routed', 'Enriched and assigned to West pipeline']
       ]
     },
     zendesk: {
-      name: 'Zendesk', done: 'Auto-resolved', config: ['Tickets', 'Customers', 'HelpArticles'], agentName: 'ticketTriage', ws: 'Support workspace', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
+      name: 'Zendesk', perSeat: 115, unit: 'agent', ws: 'Support workspace', noun: 'help desk', url: 'support.frogbot.app/admin',
+      source: 'Zendesk list price $115 per agent, Sept 2026.', done: 'Auto-resolved', config: ['Tickets', 'Customers', 'HelpArticles'], agentName: 'ticketTriage',
       title: 'Support Inbox', meta: 'Unlimited support agents. Answers drawn from your docs.',
       agent: 'Agent built 3 collections, 3 roles, 4 automations',
       steps: ['Reading your Zendesk tickets', 'Creating 3 collections', 'Setting 3 roles', 'Wiring 4 automations'],
       note: 'Triage agent answered 64 routine tickets from your docs. 1 billing question held for a person.',
       side: ['Tickets', 'Customers', 'Help articles', 'Automations'],
       rows: [
-        ['#4812 Permission mapping question', 'Beacon Financial', 'ok', 'Auto-resolved'],
-        ['#4813 Prorate annual invoice', 'Harbor Logistics', 'warn', 'Needs review'],
-        ['#4814 Webhook retry behaviour', 'Nova Studio', 'ok', 'Auto-resolved'],
-        ['#4815 Export all tickets to CSV', 'Kestrel Packaging', 'ok', 'Auto-resolved']
+        ['#4812 Permission mapping question', 'Beacon Financial', 'ok', 'Auto-resolved', 'Answered from docs/access.md (98%)'],
+        ['#4813 Prorate annual invoice', 'Harbor Logistics', 'warn', 'Needs review', 'Refund policy triggered, approve $140 credit'],
+        ['#4814 Webhook retry behaviour', 'Nova Studio', 'ok', 'Auto-resolved', 'Linked the retry schedule example']
+      ]
+    },
+    jira: {
+      name: 'Jira', perSeat: 18, unit: 'seat', ws: 'Product workspace', noun: 'tracker', url: 'issues.frogbot.app/admin',
+      source: 'Jira rate as used on frogbot.ai: $18 per seat.', done: 'Done', config: ['Issues', 'Sprints', 'Releases'], agentName: 'bugTriage',
+      title: 'Issue and Sprint Tracker', meta: 'Fast queries. GitHub pull requests synced. AI duplicate triage.',
+      agent: 'Agent built 3 collections, 4 roles, 2 automations',
+      steps: ['Reading your Jira project', 'Creating 3 collections', 'Setting 4 roles', 'Wiring 2 automations'],
+      note: 'GitHub sync closed 9 issues from merged pull requests and flagged 1 regression for review.',
+      side: ['Issues', 'Sprints', 'Releases', 'Automations'],
+      rows: [
+        ['FB-402 Isolate tenant connection pool', 'Sprint 14, PR #884 merged', 'ok', 'Done', 'Closed automatically on merge'],
+        ['FB-409 Timeout on 50MB CSV upload', 'Reported by a customer, P1', 'warn', 'Needs review', 'Root cause found, approve the hotfix'],
+        ['FB-411 Add team role mapping table', 'Sprint 14, in progress', 'ok', 'In progress', '2 of 3 acceptance tests passing']
+      ]
+    },
+    asana: {
+      name: 'Asana', perSeat: 25, unit: 'seat', ws: 'Delivery workspace', noun: 'project tracker', url: 'projects.frogbot.app/admin',
+      source: 'Asana rate as used on frogbot.ai: $25 per seat.', done: 'On track', config: ['Projects', 'Milestones', 'Approvals'], agentName: 'weeklyRollup',
+      title: 'Projects and Approvals', meta: 'No seat blocks. Row-level permissions. Approvals that wait for a person.',
+      agent: 'Agent built 3 collections, 3 roles, 3 automations',
+      steps: ['Reading your Asana projects', 'Creating 3 collections', 'Setting 3 roles', 'Wiring 3 automations'],
+      note: 'Weekly rollup agent compiled status across 6 client projects. 1 milestone waits for sign-off.',
+      side: ['Projects', 'Milestones', 'Approvals', 'Automations'],
+      rows: [
+        ['Q4 security audit evidence', 'Security, due Nov 15', 'ok', 'On track', '18 of 20 controls verified automatically'],
+        ['Client portal handover, Acme', 'Agency delivery, milestone 3', 'warn', 'Needs review', 'Staging passed, approve the cutover'],
+        ['Move Airtable bases to Dojo', 'Ops, 4 bases imported', 'ok', 'Completed', 'Airtable subscription cancelled']
       ]
     }
   };
+  const rentFor = (t, n) => (t.base || 0) + t.perSeat * 12 * n;
 
   /* Header menu */
   const toggle = $('[data-menu-toggle]');
@@ -100,11 +145,11 @@
     requestAnimationFrame(tick);
   }
 
-  let currentRent = TOOLS.airtable.perSeat * SEATS * 12;
+  let currentRent = rentFor(TOOLS.airtable, SEATS);
 
   const state = { tool: null, rows: [] };
   const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const rowsMarkup = () => state.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td><span class="tag tag--${r[2]}">${esc(r[3])}</span></td></tr>`).join('');
+  const rowsMarkup = () => state.rows.map(r => `<tr><td title="${esc(r[0])}">${esc(r[0])}</td><td title="${esc(r[1])}">${esc(r[1])}</td><td><span class="tag tag--${r[2]}">${esc(r[3])}</span></td><td class="rows__note" title="${esc(r[4])}">${esc(r[4])}</td></tr>`).join('');
   function renderSideViews() {
     const t = state.tool;
     const board = $('[data-pane="board"]');
@@ -117,9 +162,18 @@
     if (!b) return;
     b.disabled = false; b.textContent = 'Approve flagged';
   }
+  function syncSaving() {
+    const t = state.tool || TOOLS.airtable;
+    const rent = rentFor(t, SEATS);
+    $$('[data-side-price]').forEach(el => { el.textContent = money(rentFor(TOOLS[el.dataset.sidePrice], SEATS)) + '/yr'; });
+    const keep = $('[data-keep]'); if (keep) keep.textContent = money(rent - OWN_PER_YEAR);
+    const cp = $('[data-copy-tool]'); if (cp) cp.textContent = `Copy ${t.name} prompt`;
+    const r = $('[data-win-seats]'); if (r) { r.value = SEATS; r.style.setProperty('--fill', ((SEATS - r.min) / (r.max - r.min)) * 100 + '%'); r.setAttribute('aria-valuetext', `${SEATS} ${t.unit}s`); }
+    const out = $('[data-win-seats-out]'); if (out) out.textContent = `${SEATS} ${t.unit}s`;
+  }
   function showTool(key, animate = true) {
     const t = TOOLS[key];
-    const rent = t.perSeat * SEATS * 12;
+    const rent = rentFor(t, SEATS);
     const run = typingRun + 1;
     $$('[data-tool]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tool === key)));
     type(sentence(t));
@@ -130,7 +184,8 @@
     const setSaving = () => {
       $('[data-tool-name]').textContent = t.name;
       $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
-      $('[data-source]').textContent = `${t.name} list price $${t.perSeat} per ${t.unit}, Sept 2026.`;
+      $('[data-source]').textContent = t.source;
+      syncSaving();
       $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
     };
 
@@ -139,7 +194,7 @@
     const note = $('[data-note]');
     const agent = $('[data-agent]');
     const win = $('[data-window]');
-    side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''} style="--c:${SIDE_COLORS[i % 4]}"><i></i>${x}</li>`).join('');
+    if (side) side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''} style="--c:${SIDE_COLORS[i % 4]}"><i></i>${x}</li>`).join('');
     $('[data-ws]').textContent = t.ws;
     state.tool = t; state.rows = t.rows.map(r => r.slice()); resetApprove();
     const rowsHtml = rowsMarkup();
@@ -159,10 +214,10 @@
     const later = (ms, fn) => setTimeout(() => { if (run === typingRun) fn(); }, ms);
     win.classList.add('is-building');
     win.classList.remove('is-busy'); void win.offsetWidth; win.classList.add('is-busy');
-    $$('li', side).forEach(li => li.classList.add('is-wait'));
+    if (side) $$('li', side).forEach(li => li.classList.add('is-wait'));
     $$('tr', body).forEach(tr => tr.classList.add('is-loading'));
     t.steps.forEach((step, i) => later(i * 560, () => { agent.textContent = step + '…'; }));
-    $$('li', side).forEach((li, i) => later(400 + i * 360, () => li.classList.remove('is-wait')));
+    if (side) $$('li', side).forEach((li, i) => later(400 + i * 360, () => li.classList.remove('is-wait')));
     later(900, () => {
       body.innerHTML = rowsHtml;
       $$('tr', body).forEach((tr, i) => { tr.classList.add('is-loading'); later(300 + i * 380, () => tr.classList.remove('is-loading')); });
@@ -202,6 +257,29 @@
       $('[data-window]').dataset.role = b.dataset.role;
     }));
     state.tool = TOOLS.airtable; state.rows = TOOLS.airtable.rows.map(r => r.slice()); renderSideViews();
+    syncSaving();
+    // Seat slider inside the window: rewrites the sentence, the bill and the sidebar prices at once
+    const winSeats = $('[data-win-seats]');
+    if (winSeats) winSeats.addEventListener('input', () => {
+      SEATS = Number(winSeats.value);
+      const t = state.tool;
+      typingRun++;
+      typed.innerHTML = sentence(t).map(([x, bold]) => bold ? `<b>${x}</b>` : x).join('');
+      const rent = rentFor(t, SEATS);
+      $('[data-rent]').textContent = money(rent); currentRent = rent;
+      $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
+      $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
+      srText.textContent = `Example: ${t.name} for a team of ${SEATS}. Rented ${money(rent)} a year, owned ${money(OWN_PER_YEAR)} a year.`;
+      syncSaving();
+    });
+    // Copy a prompt for the selected app
+    const copyTool = $('[data-copy-tool]');
+    if (copyTool) copyTool.addEventListener('click', async () => {
+      const t = state.tool;
+      const text = `Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild our ${t.name} ${t.noun} as an app we own.`;
+      try { await navigator.clipboard.writeText(text); copyTool.textContent = 'Prompt copied'; } catch { copyTool.textContent = 'Copy failed'; }
+      setTimeout(syncSaving, 2000);
+    });
     // First view: type the sentence and resolve the rows once the hero has risen.
     if (!reduce) setTimeout(() => showTool('airtable'), 500);
   }

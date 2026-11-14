@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794669476">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794669476">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794669966">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794669966">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -89,14 +89,13 @@
             </div>
             <p class="side__label" id="replace-label">Replace an app</p>
             <div class="side__list side__tools" role="group" aria-labelledby="replace-label">
-              <button type="button" data-tool="airtable" aria-pressed="true"><span>Airtable</span><s>$13,500/yr</s></button>
-              <button type="button" data-tool="salesforce" aria-pressed="false"><span>Salesforce</span><s>$52,500/yr</s></button>
-              <button type="button" data-tool="zendesk" aria-pressed="false"><span>Zendesk</span><s>$34,500/yr</s></button>
+              <button type="button" data-tool="airtable" aria-pressed="true"><span>Airtable</span><s data-side-price="airtable">$13,500/yr</s></button>
+              <button type="button" data-tool="salesforce" aria-pressed="false"><span>Salesforce</span><s data-side-price="salesforce">$52,500/yr</s></button>
+              <button type="button" data-tool="hubspot" aria-pressed="false"><span>HubSpot</span><s data-side-price="hubspot">$28,500/yr</s></button>
+              <button type="button" data-tool="zendesk" aria-pressed="false"><span>Zendesk</span><s data-side-price="zendesk">$34,500/yr</s></button>
+              <button type="button" data-tool="jira" aria-pressed="false"><span>Jira</span><s data-side-price="jira">$5,400/yr</s></button>
+              <button type="button" data-tool="asana" aria-pressed="false"><span>Asana</span><s data-side-price="asana">$7,500/yr</s></button>
             </div>
-            <p class="side__label">Collections</p>
-            <ul class="side__list side__list--cols" data-side>
-              <li class="is-on" style="--c:var(--fb-green)"><i></i>Inventory</li><li style="--c:#fbbf24"><i></i>Suppliers</li><li style="--c:#6aa8ff"><i></i>Purchase orders</li><li style="--c:#c59bff"><i></i>Automations</li>
-            </ul>
             <div class="side__agent">
               <span class="side__agent-mark"><img src="brand/logo/frogbot-icon.svg" alt="" width="32" height="32"><i class="pulse" aria-hidden="true"></i></span>
               <div><p class="side__agent-name">FrogBot agent</p><p class="side__agent-status" data-agent>Agent built 4 collections, 3 roles, 2 automations</p></div>
@@ -130,12 +129,12 @@
                 </div>
                 <div class="view" data-pane="table">
                   <table class="rows">
-                    <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
+                    <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th><th scope="col">Agent note</th></tr></thead>
                     <tbody data-rows>
-                      <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td></tr>
-                      <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td></tr>
-                      <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td></tr>
-                      <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td></tr>
+                      <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Warehouse Supplies (99%)</td></tr>
+                      <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">Split line item, confirm the account</td></tr>
+                      <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td><td class="rows__note">Matched to Packaging costs (97%)</td></tr>
+                      <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td><td class="rows__note">New vendor, waiting for ops approval</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -154,6 +153,12 @@
                   <p class="saving__own" data-own>$348</p>
                   <span class="bar bar--own" aria-hidden="true" data-own-bar></span>
                 </div>
+                <p class="saving__keep">You keep <b data-keep>$13,152</b> a year</p>
+                <div class="saving__range">
+                  <label for="win-seats">Team size <output data-win-seats-out>25 seats</output></label>
+                  <input type="range" id="win-seats" min="5" max="200" step="5" value="25" data-win-seats>
+                </div>
+                <button type="button" class="saving__copy" data-copy-tool>Copy Airtable prompt</button>
                 <p class="saving__note">Pro plan, one app, unlimited users. Add-ons extra. <span data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
               </aside>
             </div>
@@ -556,6 +561,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794669476" defer></script>
+  <script src="assets/js/site.js?v=1794669966" defer></script>
 </body>
 </html>
