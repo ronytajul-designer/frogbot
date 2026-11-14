@@ -1154,3 +1154,24 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .flow__nodes .is-end { fill: var(--fb-green); stroke: none; }
 .flow__labels text { fill: var(--ink-2); font: 500 13px var(--font-text); text-anchor: middle; }
 .flow__labels text.is-end { fill: var(--fb-green); font-weight: 600; }
+
+/* Database card v4: softer edges, compact cards, smooth hand-off between columns */
+.db { border-color: var(--line); background: rgb(5 9 18 / 0.6); }
+.db__bar { border-bottom-color: rgb(255 255 255 / 0.06); }
+.db__col { background: rgb(255 255 255 / 0.015); gap: 6px; }
+.db__card { padding: 7px 10px; gap: 0; border-color: rgb(255 255 255 / 0.06); background: rgb(255 255 255 / 0.035); line-height: 20px;
+  transition: transform 0.7s var(--ease), opacity 0.5s var(--ease), max-height 0.6s var(--ease), margin 0.6s var(--ease), padding 0.6s var(--ease), border-color 0.4s; max-height: 120px; overflow: hidden; }
+.db__card--agent { border-color: rgb(var(--green-rgb) / 0.3); }
+.db__card.is-moving { transform: translateX(40%); opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; border-width: 0; }
+.db__slot { display: grid; }
+.db__slot .db__card { animation: db-arrive 0.7s var(--ease) both; }
+@keyframes db-arrive { from { opacity: 0; transform: translateX(-24px); max-height: 0; padding-top: 0; padding-bottom: 0; } to { max-height: 120px; } }
+.db__empty { font-size: 12px; color: var(--ink-3); padding: 6px 2px; opacity: 0; transition: opacity 0.5s var(--ease) 0.3s; }
+.db__empty.is-shown { opacity: 1; }
+.db__head b { transition: background-color 0.4s, color 0.4s; }
+.db__head b.is-zero { background: rgb(255 255 255 / 0.06); color: var(--ink-3); }
+.db__head b.bump { animation: db-bump 0.5s var(--ease); }
+@keyframes db-bump { 40% { transform: scale(1.25); } }
+.db__view { animation: db-in 0.6s var(--ease); }
+@keyframes db-in { from { opacity: 0; transform: translateY(4px); filter: blur(2px); } }
+.db__row span { transition: color 0.4s; }

@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794678613">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794678613">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794678739">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794678739">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -318,17 +318,17 @@
                   <div class="db__col"><p class="db__head">To triage <b>3</b></p>
                     <div class="db__card"><b>Acme Enterprise</b><i>$48,000, Q4 renewal</i></div>
                     <div class="db__card"><b>Northwind Expansion</b><i>$18,500, add-on</i></div></div>
-                  <div class="db__col"><p class="db__head">Needs approval <b class="warn">1</b></p>
+                  <div class="db__col"><p class="db__head">Needs approval <b class="warn" data-db-wait>1</b></p>
                     <div class="db__card db__card--agent" data-approve-card><b>Globex custom SLA</b><i>Agent drafted the redlines</i><span class="db__btn" data-db-approve>Approve <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></span></div></div>
                   <div class="db__col"><p class="db__head">Closed won <b class="ok" data-db-won>12</b></p>
-                    <div class="db__card"><b>Initech annual</b><i class="ok">Synced to Stripe</i></div>
-                    <div class="db__slot" data-db-slot></div></div>
+                    <div class="db__slot" data-db-slot></div>
+                    <div class="db__card"><b>Initech annual</b><i class="ok">Synced to Stripe</i></div></div>
                 </div>
                 <div class="db__view db__table" data-dbv="table" hidden>
                   <p class="db__row db__row--h"><span>Deal</span><span>Stage</span><span>Value</span></p>
                   <p class="db__row"><span>Acme Enterprise</span><span>To triage</span><span>$48,000</span></p>
                   <p class="db__row"><span>Northwind Expansion</span><span>To triage</span><span>$18,500</span></p>
-                  <p class="db__row"><span>Globex custom SLA</span><span class="warn">Needs approval</span><span>$62,000</span></p>
+                  <p class="db__row"><span>Globex custom SLA</span><span class="warn" data-db-stage>Needs approval</span><span>$62,000</span></p>
                   <p class="db__row"><span>Initech annual</span><span class="ok">Closed won</span><span>$36,000</span></p>
                 </div>
                 <div class="db__view db__cal" data-dbv="cal" hidden>
@@ -653,6 +653,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794678613" defer></script>
+  <script src="assets/js/site.js?v=1794678739" defer></script>
 </body>
 </html>

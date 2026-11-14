@@ -501,25 +501,37 @@
   }, { threshold: 0.2 }).observe(hub);
 })();
 
-/* Database card: Kanban, then the agent card gets approved and moves to Closed won, then Table, then Calendar. */
+/* Database card: Kanban, the agent card is approved and moves to Closed won, counts and table follow, then Table, then Calendar. */
 (() => {
   const db = document.querySelector('[data-db]');
   if (!db || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const q = x => db.querySelector(x);
   const show = v => { db.querySelectorAll('[data-dbv]').forEach(x => x.hidden = x.dataset.dbv !== v); db.querySelectorAll('[data-dbt]').forEach(x => x.classList.toggle('is-on', x.dataset.dbt === v)); };
-  const card = db.querySelector('[data-approve-card]'), slot = db.querySelector('[data-db-slot]'), won = db.querySelector('[data-db-won]'), btn = db.querySelector('[data-db-approve]');
-  const reset = () => { card.classList.remove('is-moving'); card.style.display = ''; slot.innerHTML = ''; won.textContent = '12'; };
+  const card = q('[data-approve-card]'), slot = q('[data-db-slot]'), won = q('[data-db-won]'), wait = q('[data-db-wait]'), btn = q('[data-db-approve]'), stage = q('[data-db-stage]');
+  const empty = document.createElement('p'); empty.className = 'db__empty'; empty.textContent = 'Nothing waiting'; card.after(empty);
+  const bump = el => { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); };
+  const reset = () => {
+    card.classList.remove('is-moving'); slot.innerHTML = ''; empty.classList.remove('is-shown');
+    won.textContent = '12'; wait.textContent = '1'; wait.classList.remove('is-zero');
+    stage.textContent = 'Needs approval'; stage.className = 'warn';
+  };
   const steps = [
     [0, () => { reset(); show('board'); }],
-    [1600, () => btn.classList.add('is-pressed')],
-    [1800, () => { btn.classList.remove('is-pressed'); card.classList.add('is-moving'); }],
-    [2400, () => { card.style.display = 'none'; slot.innerHTML = '<div class="db__card"><b>Globex custom SLA</b><i class="ok">Approved, synced</i></div>'; won.textContent = '13'; }],
-    [4400, () => show('table')],
-    [6600, () => show('cal')],
+    [1800, () => btn.classList.add('is-pressed')],
+    [2050, () => { btn.classList.remove('is-pressed'); card.classList.add('is-moving'); }],
+    [2450, () => { wait.textContent = '0'; wait.classList.add('is-zero'); bump(wait); empty.classList.add('is-shown'); }],
+    [2650, () => {
+      slot.innerHTML = '<div class="db__card"><b>Globex custom SLA</b><i class="ok">Approved, synced to Stripe</i></div>';
+      won.textContent = '13'; bump(won);
+      stage.textContent = 'Closed won'; stage.className = 'ok';
+    }],
+    [5200, () => show('table')],
+    [7600, () => show('cal')],
   ];
   let timers = [], loop = null;
   const run = () => { timers.forEach(clearTimeout); timers = steps.map(([ms, fn]) => setTimeout(fn, ms)); };
   new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !loop) { run(); loop = setInterval(run, 8800); }
+    if (e.isIntersecting && !loop) { run(); loop = setInterval(run, 10000); }
     else if (!e.isIntersecting && loop) { clearInterval(loop); loop = null; timers.forEach(clearTimeout); }
   }, { threshold: 0.3 }).observe(db);
 })();
