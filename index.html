@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794670373">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794670373">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794671325">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794671325">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -136,7 +136,7 @@
                 <div class="view" data-pane="config" hidden><pre class="code config"><code data-config></code></pre></div>
               </div>
               <aside class="pane saving" aria-label="Example yearly cost">
-                <p class="saving__label">Example, <span data-seats>25 seats</span>, per year</p>
+                <p class="saving__label"><span class="saving__tag">Example</span><span><span data-seats>25 seats</span>, per year</span></p>
                 <div class="saving__row">
                   <p class="saving__name">Rented, <span data-tool-name>Airtable</span></p>
                   <p class="saving__rent"><s data-rent>$13,500</s></p>
@@ -144,8 +144,7 @@
                 </div>
                 <div class="saving__row">
                   <p class="saving__name">Owned, FrogBot</p>
-                  <p class="saving__own" data-own>$348</p>
-                  <span class="bar bar--own" aria-hidden="true" data-own-bar></span>
+                  <p class="saving__own"><span data-own>$348</span><span class="saving__x" data-times>39x less</span></p>
                 </div>
                 <p class="saving__keep">You keep <b data-keep>$13,152</b> a year</p>
                 <div class="saving__range">
@@ -157,7 +156,6 @@
               </aside>
             </div>
           </div>
-          <p class="window__example">Example data</p>
         </div>
       </div>
     </section>
@@ -555,6 +553,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794670373" defer></script>
+  <script src="assets/js/site.js?v=1794671325" defer></script>
 </body>
 </html>

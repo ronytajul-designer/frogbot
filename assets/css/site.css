@@ -764,3 +764,16 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .rows th:nth-child(2) { width: 22%; }
 @media (max-width: 1080px) { .window { height: auto; grid-template-rows: none; } }
 @media (max-width: 820px) { .note__btn, .roles button, .saving__copy, .side__tools button { min-height: 44px; } }
+/* Hero window: no dead space, clearer cost card */
+.window { height: 628px; grid-template-rows: minmax(0, 1fr); }
+.window .saving { align-self: start; gap: 0; }
+.window .saving__note { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.saving__label { display: flex; align-items: center; gap: 8px; }
+.saving__tag { padding: 0 8px; border-radius: 6px; background: rgb(255 255 255 / 0.06); color: var(--ink-2); font-size: 14px; line-height: 24px; }
+.window .saving__own { display: flex; align-items: baseline; gap: 12px; }
+.saving__x { font: 600 14px/24px var(--font-text); color: var(--fb-green); padding: 0 8px; border-radius: 6px; background: rgb(var(--green-rgb) / 0.12); }
+.saving__keep { margin-top: 4px; }
+.saving__range { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.saving__copy { margin-top: 12px; }
+.side__agent { margin-top: auto; }
+.side__tools + .side__agent, .side { justify-content: flex-start; }

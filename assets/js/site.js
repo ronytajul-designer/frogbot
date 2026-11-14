@@ -167,6 +167,7 @@
     const rent = rentFor(t, SEATS);
     $$('[data-side-price]').forEach(el => { el.textContent = money(rentFor(TOOLS[el.dataset.sidePrice], SEATS)) + '/yr'; });
     const keep = $('[data-keep]'); if (keep) keep.textContent = money(rent - OWN_PER_YEAR);
+    const times = $('[data-times]'); if (times) times.textContent = `${Math.round(rent / OWN_PER_YEAR)}x less`;
     const cp = $('[data-copy-tool]'); if (cp) cp.textContent = `Copy ${t.name} prompt`;
     const r = $('[data-win-seats]'); if (r) { r.value = SEATS; r.style.setProperty('--fill', ((SEATS - r.min) / (r.max - r.min)) * 100 + '%'); r.setAttribute('aria-valuetext', `${SEATS} ${t.unit}s`); }
     const out = $('[data-win-seats-out]'); if (out) out.textContent = `${SEATS} ${t.unit}s`;
@@ -186,7 +187,7 @@
       $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
       $('[data-source]').textContent = t.source;
       syncSaving();
-      $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
+      ($('[data-own-bar]')||{style:{}}).style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
     };
 
     const side = $('[data-side]');
@@ -268,7 +269,7 @@
       const rent = rentFor(t, SEATS);
       $('[data-rent]').textContent = money(rent); currentRent = rent;
       $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
-      $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
+      ($('[data-own-bar]')||{style:{}}).style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
       srText.textContent = `Example: ${t.name} for a team of ${SEATS}. Rented ${money(rent)} a year, owned ${money(OWN_PER_YEAR)} a year.`;
       syncSaving();
     });
