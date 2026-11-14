@@ -1260,3 +1260,8 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 @media (prefers-reduced-motion: reduce) { .track__list::after { transition: none; } }
 .track__list::before { top: var(--line-top, 36px); bottom: auto; height: var(--line-h, 0px); }
 .track__list::after { top: var(--line-top, 36px); max-height: none; }
+/* Pending tracker steps: dim by colour, not opacity, so text keeps readable contrast */
+.track__detail { opacity: 1; }
+.track__step:not(.is-active):not(.is-done) .track__chip,
+.track__step:not(.is-active):not(.is-done) .track__link { color: var(--ink-3); border-color: var(--line); }
+.track__step:not(.is-active):not(.is-done) .track__link i { background: var(--ink-3); }
