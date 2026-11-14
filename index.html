@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794671325">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794671325">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794671529">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794671529">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -71,11 +71,35 @@
             <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
           </div>
           <div class="command__row">
-          <p class="hero__self"><span class="hero__self-q">Building it yourself?</span> <a href="https://app.frogbot.ai/login">Deploy first app</a> <span>or</span> <button class="link" type="button" data-copy="Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app."><span data-copy-label>copy the agent prompt</span></button></p>
+          <div class="starter" data-starter>
+            <p class="starter__q">Building it yourself? Start here, then <a href="https://app.frogbot.ai/login">deploy your first app</a>.</p>
+            <div class="starter__box">
+              <div class="starter__tabs" role="tablist" aria-label="How to start">
+                <button type="button" role="tab" id="st-agent" aria-controls="sp-agent" aria-selected="true" data-st="agent">Prompt your agent</button>
+                <button type="button" role="tab" id="st-cli" aria-controls="sp-cli" aria-selected="false" tabindex="-1" data-st="cli">CLI</button>
+              </div>
+              <div class="starter__panel" role="tabpanel" id="sp-agent" aria-labelledby="st-agent">
+                <code>Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app.</code>
+                <button type="button" class="starter__copy" data-copy="Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app."><span data-copy-label>Copy</span></button>
+              </div>
+              <div class="starter__panel" role="tabpanel" id="sp-cli" aria-labelledby="st-cli" hidden>
+                <code><span class="starter__dollar" aria-hidden="true">$ </span>npx create-frogbot-app</code>
+                <button type="button" class="starter__copy" data-copy="npx create-frogbot-app"><span data-copy-label>Copy</span></button>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
         <div class="window" data-window>
+          <div class="chrome">
+            <span class="chrome__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="chrome__url"><i aria-hidden="true"></i><span>https://<span data-url>airtable.frogbot.app/admin</span></span></span>
+            <div class="chrome__mode" role="group" aria-label="Show">
+              <button type="button" data-mode="live" aria-pressed="true">Live app</button>
+              <button type="button" data-mode="config" aria-pressed="false">frogbot.config.ts</button>
+            </div>
+          </div>
           <aside class="pane side" aria-label="Example app">
             <div class="side__ws">
               <img src="brand/logo/frogbot-icon.svg" alt="" width="40" height="40">
@@ -103,11 +127,9 @@
                   <h2 class="window__title" data-title>Ops and Inventory Base</h2>
                   <p class="window__meta" data-meta>54,200 rows. Unlimited editors at $0 per seat.</p>
                 </div>
-                <span class="sr" data-url>airtable.frogbot.app/admin</span>
                 <div class="top__tabs" role="group" aria-label="View">
                   <button type="button" data-view="table" aria-pressed="true"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M10 10v9"/></svg>Table</button>
                   <button type="button" data-view="board" aria-pressed="false"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v11h-4z"/></svg>Board</button>
-                  <button type="button" data-view="config" aria-pressed="false"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg>Config</button>
                 </div>
               </div>
             </div>
@@ -553,6 +575,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794671325" defer></script>
+  <script src="assets/js/site.js?v=1794671529" defer></script>
 </body>
 </html>

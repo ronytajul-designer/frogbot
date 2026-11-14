@@ -236,10 +236,14 @@
   if (typed) {
     $$('[data-tool]').forEach(b => b.addEventListener('click', () => showTool(b.dataset.tool)));
     // Views: table, board, config
-    $$('[data-view]').forEach(b => b.addEventListener('click', () => {
-      $$('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-      $$('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== b.dataset.view; });
-    }));
+    const showPane = name => {
+      $$('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== name; });
+      $$('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.view === name)));
+      $$('[data-mode]').forEach(x => x.setAttribute('aria-pressed', String((x.dataset.mode === 'config') === (name === 'config'))));
+    };
+    let lastView = 'table';
+    $$('[data-view]').forEach(b => b.addEventListener('click', () => { lastView = b.dataset.view; showPane(lastView); }));
+    $$('[data-mode]').forEach(b => b.addEventListener('click', () => showPane(b.dataset.mode === 'config' ? 'config' : lastView)));
     // Approve flagged rows
     const approve = $('[data-approve]');
     if (approve) approve.addEventListener('click', () => {
@@ -290,7 +294,7 @@
     const label = $('[data-copy-label]', btn);
     const idle = label.textContent;
     btn.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = 'prompt copied'; }
+      try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = 'Copied'; }
       catch { label.textContent = 'copy failed, select it in the docs'; }
       setTimeout(() => { label.textContent = idle; }, 2400);
     });
@@ -414,4 +418,25 @@
   addEventListener('scroll', req, { passive: true });
   addEventListener('resize', req);
   update();
+})();
+
+/* Starter box: Prompt your agent / CLI tabs */
+(() => {
+  const box = document.querySelector('[data-starter]');
+  if (!box) return;
+  const tabs = [...box.querySelectorAll('[data-st]')];
+  const pick = t => tabs.forEach(x => {
+    const on = x === t;
+    x.setAttribute('aria-selected', String(on));
+    x.tabIndex = on ? 0 : -1;
+    document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+  });
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pick(t));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      pick(n); n.focus();
+    });
+  });
 })();
