@@ -54,9 +54,13 @@ Pricing (as published):
 
 Use cases named on the site: Custom CRM, Client Portal, AI Support Desk, Project and Sprint Tracker, Invoice and Ops Automation, Compliance Pipeline.
 
+Confirmed by designer (2026-11-14):
+
+- Enterprise delivery statement, the only one to use: "Working prototype in 48 hours. Production app in 2 weeks." The FAQ lines "2 to 5 business days" and "2 to 4 weeks" on the live site are wrong and must not be repeated.
+- "Book a build call" will lead to a form. The form is built later. Until then the button is designed and placed, with its destination marked as pending. It must not point to the login page.
+
 Open, needs the client's answer:
 
-- Enterprise delivery time. The site says "2 weeks" in one place and "2 to 4 weeks" in another.
 - Headline target. The H1 rotates its middle word ("The SaaS Killer.", "The Salesforce Killer.", "The Zendesk Killer.", "The Atlassian Killer."), so each visitor sees a different promise first.
 - What the client allows to change in copy and claims.
 
@@ -78,6 +82,8 @@ Scope (confirmed by designer): the home page is redesigned first. Other pages fo
 - Published pricing and a competitor comparison table (competitor prices labelled "Sept 2026 list prices").
 - Legal pages: Terms, Privacy, Acceptable Use, DPA, Security addendum, Cookie Policy.
 - Docs at docs.frogbot.ai, plus Guides and Blog.
+
+Confirmed by designer (2026-11-14): there is no customer proof of any kind. Trust has to come from checkable facts only: MIT licence, public repository, export and self-hosting, published pricing, DPA and security addendum.
 
 Absent, must not be fabricated: customer logos, named testimonials, case studies, usage numbers, security certifications. Figures such as "54,200 rows" and "$13,152/yr saved" are illustrative demo data on the site, not customer results.
 
