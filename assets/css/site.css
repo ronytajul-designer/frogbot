@@ -1350,3 +1350,6 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 @keyframes tag-spin { to { transform: rotate(1turn); } }
 @keyframes tag-shine { 0% { background-position: 150% 0, 0 0; } 60%, 100% { background-position: -50% 0, 0 0; } }
 @media (prefers-reduced-motion: reduce) { .plan2--lit .plan2__tag::before, .plan2--lit .plan2__tag::after { animation: none; } }
+/* FAQ icon: white at rest; green on hover and when open, matching the question text */
+.qa summary .icon { color: var(--fb-ink); transition: transform 0.45s var(--ease), color 0.2s; }
+.qa summary:hover, .qa summary:hover .icon, .qa[open] summary, .qa[open] summary .icon { color: var(--fb-green); }
