@@ -1425,3 +1425,8 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 .foot__oss { border-color: var(--line); background: none; color: var(--ink-2); }
 .foot__oss svg { color: currentColor; }
 .foot__oss:hover { border-color: var(--line-strong); color: #fff; }
+/* Back to top: arrow always visible; it nudges up on hover */
+.totop__arrow { opacity: 1; transform: none; }
+.totop:hover .totop__arrow, .totop:focus-visible .totop__arrow { transform: translateY(-3px); }
+.totop.is-hop .totop__arrow { animation: arrow-up 0.5s var(--ease); }
+@keyframes arrow-up { 40% { transform: translateY(-8px); opacity: 0.4; } }
