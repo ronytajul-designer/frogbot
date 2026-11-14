@@ -726,3 +726,55 @@
     setTimeout(() => document.querySelector('.skip')?.focus({ preventScroll: true }), reduce ? 0 : 1400);
   });
 })();
+
+/* Hero dots: a slow field of small particles that drift up and twinkle; a few are brand green. */
+(() => {
+  const c = document.querySelector('.hero__dots');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w = 0, h = 0, dpr = 1, dots = [], raf = null, last = 0;
+  const make = () => {
+    const n = Math.round(Math.min(110, (w * h) / 14000));
+    dots = Array.from({ length: n }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: Math.random() * 1.6 + 0.6,
+      vx: (Math.random() - 0.5) * 0.08, vy: -(Math.random() * 0.18 + 0.04),
+      a: Math.random() * 0.5 + 0.35, t: Math.random() * Math.PI * 2, s: Math.random() * 0.02 + 0.005,
+      g: Math.random() < 0.28,
+    }));
+  };
+  const size = () => {
+    const r = c.getBoundingClientRect();
+    dpr = Math.min(2, devicePixelRatio || 1);
+    w = r.width; h = r.height;
+    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    make(); draw(0);
+  };
+  const draw = dt => {
+    ctx.clearRect(0, 0, w, h);
+    for (const d of dots) {
+      if (dt) {
+        d.x += d.vx * dt; d.y += d.vy * dt; d.t += d.s * dt;
+        if (d.y < -4) { d.y = h + 4; d.x = Math.random() * w; }
+        if (d.x < -4) d.x = w + 4; else if (d.x > w + 4) d.x = -4;
+      }
+      const alpha = d.a * (0.55 + 0.45 * Math.sin(d.t));
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = d.g ? `rgba(58,207,106,${alpha})` : `rgba(248,250,252,${alpha * 0.7})`;
+      ctx.fill();
+    }
+  };
+  const loop = now => { const dt = last ? Math.min(3, (now - last) / 16.7) : 1; last = now; draw(dt); raf = requestAnimationFrame(loop); };
+  size();
+  addEventListener('resize', () => { cancelAnimationFrame(raf); raf = null; last = 0; size(); if (!reduce && visible) raf = requestAnimationFrame(loop); });
+  let visible = false;
+  if (reduce) return;
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible && !raf) { last = 0; raf = requestAnimationFrame(loop); }
+    else if (!visible && raf) { cancelAnimationFrame(raf); raf = null; }
+  }).observe(c);
+})();
