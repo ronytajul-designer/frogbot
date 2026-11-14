@@ -7,7 +7,7 @@ Everything here was taken from the live site, https://frogbot.ai/, on 2026-11-14
 | Path | What it is |
 |---|---|
 | `logo/frogbot-logo.svg` | Header logo: frog mark plus "FrogBot" wordmark, green `#3acf6a`. Made for dark backgrounds. |
-| `logo/frogbot-icon.svg` | App icon: white frog on a green circle, recolored to the brand green `#3acf6a`. |
+| `logo/frogbot-icon.svg` | App icon: dark frog face (`#04210d`) on a brand green `#3acf6a` circle. The face was changed from white to dark for legibility (designer decision, 2026-11-14). |
 | `logo/favicon.ico`, `logo/apple-icon.png` | Favicon files as served by the site (still the old `#2f964f`, to be re-exported in `#3acf6a`). |
 | `tokens.css` | Colors as CSS variables, plus the 8px spacing and radius scale. |
 | `voice.md` | Tone of voice guide for the redesign. |
