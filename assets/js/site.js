@@ -447,3 +447,12 @@
   if (!header || !cta) return;
   new IntersectionObserver(([e]) => header.classList.toggle('is-past-hero', !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: '-72px 0px 0px 0px' }).observe(cta);
 })();
+
+/* Header turns into a floating pill after the first bit of scroll. */
+(() => {
+  const header = document.querySelector('[data-header]');
+  if (!header) return;
+  const sync = () => header.classList.toggle('is-scrolled', scrollY > 24);
+  addEventListener('scroll', sync, { passive: true });
+  sync();
+})();

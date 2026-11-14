@@ -853,3 +853,29 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .chrome__agent .pulse { flex: none; }
 @media (max-width: 1180px) { .chrome__agent span { display: none; } }
 .window { height: 612px; }
+
+/* Header: full-width bar at the top, floating pill once the page scrolls */
+.header { top: 0; width: 100%; margin: 0 auto; transition: top 0.5s var(--ease), width 0.5s var(--ease), padding 0.5s var(--ease); }
+.header__bar {
+  height: 72px; padding: 0 max(24px, calc((100vw - 1248px) / 2));
+  border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  background: rgb(5 9 18 / 0.35); box-shadow: none;
+  transition: border-radius 0.5s var(--ease), padding 0.5s var(--ease), height 0.5s var(--ease), background-color 0.5s, box-shadow 0.5s, border-color 0.5s;
+}
+.header.is-scrolled { top: 12px; width: min(100% - 32px, 1120px); }
+.header.is-scrolled .header__bar {
+  height: 60px; padding: 0 8px 0 24px; border: 1px solid var(--line-strong); border-radius: 999px;
+  background: rgb(9 14 27 / 0.78); box-shadow: 0 16px 40px -16px rgb(0 0 0 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+.header.is-scrolled .header__line { display: none; }
+.hero { margin-top: -72px; }
+/* The header action takes no space until the hero buttons have scrolled away */
+.js .header:not(.is-past-hero) .header__actions .btn { display: none; }
+.js .header.is-past-hero .header__actions .btn { opacity: 1; transform: none; visibility: visible; pointer-events: auto; animation: rise-in 0.4s var(--ease); }
+@keyframes rise-in { from { opacity: 0; transform: translateY(-4px); } }
+.header.is-scrolled .menu { border-radius: 24px; }
+@media (max-width: 820px) {
+  .header.is-scrolled { width: calc(100% - 24px); }
+  .header.is-scrolled .header__bar { padding: 0 6px 0 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .header, .header__bar { transition: none; } }
