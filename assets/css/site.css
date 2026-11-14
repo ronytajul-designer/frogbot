@@ -1265,3 +1265,34 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .track__step:not(.is-active):not(.is-done) .track__chip,
 .track__step:not(.is-active):not(.is-done) .track__link { color: var(--ink-3); border-color: var(--line); }
 .track__step:not(.is-active):not(.is-done) .track__link i { background: var(--ink-3); }
+
+/* Comparison v2: a cost bar chart, then a raised FrogBot column */
+.compare__intro .lede { margin-top: 12px; }
+.costbars { display: grid; gap: 14px; margin-top: 40px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--fb-surface); }
+.costbar { display: grid; grid-template-columns: 180px minmax(0, 1fr) 180px; align-items: center; gap: 20px; }
+.costbar__name { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); font-weight: 500; }
+.costbar__name img { width: 20px; height: 20px; }
+.costbar__track { height: 12px; border-radius: 999px; background: rgb(255 255 255 / 0.04); overflow: hidden; }
+.costbar__track i { display: block; height: 100%; width: var(--w); min-width: 8px; border-radius: 999px; background: rgb(255 138 138 / 0.7); transform-origin: left; }
+.costbar__val { text-align: right; font: 600 18px/24px var(--font-display); color: var(--rent); font-variant-numeric: tabular-nums; }
+.costbar--own .costbar__name { color: var(--fb-ink); font-weight: 600; }
+.costbar--own .costbar__track i { background: var(--fb-green); box-shadow: 0 0 12px rgb(var(--green-rgb) / 0.8); }
+.costbar--own .costbar__val { color: var(--fb-green); }
+.js .costbars .costbar__track i { transform: scaleX(0); transition: transform 1.2s var(--ease); }
+.js .costbars.is-in .costbar__track i { transform: scaleX(1); }
+.js .costbars.is-in .costbar:nth-child(2) i { transition-delay: 0.15s; }
+.js .costbars.is-in .costbar:nth-child(3) i { transition-delay: 0.6s; }
+
+.compare__scroll { margin-top: 24px; }
+.matrix th, .matrix td { padding: 20px 24px; }
+.matrix tbody tr { transition: background-color 0.2s; }
+.matrix tbody tr:hover { background: rgb(255 255 255 / 0.02); }
+.matrix .is-own { position: relative; background: linear-gradient(180deg, rgb(var(--green-rgb) / 0.1), rgb(var(--green-rgb) / 0.05)); border-inline-color: rgb(var(--green-rgb) / 0.4); }
+.matrix thead .is-own { padding-top: 28px; }
+.matrix__brand { display: inline-flex; align-items: center; gap: 10px; }
+.matrix__brand img { width: 24px; height: 24px; }
+.matrix .yes { width: 22px; height: 22px; padding: 3px; border-radius: 50%; background: rgb(var(--green-rgb) / 0.14); }
+.matrix .is-own .yes { background: var(--fb-green); color: var(--fb-green-ink); }
+.matrix .no { opacity: 0.6; }
+@media (max-width: 820px) { .costbar { grid-template-columns: 1fr auto; gap: 8px 12px; } .costbar__track { grid-column: 1 / -1; grid-row: 2; } .costbars { padding: 20px; } }
+@media (prefers-reduced-motion: reduce) { .js .costbars .costbar__track i { transform: none; transition: none; } }

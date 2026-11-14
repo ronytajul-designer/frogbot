@@ -346,7 +346,7 @@
   }
 
   /* Draw-on-entry pieces */
-  $$('[data-draw]').forEach(el => io.observe(el));
+  $$('[data-draw], [data-costbars]').forEach(el => io.observe(el));
 
   /* Mobile sticky action: shown after the hero, hidden near the closing call to action */
   const sticky = $('[data-sticky]');
