@@ -634,3 +634,26 @@
   wrap.addEventListener('focusout', e => { if (!wrap.contains(e.relatedTarget)) { paused = false; schedule(); } });
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; schedule(); }, { threshold: 0.4 }).observe(wrap);
 })();
+
+/* Build tracker: steps complete one after another, then the cycle restarts. */
+(() => {
+  const track = document.querySelector('[data-track]');
+  if (!track) return;
+  const steps = [...track.querySelectorAll('.track__step')], list = track.querySelector('.track__list');
+  const set = n => {
+    steps.forEach((s, i) => { s.classList.toggle('is-done', i < n); s.classList.toggle('is-active', i === n); });
+    const dots = steps.map(s => s.querySelector('.track__dot')), top = dots[0].offsetTop + dots[0].offsetParent.offsetTop;
+    const k = Math.min(n, steps.length - 1), y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
+    list.style.setProperty('--line-top', y(dots[0]) + 'px');
+    list.style.setProperty('--line-h', (y(dots[steps.length - 1]) - y(dots[0])) + 'px');
+    list.style.setProperty('--fill', (y(dots[k]) - y(dots[0])) + 'px');
+  };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(steps.length); return; }
+  let n = 0, id = null;
+  const tick = () => { set(n); n = n >= steps.length ? 0 : n + 1; };
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !id) { n = 0; tick(); id = setInterval(tick, 1800); }
+    else if (!e.isIntersecting && id) { clearInterval(id); id = null; }
+  }, { threshold: 0.4 }).observe(track);
+})();
+
