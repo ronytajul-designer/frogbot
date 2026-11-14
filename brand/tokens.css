@@ -1,0 +1,50 @@
+/*
+  FrogBot brand tokens.
+  Colors are copied from the live frogbot.ai stylesheet (read 2026-11-14), not invented.
+  Spacing follows the 8px grid required for the redesign.
+  Type families and the final type scale are decided when the home page redesign starts.
+*/
+
+:root {
+  /* Brand green */
+  --fb-green: #22e05a;          /* --color-primary on the live site: CTAs, links, highlights */
+  --fb-green-ink: #04210d;      /* text on a green fill */
+  --fb-green-logo: #3acf6a;     /* fill used inside the header logo SVG */
+  --fb-green-icon: #2f964f;     /* fill used in the favicon / app icon */
+
+  /* Dark surfaces, darkest to lightest */
+  --fb-surface-sunken: #050912;
+  --fb-surface: #090e1b;        /* page background */
+  --fb-surface-mid: #0e1422;
+  --fb-surface-raised: #141a2a; /* cards, panels */
+  --fb-surface-elevated: #202738;
+
+  /* Text and lines */
+  --fb-ink: #f8fafc;
+  --fb-ink-muted: rgb(248 250 252 / 0.58);
+  --fb-border: rgb(255 255 255 / 0.1);
+
+  /* Status colors seen in the product mockups on the live site */
+  --fb-warning: #fbbf24;
+  --fb-danger: #ff7b7b;
+
+  /* 8px grid. 4px is the only allowed half step, for tight inline gaps. */
+  --space-0-5: 4px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  /* Radii on the same grid */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
