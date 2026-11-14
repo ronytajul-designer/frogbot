@@ -117,6 +117,10 @@
     const html = t.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="tag tag--${r[2]}">${r[3]}</span></td></tr>`).join('');
     if (!animate || reduce) { body.innerHTML = html; return; }
     const run = typingRun;
+    const win = $('[data-window]');
+    win.classList.remove('is-busy');
+    void win.offsetWidth;
+    win.classList.add('is-busy');
     $$('tr', body).forEach(tr => tr.classList.add('is-loading'));
     setTimeout(() => {
       if (run !== typingRun) return;

@@ -135,7 +135,8 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .window__dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--fb-surface-elevated); }
 .window__url { font-variant-numeric: tabular-nums; }
 .window__agent { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--fb-green); }
-.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--fb-green); animation: pulse 2s var(--ease) infinite; }
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--fb-green); }
+.is-busy .pulse { animation: pulse 0.7s var(--ease) 2; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgb(var(--green-rgb) / 0.5); } 100% { box-shadow: 0 0 0 10px rgb(var(--green-rgb) / 0); } }
 .window__body { display: grid; grid-template-columns: 208px minmax(0, 1fr) 312px; }
 .window__side { padding: 24px 16px; border-right: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
