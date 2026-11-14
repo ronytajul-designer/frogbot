@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794680222">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794680222">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794680295">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794680295">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -594,11 +594,24 @@
     <section class="close" aria-labelledby="close-title">
       <div class="close__light" aria-hidden="true"></div>
       <div class="wrap">
-        <h2 class="display reveal" id="close-title">Build it yourself, or have us do it.</h2>
-        <p class="lede reveal">Deploy your first app on Dojo for $29 per month, flat. Or get a working prototype built on your real data in 48 hours.</p>
-        <div class="close__cta reveal">
-          <a class="btn btn--primary btn--lg" href="#build-call" data-pending="build-call-form">Book a build call</a>
-          <a class="btn btn--ghost btn--lg" href="https://app.frogbot.ai/login">Deploy first app</a>
+        <div class="end">
+          <img class="end__mark" src="brand/logo/frogbot-icon.svg?v=2" alt="" width="64" height="64">
+          <h2 class="end__title reveal" id="close-title">Build it yourself, <span class="own">or have us do it.</span></h2>
+          <p class="end__sub reveal">Either way, you own the app, the code and the data.</p>
+          <div class="end__paths">
+            <div class="path reveal">
+              <p class="path__who">You build it</p>
+              <p class="path__big">$29 <span>per app per month</span></p>
+              <code class="path__cmd"><span class="c-k">$</span> npx create-frogbot-app</code>
+              <a class="btn btn--ghost" href="https://app.frogbot.ai/login">Deploy first app <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+            <div class="path path--lit reveal">
+              <p class="path__who">We build it</p>
+              <p class="path__big">48 hours <span>to a working prototype</span></p>
+              <p class="path__note">Production app in 2 weeks, at a fixed price.</p>
+              <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -628,6 +641,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794680222" defer></script>
+  <script src="assets/js/site.js?v=1794680295" defer></script>
 </body>
 </html>
