@@ -982,3 +982,5 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .mm { text-align: left; }
 .mm--product { width: 760px; }
 .mp__code { white-space: nowrap; overflow: hidden; }
+.header .mp { align-items: stretch; justify-content: flex-start; }
+.header .mp .mp__go { align-self: flex-start; }
