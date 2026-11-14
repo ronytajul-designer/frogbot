@@ -985,3 +985,41 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .header .mp { align-items: stretch; justify-content: flex-start; }
 .header .mp .mp__go { align-self: flex-start; }
 .ml__tool { white-space: nowrap; }
+
+/* How it works v2: three steps, each proven by a small live visual */
+.flow { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; }
+.flow::before { content: ""; position: absolute; left: 16%; right: 16%; top: 112px; height: 1px; background: linear-gradient(90deg, transparent, rgb(var(--green-rgb) / 0.5), transparent); }
+.flow__step { position: relative; display: flex; flex-direction: column; }
+.flow__visual { position: relative; height: 224px; padding: 20px; border: 1px solid var(--line); border-radius: 20px; background: radial-gradient(90% 90% at 50% 0%, rgb(var(--green-rgb) / 0.08), transparent 70%), var(--fb-surface-sunken); overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.flow__n { margin-top: 24px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgb(var(--green-rgb) / 0.5); color: var(--fb-green); font: 600 14px/1 var(--font-text); }
+.flow__step h3 { margin-top: 16px; font: 600 22px/30px var(--font-display); letter-spacing: -0.02em; }
+.flow__step > p:last-child { margin-top: 8px; color: var(--ink-2); max-width: 36ch; }
+.fv-prompt { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 1px solid rgb(var(--green-rgb) / 0.4); background: rgb(var(--green-rgb) / 0.06); font-size: 14px; color: var(--fb-ink); }
+.fv-type { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--fb-green); }
+.fv-code, .fv-term { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #050912; font: 400 14px/22px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-2); white-space: nowrap; }
+.fv-term { gap: 6px; padding: 16px; }
+.fv-dim { color: var(--ink-3); }
+.fv-live { display: inline-flex; align-items: center; gap: 8px; color: var(--fb-green); }
+.fv-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--fb-green); box-shadow: 0 0 0 4px rgb(var(--green-rgb) / 0.2); }
+.fv-stack { display: grid; gap: 8px; }
+.fv-stack li { display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--fb-surface); font-size: 14px; }
+.fv-stack .icon { color: var(--fb-green); stroke-width: 2; }
+.fv-stack b { font-weight: 500; color: var(--fb-ink); }
+.fv-stack code { font: 400 14px/20px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-3); }
+.fv-stack code.own { color: var(--fb-green); }
+/* motion: each step plays after the one before it */
+.js .flow .fv-type { max-width: 0; }
+.js .flow.is-in .fv-type { animation: fv-type 1.2s steps(32) 0.3s forwards; }
+@keyframes fv-type { to { max-width: 100%; } }
+.js .flow .fv-line, .js .flow .fv-stack li { opacity: 0; transform: translateY(6px); }
+.js .flow.is-in .fv-line, .js .flow.is-in .fv-stack li { animation: fv-in 0.45s var(--ease) forwards; animation-delay: calc(var(--s-base, 0s) + var(--l) * 0.18s); }
+.flow__step:nth-child(1) { --s-base: 1.5s; }
+.flow__step:nth-child(2) { --s-base: 2.3s; }
+.flow__step:nth-child(3) { --s-base: 3.3s; }
+@keyframes fv-in { to { opacity: 1; transform: none; } }
+.js .flow.is-in .fv-type { border-right-color: transparent; transition: border-color 0s 1.6s; }
+@media (max-width: 960px) { .flow { grid-template-columns: 1fr; gap: 40px; } .flow::before { display: none; } .flow__visual { height: auto; min-height: 176px; } }
+@media (prefers-reduced-motion: reduce) {
+  .js .flow .fv-type { max-width: none; animation: none; border-right-color: transparent; }
+  .js .flow .fv-line, .js .flow .fv-stack li { opacity: 1; transform: none; animation: none; }
+}

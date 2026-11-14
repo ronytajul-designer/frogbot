@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794673565">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794673565">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794673690">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794673690">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -261,45 +261,45 @@
     <!-- How it works -->
     <section class="section how" id="how" aria-labelledby="how-title">
       <div class="wrap">
-        <h2 class="display display--md reveal" id="how-title">Real building blocks, already in place.</h2>
-        <p class="lede reveal">You are not generating thousands of lines of throwaway code. You are configuring an app engine you own.</p>
-        <div class="steps reveal" data-draw>
-          <div class="steps__rail" aria-hidden="true"><span class="steps__light"></span></div>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>Start from a prompt or your data</h3>
-            <p>Point your coding agent at your workflow or a CSV file. Or hand your current tools to our engineers.</p>
-            <details class="peek">
-              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the config</summary>
-              <pre class="code"><code>export default buildConfig({
-  collections: [Deals, Contacts],
-  agents: [dealCloser],
-});</code></pre>
-            </details>
-          </article>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>The hard parts are already built</h3>
-            <p>Admin tables, sign-in, permissions, board views and background jobs work before anyone designs a custom screen.</p>
-            <ul class="ticks">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Admin screens</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Sign-in and roles</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>An API for your other tools</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>End users at $0 per seat</li>
-            </ul>
-          </article>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>Run it on Dojo, or have us build it</h3>
-            <p>Deploy it yourself for $29 per month, flat. Or have our engineers build it and migrate your data.</p>
-            <details class="peek">
-              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the deploy command</summary>
-              <pre class="code"><code>$ npx frogbot share --data
-Database and 50 GB storage provisioned
-Live: https://crm.frogbot.app</code></pre>
-            </details>
-          </article>
-        </div>
+        <h2 class="display display--md reveal" id="how-title">Real building blocks. <span class="own">No fragile code.</span></h2>
+        <p class="lede reveal">Configure an app engine you own, instead of generating code you have to maintain.</p>
+
+        <ol class="flow reveal" data-draw>
+          <li class="flow__step" style="--s:0">
+            <div class="flow__visual" aria-hidden="true">
+              <div class="fv-prompt"><svg class="icon icon--sm icon--spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 4.7 4.3 8.4 9 9-4.7.6-8.4 4.3-9 9-.6-4.7-4.3-8.4-9-9 4.7-.6 8.4-4.3 9-9Z"/></svg><span class="fv-type">Rebuild our Airtable deals base</span></div>
+              <div class="fv-code"><span class="fv-line" style="--l:0"><span class="c-k">export default</span> buildConfig({</span><span class="fv-line" style="--l:1">&nbsp;&nbsp;collections: [<span class="c-s">Deals</span>, <span class="c-s">Contacts</span>],</span><span class="fv-line" style="--l:2">&nbsp;&nbsp;agents: [<span class="c-s">dealCloser</span>],</span><span class="fv-line" style="--l:3">});</span></div>
+            </div>
+            <p class="flow__n">1</p>
+            <h3>Describe it</h3>
+            <p>Point your coding agent at a workflow or a CSV, or hand your tools to our engineers.</p>
+          </li>
+          <li class="flow__step" style="--s:1">
+            <div class="flow__visual" aria-hidden="true">
+              <ul class="fv-stack">
+                <li style="--l:0"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg><b>Admin screens</b><code>/admin</code></li>
+                <li style="--l:1"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg><b>API</b><code>/api/*</code></li>
+                <li style="--l:2"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg><b>Roles and sign-in</b><code>RBAC</code></li>
+                <li style="--l:3"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg><b>End users</b><code class="own">$0 / seat</code></li>
+              </ul>
+            </div>
+            <p class="flow__n">2</p>
+            <h3>Get the full stack</h3>
+            <p>Admin, permissions, board views and background jobs work before you design a screen.</p>
+          </li>
+          <li class="flow__step" style="--s:2">
+            <div class="flow__visual" aria-hidden="true">
+              <div class="fv-term">
+                <span class="fv-line" style="--l:0"><span class="c-k">$</span> npx frogbot share --data</span>
+                <span class="fv-line fv-dim" style="--l:1">Database and 50 GB storage ready</span>
+                <span class="fv-line fv-live" style="--l:2"><i></i>Live: crm.frogbot.app</span>
+              </div>
+            </div>
+            <p class="flow__n">3</p>
+            <h3>Ship it, or let us</h3>
+            <p>Deploy on Dojo for $29 per month, flat. Or our engineers build and migrate it for you.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
@@ -629,6 +629,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794673565" defer></script>
+  <script src="assets/js/site.js?v=1794673690" defer></script>
 </body>
 </html>
