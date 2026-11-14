@@ -703,3 +703,26 @@
   }));
 })();
 
+
+/* Back to top: shows after the first screen, ring shows how far down the page you are. */
+(() => {
+  const btn = document.querySelector('[data-totop]');
+  if (!btn) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const p = max > 0 ? scrollY / max : 0;
+    btn.style.setProperty('--p', p.toFixed(3));
+    btn.hidden = scrollY < innerHeight * 0.8;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+  btn.addEventListener('click', () => {
+    btn.classList.remove('is-hop'); void btn.offsetWidth; btn.classList.add('is-hop');
+    if (window.lenis && !reduce) window.lenis.scrollTo(0, { duration: 1.4 });
+    else scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    setTimeout(() => document.querySelector('.skip')?.focus({ preventScroll: true }), reduce ? 0 : 1400);
+  });
+})();
