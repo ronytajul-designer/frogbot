@@ -486,3 +486,20 @@
   document.addEventListener('click', e => { if (!e.target.closest('[data-mm]')) closeAll(); });
 })();
 
+/* Run the bento loops only while the section is on screen. */
+(() => {
+  const box = document.querySelector('.box');
+  if (!box) return;
+  new IntersectionObserver(([e]) => box.classList.toggle('in-view', e.isIntersecting), { threshold: 0.2 }).observe(box);
+})();
+
+/* Integrations hub: light one connection at a time while on screen. */
+(() => {
+  const hub = document.querySelector('.hub');
+  if (!hub || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const lines = [...hub.querySelectorAll('.hub__line')], apps = [...hub.querySelectorAll('.hub__app')];
+  let i = 0, id = null;
+  const step = () => { lines.forEach((l, k) => l.classList.toggle('is-on', k === i)); apps.forEach((a, k) => a.classList.toggle('is-on', k === i)); i = (i + 1) % apps.length; };
+  new IntersectionObserver(([e]) => { if (e.isIntersecting && !id) { step(); id = setInterval(step, 1100); } else if (!e.isIntersecting && id) { clearInterval(id); id = null; } }, { threshold: 0.3 }).observe(hub);
+})();
+

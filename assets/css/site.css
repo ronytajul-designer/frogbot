@@ -1025,3 +1025,36 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
   .fv-type::after { display: none; }
   .js .flow .fv-line, .js .flow .fv-stack li { opacity: 1; transform: none; animation: none; }
 }
+
+/* What is in the box v2: tighter cards, one line of copy, calm hub for integrations */
+.box { padding: 112px 0; }
+.bento { gap: 16px; margin-top: 48px; }
+.card { border-radius: 20px; }
+.visual { height: 256px; margin-bottom: 0; border-bottom: 0; }
+.card__copy { padding: 24px 28px 28px; }
+.card__copy h3 { font-size: 22px; line-height: 30px; }
+.card__copy p { margin-top: 4px; color: var(--ink-3); }
+.visual--views .views__stage { height: 176px; overflow: hidden; }
+.visual--views { padding: 20px 24px; }
+
+.visual--hub { display: grid; place-items: stretch; padding: 16px 24px; }
+.hub { position: relative; width: 100%; height: 100%; }
+.hub__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hub__line { fill: none; stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.hub__app { position: absolute; transform: translate(-50%, -50%); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--fb-surface-raised); font-size: 14px; white-space: nowrap; transition: border-color 0.4s, color 0.4s, box-shadow 0.4s; }
+.hub__core { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: 0 0 0 8px rgb(var(--green-rgb) / 0.08), 0 12px 32px -8px rgb(var(--green-rgb) / 0.6); }
+/* one connection lights up at a time, travelling around the hub */
+.hub__line { stroke-dasharray: 100; stroke-dashoffset: 0; }
+.visual--flow svg { padding: 0; }
+.flow__labels text { font-size: 13px; }
+@media (max-width: 560px) { .hub__app { padding: 2px 8px; } .visual { height: 224px; } }
+@media (prefers-reduced-motion: reduce) { .box.in-view .hub__line, .hub__line { transition: stroke 0.4s, stroke-width 0.4s; }
+.hub__line.is-on { stroke: var(--fb-green); stroke-width: 2; }
+.hub__app.is-on { border-color: var(--fb-green); color: var(--fb-green); box-shadow: 0 0 0 4px rgb(var(--green-rgb) / 0.12); }
+@media (max-width: 560px) {
+  .visual--views { height: auto; padding-bottom: 20px; }
+  .visual--views .views__stage { height: 152px; }
+  .rec b { font-size: 13px; }
+  .flow__labels text { font-size: 15px; }
+  .visual--brand { height: auto; padding: 20px; }
+}
