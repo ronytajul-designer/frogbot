@@ -672,3 +672,17 @@
   if (document.fonts) document.fonts.ready.then(place);
 })();
 
+/* FAQ: one answer open at a time, with a smooth close. */
+(() => {
+  const list = document.querySelector('[data-faq]');
+  if (!list) return;
+  const items = [...list.querySelectorAll('details')];
+  const close = d => { if (!d.open) return; d.classList.add('is-closing'); setTimeout(() => { d.open = false; d.classList.remove('is-closing'); }, 380); };
+  items.forEach(d => d.querySelector('summary').addEventListener('click', e => {
+    e.preventDefault();
+    if (d.open) { close(d); return; }
+    items.forEach(o => o !== d && close(o));
+    d.open = true; d.classList.remove('is-opening'); void d.offsetWidth; d.classList.add('is-opening');
+  }));
+})();
+
