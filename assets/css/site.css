@@ -1044,7 +1044,7 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .hub__app { position: absolute; transform: translate(-50%, -50%); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--fb-surface-raised); font-size: 14px; white-space: nowrap; transition: border-color 0.4s, color 0.4s, box-shadow 0.4s; }
 .hub__core { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: 0 0 0 8px rgb(var(--green-rgb) / 0.08), 0 12px 32px -8px rgb(var(--green-rgb) / 0.6); }
 /* one connection lights up at a time, travelling around the hub */
-.hub__line { stroke-dasharray: 100; stroke-dashoffset: 0; }
+.hub__line { stroke-dasharray: none; }
 .visual--flow svg { padding: 0; }
 .flow__labels text { font-size: 13px; }
 @media (max-width: 560px) { .hub__app { padding: 2px 8px; } .visual { height: 224px; } }
@@ -1139,3 +1139,11 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .wl-flash { animation: wl-flash 0.6s var(--ease); }
 @keyframes wl-flash { from { opacity: 0.2; transform: translateY(4px); } }
 @media (max-width: 560px) { .visual--wl { grid-template-columns: 1fr; padding: 20px; height: auto; } .wl__arrow { transform: rotate(90deg); height: 24px; } }
+/* Integrations: white marks at rest; the connected one shows its brand colour */
+.hub__tile svg { fill: #fff; transition: fill 0.4s; }
+.hub__tile { transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.hub__tile.is-on { background: var(--c); border-color: var(--c); box-shadow: 0 0 0 4px rgb(255 255 255 / 0.08), 0 10px 24px -8px var(--c); }
+.hub__tile.is-on svg { fill: #fff; }
+.hub__tile[title="Notion"].is-on { background: #fff; border-color: #fff; }
+.hub__tile[title="Notion"].is-on svg { fill: #000; }
+.hub__line.is-on { stroke: #fff; stroke-width: 1.5; }
