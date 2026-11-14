@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FrogBot: replace the SaaS you rent with an app you own</title>
+  <meta name="description" content="Replace per-seat SaaS with an app you own. $29 per app per month, unlimited users. Build it with your coding agent, or have FrogBot engineers build it for you.">
+  <meta name="theme-color" content="#050912">
+  <link rel="icon" href="brand/logo/frogbot-icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="brand/tokens.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="header" data-header>
+    <div class="header__bar">
+      <a class="header__brand" href="/" aria-label="FrogBot home">
+        <img src="brand/logo/frogbot-logo.svg" alt="" width="136" height="28">
+        <span class="header__line">The SaaS Killer</span>
+      </a>
+      <nav class="header__nav" aria-label="Main">
+        <a href="/frogbot">Product</a>
+        <a href="#replace">Solutions</a>
+        <a href="/pricing">Pricing</a>
+        <a href="https://docs.frogbot.ai">Docs</a>
+      </nav>
+      <div class="header__actions">
+        <a class="header__signin" href="https://app.frogbot.ai/login">Sign in</a>
+        <a class="btn btn--primary btn--sm" href="#build-call">Book a build call</a>
+        <button class="header__menu" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+          <span class="sr">Menu</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="menu" id="mobile-menu" aria-label="Mobile" hidden>
+      <a href="/frogbot">Product</a>
+      <a href="#replace">Solutions</a>
+      <a href="/pricing">Pricing</a>
+      <a href="https://docs.frogbot.ai">Docs</a>
+      <a href="https://app.frogbot.ai/login">Sign in</a>
+      <a class="btn btn--primary" href="#build-call">Book a build call</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__light" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <h1 class="hero__title" id="hero-title">Replace the SaaS you rent <br class="br-wide">with <span class="own">an app you own.</span></h1>
+        <p class="hero__offer">Name the tool you pay for. Your coding agent rebuilds it with FrogBot, or our engineers build it for you. <strong>$29 per app per month, unlimited users.</strong></p>
+
+        <div class="command" data-command>
+          <div class="command__bar">
+            <svg class="icon icon--spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 4.7 4.3 8.4 9 9-4.7.6-8.4 4.3-9 9-.6-4.7-4.3-8.4-9-9 4.700-.6 8.4-4.300 9-9Z"/></svg>
+            <p class="command__text" aria-hidden="true"><span data-typed>Replace our <b>Airtable</b> base for a team of <b>25</b></span><span class="command__caret"></span></p>
+            <p class="sr" aria-live="polite" data-command-sr>Example request: replace our Airtable base for a team of 25.</p>
+            <a class="btn btn--primary" href="#build-call">Book a build call</a>
+          </div>
+          <div class="command__tools" role="group" aria-label="Choose a tool to replace">
+            <span class="command__hint">Try it with</span>
+            <button class="chip" type="button" aria-pressed="true" data-tool="airtable">Airtable</button>
+            <button class="chip" type="button" aria-pressed="false" data-tool="salesforce">Salesforce</button>
+            <button class="chip" type="button" aria-pressed="false" data-tool="zendesk">Zendesk</button>
+          </div>
+          <p class="hero__self"><span>Building it yourself?</span> <a href="https://app.frogbot.ai/login">Deploy first app</a> <span>or</span> <button class="link" type="button" data-copy="Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app."><span data-copy-label>copy the agent prompt</span></button></p>
+        </div>
+
+        <div class="window" data-window>
+          <div class="window__chrome">
+            <span class="window__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="window__url" data-url>airtable.frogbot.app/admin</span>
+            <span class="window__agent"><i class="pulse" aria-hidden="true"></i><span data-agent>Agent built 4 collections, 3 roles, 2 automations</span></span>
+          </div>
+          <div class="window__body">
+            <ul class="window__side" aria-label="Collections in the example app" data-side>
+              <li class="is-on">Inventory</li><li>Suppliers</li><li>Purchase orders</li><li>Automations</li>
+            </ul>
+            <div class="window__main">
+              <div class="window__head">
+                <h2 class="window__title" data-title>Ops and Inventory Base</h2>
+                <p class="window__meta" data-meta>54,200 rows. Unlimited editors at $0 per seat.</p>
+              </div>
+              <table class="rows">
+                <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
+                <tbody data-rows>
+                  <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td></tr>
+                  <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td></tr>
+                  <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td></tr>
+                  <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <aside class="saving" aria-label="Example yearly cost">
+              <p class="saving__label">Example, <span data-seats>25 seats</span>, per year</p>
+              <div class="saving__row">
+                <p class="saving__name">Rented, <span data-tool-name>Airtable</span></p>
+                <p class="saving__rent"><s data-rent>$13,500</s></p>
+                <span class="bar bar--rent" aria-hidden="true"></span>
+              </div>
+              <div class="saving__row">
+                <p class="saving__name">Owned, FrogBot</p>
+                <p class="saving__own" data-own>$348</p>
+                <span class="bar bar--own" aria-hidden="true" data-own-bar></span>
+              </div>
+              <p class="saving__note">Pro plan, one app, unlimited users. Add-ons extra. <span data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
+            </aside>
+          </div>
+          <p class="window__example">Example data</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 80 / 20 -->
+    <section class="section split" aria-labelledby="split-title">
+      <div class="wrap">
+        <h2 class="display reveal" id="split-title">Anyone can build the first 80%. <span class="own">FrogBot covers the last 20%.</span></h2>
+        <p class="lede reveal">An AI tool gets you a demo in an afternoon. A business app also needs sign-in, permissions, an audit trail, jobs that finish, and somewhere to run. That part is already built.</p>
+        <div class="meter reveal" data-meter>
+          <div class="meter__track" aria-hidden="true"><span class="meter__demo"></span><span class="meter__real"></span></div>
+          <div class="meter__legend">
+            <div class="meter__col">
+              <h3>The demo, 80%</h3>
+              <ul><li>Screens and forms</li><li>A database table</li><li>Works on your laptop</li></ul>
+            </div>
+            <div class="meter__col meter__col--own">
+              <h3>The business app, last 20%</h3>
+              <ul><li>Roles and row-level permissions</li><li>Audit log and API keys</li><li>Background jobs and AI agents</li><li>40+ integrations</li><li>Hosting, or run it yourself</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is in the box -->
+    <section class="section box" aria-labelledby="box-title">
+      <div class="wrap">
+        <h2 class="display display--md reveal" id="box-title">Everything a real app needs, built in.</h2>
+        <div class="bento">
+
+          <article class="card card--wide reveal">
+            <div class="visual visual--views" data-views aria-hidden="true">
+              <div class="views__tabs"><span data-view-tab="table" class="is-on">Table</span><span data-view-tab="board">Board</span></div>
+              <div class="views__stage">
+                <span class="views__col" style="--c:0">To triage</span><span class="views__col" style="--c:1">In review</span><span class="views__col" style="--c:2">Done</span>
+                <div class="rec" style="--i:0;--c:0;--r:0"><b>Q4 renewal</b><i>$48,000</i></div>
+                <div class="rec" style="--i:1;--c:1;--r:0"><b>Add-on order</b><i>$18,500</i></div>
+                <div class="rec" style="--i:2;--c:2;--r:0"><b>Meridian Logistics</b><i>$84,000</i></div>
+                <div class="rec" style="--i:3;--c:0;--r:1"><b>Redwood Manufacturing</b><i>$42,000</i></div>
+                <div class="rec" style="--i:4;--c:1;--r:1"><b>Atlas Partners</b><i>$65,000</i></div>
+                <div class="rec" style="--i:5;--c:2;--r:1"><b>Vanguard Health</b><i>$140,000</i></div>
+              </div>
+            </div>
+            <div class="card__copy">
+              <h3>One database, three ways to see it</h3>
+              <p>Table, Kanban board and calendar views come with every collection. Nothing to configure.</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="visual visual--orbit" aria-hidden="true">
+              <div class="orbit orbit--outer">
+                <span style="--a:0deg">Slack</span><span style="--a:72deg">Stripe</span><span style="--a:144deg">Notion</span><span style="--a:216deg">Xero</span><span style="--a:288deg">Discord</span>
+              </div>
+              <div class="orbit orbit--inner">
+                <span style="--a:40deg">Gmail</span><span style="--a:160deg">Linear</span><span style="--a:280deg">Sheets</span>
+              </div>
+              <img class="orbit__core" src="brand/logo/frogbot-icon.svg" alt="" width="56" height="56">
+            </div>
+            <div class="card__copy">
+              <h3>40+ integrations and chat channels</h3>
+              <p>Slack, Gmail, Stripe, Google Sheets, Linear, Notion, Xero, Discord and more, already connected.</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="visual visual--flow" aria-hidden="true">
+              <svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid meet">
+                <g class="flow__lines">
+                  <path d="M40 120H120"/><path d="M120 120C150 120 150 56 190 56H250"/><path d="M120 120C150 120 150 184 190 184H250"/><path d="M250 56C290 56 290 120 320 120H360"/><path d="M250 184C290 184 290 120 320 120"/>
+                </g>
+                <path class="flow__pulse" pathLength="100" d="M40 120H120C150 120 150 56 190 56H250C290 56 290 120 320 120H360"/>
+                <path class="flow__pulse flow__pulse--b" pathLength="100" d="M40 120H120C150 120 150 184 190 184H250C290 184 290 120 320 120H360"/>
+                <g class="flow__nodes">
+                  <circle cx="40" cy="120" r="8"/><circle cx="120" cy="120" r="8"/><circle cx="250" cy="56" r="8"/><circle cx="250" cy="184" r="8"/><circle cx="320" cy="120" r="8"/><circle class="is-end" cx="360" cy="120" r="10"/>
+                </g>
+                <g class="flow__labels">
+                  <text x="44" y="94">New ticket</text><text x="124" y="152">Agent reads it</text><text x="250" y="34">Answer from docs</text><text x="250" y="214">Ask a person</text><text x="352" y="150">Resolved</text>
+                </g>
+              </svg>
+            </div>
+            <div class="card__copy">
+              <h3>AI agents and workflows that finish</h3>
+              <p>Agents act on your data. Background jobs retry until done, and wait for a person when approval is needed.</p>
+            </div>
+          </article>
+
+          <article class="card card--wide reveal">
+            <div class="visual visual--brand" data-brand aria-hidden="true">
+              <div class="brandcard">
+                <div class="brandcard__top"><span class="brandcard__mark" data-brand-mark>A</span><span class="brandcard__name" data-brand-name>Acme Client Portal</span><span class="brandcard__url" data-brand-url>portal.acme.com</span></div>
+                <div class="brandcard__body"><span class="brandcard__stat"><b>12</b>open requests</span><span class="brandcard__stat"><b>3</b>awaiting approval</span><span class="brandcard__btn">New request</span></div>
+              </div>
+              <pre class="code"><code>admin: {
+  brand: { name: <em data-brand-code-name>"Acme Client Portal"</em>,
+           accent: <em data-brand-code-accent>"#6aa8ff"</em> } }</code></pre>
+            </div>
+            <div class="card__copy">
+              <h3>Your name on it, in 3 lines</h3>
+              <p>Set your own name, logo, colour and domain. Clients see your product, not ours.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
