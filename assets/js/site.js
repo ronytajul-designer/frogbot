@@ -111,10 +111,12 @@
     $('[data-url]').textContent = t.url;
     $('[data-title]').textContent = t.title;
     $('[data-meta]').textContent = t.meta;
-    $('[data-tool-name]').textContent = t.name;
-    $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
-    $('[data-source]').textContent = `${t.name} list price $${t.perSeat} per ${t.unit}, Sept 2026.`;
-    $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
+    const setSaving = () => {
+      $('[data-tool-name]').textContent = t.name;
+      $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
+      $('[data-source]').textContent = `${t.name} list price $${t.perSeat} per ${t.unit}, Sept 2026.`;
+      $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
+    };
 
     const side = $('[data-side]');
     const body = $('[data-rows]');
@@ -128,6 +130,7 @@
       body.innerHTML = rowsHtml;
       note.textContent = t.note;
       agent.textContent = t.agent;
+      setSaving();
       count($('[data-rent]'), rent, rent);
       currentRent = rent;
       return;
@@ -148,6 +151,7 @@
     later(2500, () => {
       agent.textContent = t.agent;
       note.textContent = t.note;
+      setSaving();
       win.classList.remove('is-building');
       count($('[data-rent]'), rent, currentRent);
       currentRent = rent;

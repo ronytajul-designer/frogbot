@@ -568,3 +568,6 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
   .hero__self-q { flex-basis: 100%; }
   .command__row { gap: 16px; }
 }
+
+.saving { transition: opacity 0.4s var(--ease); }
+.is-building .saving { opacity: 0.45; }
