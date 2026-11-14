@@ -277,3 +277,22 @@
   if (toggle) new MutationObserver(() => toggle.getAttribute('aria-expanded') === 'true' ? lenis.stop() : lenis.start()).observe(toggle, { attributes: true, attributeFilter: ['aria-expanded'] });
   window.lenis = lenis;
 })();
+
+/* Scroll-linked unfold of the hero window. */
+(() => {
+  const win = document.querySelector('[data-window]');
+  if (!win || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    if (innerWidth <= 820) { win.style.setProperty('--p', 1); return; }
+    const start = 0;
+    const end = win.offsetTop - 120;
+    const p = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
+    win.style.setProperty('--p', p.toFixed(3));
+  };
+  const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  addEventListener('scroll', req, { passive: true });
+  addEventListener('resize', req);
+  update();
+})();
