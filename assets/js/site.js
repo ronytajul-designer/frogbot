@@ -323,25 +323,6 @@
     loop(views, flip, 3600);
   }
 
-  const brand = $('[data-brand]');
-  if (brand) {
-    const brands = [
-      { name: 'Acme Client Portal', url: 'portal.acme.com', accent: '#6aa8ff' },
-      { name: 'Northwind Desk', url: 'desk.northwind.co', accent: '#ffb454' },
-      { name: 'Kestrel Ops', url: 'ops.kestrel.io', accent: '#c59bff' }
-    ];
-    let i = 0;
-    loop(brand, () => {
-      const b = brands[++i % brands.length];
-      brand.style.setProperty('--accent', b.accent);
-      $('[data-brand-mark]', brand).textContent = b.name[0];
-      $('[data-brand-name]', brand).textContent = b.name;
-      $('[data-brand-url]', brand).textContent = b.url;
-      $('[data-brand-code-name]', brand).textContent = `"${b.name}"`;
-      $('[data-brand-code-accent]', brand).textContent = `"${b.accent}"`;
-      $('[data-brand-code-url]', brand).textContent = `"${b.url}"`;
-    }, 3200);
-  }
 
   /* Seat calculator */
   const calc = $('[data-calc]');
@@ -541,5 +522,40 @@
     if (e.isIntersecting && !loop) { run(); loop = setInterval(run, 8800); }
     else if (!e.isIntersecting && loop) { clearInterval(loop); loop = null; timers.forEach(clearTimeout); }
   }, { threshold: 0.3 }).observe(db);
+})();
+
+/* White label: highlight each config line, then apply it to the preview. Repeats with three brands. */
+(() => {
+  const wl = document.querySelector('[data-wl]');
+  if (!wl) return;
+  const q = x => wl.querySelector(x);
+  const brands = [
+    { name: 'Acme Portal', accent: '#6aa8ff', domain: 'portal.acme.com' },
+    { name: 'Northwind Desk', accent: '#ffb454', domain: 'desk.northwind.co' },
+    { name: 'Kestrel Ops', accent: '#c59bff', domain: 'ops.kestrel.io' },
+  ];
+  const flash = el => { el.classList.remove('wl-flash'); void el.offsetWidth; el.classList.add('wl-flash'); };
+  const apply = {
+    name: b => { q('[data-wl-name]').textContent = b.name; q('[data-wl-logo]').textContent = b.name[0]; flash(q('.wl__head')); },
+    accent: b => { wl.style.setProperty('--accent', b.accent); },
+    domain: b => { q('[data-wl-url]').textContent = b.domain; flash(q('.wl__url')); },
+  };
+  const setCode = b => { q('[data-wl-v="name"]').textContent = `"${b.name}"`; q('[data-wl-v="accent"]').textContent = `"${b.accent}"`; q('[data-wl-v="domain"]').textContent = `"${b.domain}"`; };
+  const reset = () => { wl.style.setProperty('--accent', '#3acf6a'); q('[data-wl-name]').textContent = 'FrogBot app'; q('[data-wl-logo]').textContent = 'F'; q('[data-wl-url]').textContent = 'app.frogbot.app'; };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { const b = brands[0]; setCode(b); Object.values(apply).forEach(f => f(b)); return; }
+  let n = 0, timers = [], loop = null;
+  const run = () => {
+    const b = brands[n++ % brands.length];
+    timers.forEach(clearTimeout); timers = [];
+    reset(); setCode(b);
+    ['name', 'accent', 'domain'].forEach((k, i) => {
+      timers.push(setTimeout(() => { wl.querySelectorAll('[data-wl-line]').forEach(l => l.classList.toggle('is-on', l.dataset.wlLine === k)); apply[k](b); }, 700 + i * 1100));
+    });
+    timers.push(setTimeout(() => wl.querySelectorAll('[data-wl-line]').forEach(l => l.classList.remove('is-on')), 4200));
+  };
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !loop) { run(); loop = setInterval(run, 5600); }
+    else if (!e.isIntersecting && loop) { clearInterval(loop); loop = null; timers.forEach(clearTimeout); }
+  }, { threshold: 0.3 }).observe(wl);
 })();
 

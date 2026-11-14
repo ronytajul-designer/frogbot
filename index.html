@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794678324">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794678324">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794678402">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794678402">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -358,17 +358,20 @@
 
           <article class="card reveal">
             <div class="visual visual--flow" aria-hidden="true">
-              <svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid meet">
+              <svg viewBox="0 0 440 240" preserveAspectRatio="xMidYMid meet">
                 <g class="flow__lines">
-                  <path d="M40 120H120"/><path d="M120 120C150 120 150 56 190 56H250"/><path d="M120 120C150 120 150 184 190 184H250"/><path d="M250 56C290 56 290 120 320 120H360"/><path d="M250 184C290 184 290 120 320 120"/>
+                  <path d="M50 120H150"/><path d="M150 120C190 120 190 60 230 60H270"/><path d="M150 120C190 120 190 180 230 180H270"/><path d="M270 60C320 60 330 120 380 120"/><path d="M270 180C320 180 330 120 380 120"/>
                 </g>
-                <path class="flow__pulse" pathLength="100" d="M40 120H120C150 120 150 56 190 56H250C290 56 290 120 320 120H360"/>
-                <path class="flow__pulse flow__pulse--b" pathLength="100" d="M40 120H120C150 120 150 184 190 184H250C290 184 290 120 320 120H360"/>
+                <path class="flow__pulse" pathLength="100" d="M50 120H150C190 120 190 60 230 60H270C320 60 330 120 380 120"/>
+                <path class="flow__pulse flow__pulse--b" pathLength="100" d="M50 120H150C190 120 190 180 230 180H270C320 180 330 120 380 120"/>
                 <g class="flow__nodes">
-                  <circle cx="40" cy="120" r="8"/><circle cx="120" cy="120" r="8"/><circle cx="250" cy="56" r="8"/><circle cx="250" cy="184" r="8"/><circle cx="320" cy="120" r="8"/><circle class="is-end" cx="360" cy="120" r="10"/>
+                  <circle cx="50" cy="120" r="12"/><circle cx="150" cy="120" r="12"/><circle cx="270" cy="60" r="12"/><circle cx="270" cy="180" r="12"/><circle class="is-end" cx="380" cy="120" r="14"/>
+                </g>
+                <g class="flow__num">
+                  <text x="50" y="124.500">1</text><text x="150" y="124.500">2</text><text x="270" y="64.500">3</text><text x="270" y="184.500">3</text><text x="380" y="124.500">&#10003;</text>
                 </g>
                 <g class="flow__labels">
-                  <text x="44" y="94">New ticket</text><text x="112" y="158" style="text-anchor: end">Agent reads it</text><text x="250" y="34">Answer from docs</text><text x="250" y="214">Ask a person</text><text x="352" y="150">Resolved</text>
+                  <text x="50" y="152">New ticket</text><text x="150" y="152">Agent reads it</text><text x="270" y="34">Answer from docs</text><text x="270" y="214">Or ask a person</text><text x="380" y="156">Resolved</text>
                 </g>
               </svg>
             </div>
@@ -379,14 +382,22 @@
           </article>
 
           <article class="card card--wide reveal">
-            <div class="visual visual--brand" data-brand aria-hidden="true">
-              <div class="brandcard">
-                <div class="brandcard__top"><span class="brandcard__mark" data-brand-mark>A</span><span class="brandcard__id"><span class="brandcard__name" data-brand-name>Acme Client Portal</span><span class="brandcard__url" data-brand-url>portal.acme.com</span></span></div>
-                <div class="brandcard__body"><span class="brandcard__stat"><b>12</b>open requests</span><span class="brandcard__stat"><b>3</b>awaiting approval</span><span class="brandcard__btn">New request</span></div>
+            <div class="visual visual--wl" data-wl aria-hidden="true">
+              <div class="wl__code">
+                <p class="wl__file">frogbot.config.ts</p>
+                <p class="wl__line" data-wl-line="name"><span class="wl__n">1</span>name: <em data-wl-v="name">"Acme Portal"</em></p>
+                <p class="wl__line" data-wl-line="accent"><span class="wl__n">2</span>accent: <em data-wl-v="accent">"#6aa8ff"</em><i class="wl__chip" data-wl-chip></i></p>
+                <p class="wl__line" data-wl-line="domain"><span class="wl__n">3</span>domain: <em data-wl-v="domain">"portal.acme.com"</em></p>
               </div>
-              <pre class="code"><code>name:   <em data-brand-code-name>"Acme Client Portal"</em>,
-accent: <em data-brand-code-accent>"#6aa8ff"</em>,
-domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
+              <div class="wl__arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="wl__app">
+                <div class="wl__url"><i></i><span data-wl-url>app.frogbot.app</span></div>
+                <div class="wl__body">
+                  <div class="wl__head"><span class="wl__logo" data-wl-logo>F</span><b data-wl-name>FrogBot app</b></div>
+                  <span class="wl__row"></span><span class="wl__row wl__row--s"></span>
+                  <span class="wl__btn">New request</span>
+                </div>
+              </div>
             </div>
             <div class="card__copy">
               <h3>Your name on it, in 3 lines</h3>
@@ -641,6 +652,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794678324" defer></script>
+  <script src="assets/js/site.js?v=1794678402" defer></script>
 </body>
 </html>

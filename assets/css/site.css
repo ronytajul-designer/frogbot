@@ -1108,3 +1108,34 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .hub__tile.is-on { border-color: var(--fb-green); box-shadow: 0 0 0 4px rgb(var(--green-rgb) / 0.12), 0 8px 20px -10px rgb(0 0 0 / 0.8); }
 @media (max-width: 560px) { .hub__tile { width: 36px; height: 36px; margin: -18px 0 0 -18px; } .hub__tile svg { width: 18px; height: 18px; } .db__card { font-size: 12px; } .db__tabs span:nth-child(3) { display: none; } }
 @media (max-width: 560px) { .db__board { grid-template-columns: 1fr 1fr; } .db__board .db__col:first-child { display: none; } .db__head { font-size: 12px; } }
+
+/* Agents flow v2: numbered nodes, each label under its own node */
+.flow__nodes circle { fill: var(--fb-surface-raised); stroke: var(--line-strong); stroke-width: 1.5; }
+.flow__nodes .is-end { fill: var(--fb-green); stroke: none; }
+.flow__num text { fill: var(--ink-2); font: 600 12px var(--font-text); text-anchor: middle; }
+.flow__num text:last-child { fill: var(--fb-green-ink); font-size: 14px; }
+.flow__labels text { fill: var(--ink-2); font: 500 13px var(--font-text); text-anchor: middle; }
+
+/* White label v2: three config lines rebrand a live preview, one line at a time */
+.visual--wl { --accent: #3acf6a; display: grid; grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr); align-items: center; gap: 12px; padding: 28px; }
+.wl__code { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: #050912; font: 400 14px/28px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-2); }
+.wl__file { margin-bottom: 6px; font: 600 13px var(--font-text); color: var(--ink-3); }
+.wl__line { display: flex; align-items: center; gap: 6px; margin: 0 -8px; padding: 0 8px; border-radius: 6px; white-space: nowrap; transition: background-color 0.3s; }
+.wl__line em { font-style: normal; color: var(--fb-green); }
+.wl__line.is-on { background: rgb(var(--green-rgb) / 0.12); }
+.wl__n { width: 14px; color: var(--ink-3); font-size: 12px; }
+.wl__chip { width: 12px; height: 12px; border-radius: 3px; background: var(--accent); transition: background-color 0.5s; }
+.wl__arrow { color: var(--ink-3); display: grid; place-items: center; }
+.wl__app { border-radius: 14px; border: 1px solid var(--line-strong); background: var(--fb-surface-raised); overflow: hidden; }
+.wl__url { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); font: 400 13px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-3); }
+.wl__url i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); transition: background-color 0.5s; }
+.wl__body { display: grid; gap: 10px; padding: 14px; }
+.wl__head { display: flex; align-items: center; gap: 10px; }
+.wl__logo { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #050912; font: 700 14px var(--font-display); transition: background-color 0.5s; }
+.wl__head b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wl__row { height: 8px; border-radius: 999px; background: var(--fb-surface-elevated); }
+.wl__row--s { width: 60%; }
+.wl__btn { display: grid; place-items: center; height: 32px; border-radius: 8px; background: var(--accent); color: #050912; font-size: 13px; font-weight: 600; transition: background-color 0.5s; }
+.wl-flash { animation: wl-flash 0.6s var(--ease); }
+@keyframes wl-flash { from { opacity: 0.2; transform: translateY(4px); } }
+@media (max-width: 560px) { .visual--wl { grid-template-columns: 1fr; padding: 20px; height: auto; } .wl__arrow { transform: rotate(90deg); height: 24px; } }
