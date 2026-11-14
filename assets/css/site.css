@@ -995,7 +995,8 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .flow__step h3 { margin-top: 16px; font: 600 22px/30px var(--font-display); letter-spacing: -0.02em; }
 .flow__step > p:last-child { margin-top: 8px; color: var(--ink-2); max-width: 36ch; }
 .fv-prompt { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 1px solid rgb(var(--green-rgb) / 0.4); background: rgb(var(--green-rgb) / 0.06); font-size: 14px; color: var(--fb-ink); }
-.fv-type { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--fb-green); }
+.fv-type { position: relative; display: inline-block; overflow: hidden; white-space: nowrap; padding-right: 4px; }
+.fv-type::after { content: ""; position: absolute; right: 0; top: 2px; bottom: 2px; width: 2px; background: var(--fb-green); transition: opacity 0s 1.6s; }
 .fv-code, .fv-term { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #050912; font: 400 14px/22px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-2); white-space: nowrap; }
 .fv-term { gap: 6px; padding: 16px; }
 .fv-dim { color: var(--ink-3); }
@@ -1017,9 +1018,10 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .flow__step:nth-child(2) { --s-base: 2.3s; }
 .flow__step:nth-child(3) { --s-base: 3.3s; }
 @keyframes fv-in { to { opacity: 1; transform: none; } }
-.js .flow.is-in .fv-type { border-right-color: transparent; transition: border-color 0s 1.6s; }
+.js .flow.is-in .fv-type::after { opacity: 0; }
 @media (max-width: 960px) { .flow { grid-template-columns: 1fr; gap: 40px; } .flow::before { display: none; } .flow__visual { height: auto; min-height: 176px; } }
 @media (prefers-reduced-motion: reduce) {
-  .js .flow .fv-type { max-width: none; animation: none; border-right-color: transparent; }
+  .js .flow .fv-type { max-width: none; animation: none; }
+  .fv-type::after { display: none; }
   .js .flow .fv-line, .js .flow .fv-stack li { opacity: 1; transform: none; animation: none; }
 }
