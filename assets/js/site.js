@@ -14,6 +14,8 @@
       name: 'Airtable', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
       title: 'Ops and Inventory Base', meta: '54,200 rows. Unlimited editors at $0 per seat.',
       agent: 'Agent built 4 collections, 3 roles, 2 automations',
+      steps: ['Reading your Airtable base', 'Creating 4 collections', 'Setting 3 roles', 'Wiring 2 automations'],
+      note: 'Agent matched 212 of 215 supplier rows from your CSV import. 3 rows held for your review.',
       side: ['Inventory', 'Suppliers', 'Purchase orders', 'Automations'],
       rows: [
         ['INV-9042 Apex Industrial', '$14,820, net 30', 'ok', 'Synced'],
@@ -26,6 +28,8 @@
       name: 'Salesforce', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
       title: 'Revenue CRM', meta: 'The 5 fields reps use. Gmail and Slack connected.',
       agent: 'Agent built 5 collections, 4 roles, 3 automations',
+      steps: ['Reading your Salesforce export', 'Creating 5 collections', 'Setting 4 roles', 'Wiring 3 automations'],
+      note: 'Follow-up agent drafted 14 check-in emails from call notes. 2 deals held for rep review.',
       side: ['Deals', 'Accounts', 'Contacts', 'Follow-ups'],
       rows: [
         ['Meridian Logistics', '$84,000, security review', 'ok', 'Active deal'],
@@ -38,6 +42,8 @@
       name: 'Zendesk', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
       title: 'Support Inbox', meta: 'Unlimited support agents. Answers drawn from your docs.',
       agent: 'Agent built 3 collections, 3 roles, 4 automations',
+      steps: ['Reading your Zendesk tickets', 'Creating 3 collections', 'Setting 3 roles', 'Wiring 4 automations'],
+      note: 'Triage agent answered 64 routine tickets from your docs. 2 billing questions held for a person.',
       side: ['Tickets', 'Customers', 'Help articles', 'Automations'],
       rows: [
         ['#4812 Permission mapping question', 'Beacon Financial', 'ok', 'Auto-resolved'],
@@ -98,35 +104,54 @@
   function showTool(key, animate = true) {
     const t = TOOLS[key];
     const rent = t.perSeat * SEATS * 12;
+    const run = typingRun + 1;
     $$('[data-tool]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tool === key)));
     type(sentence(t));
     srText.textContent = `Example request: replace our ${t.name} ${t.noun} for a team of ${SEATS}. Rented ${money(rent)} a year, owned ${money(OWN_PER_YEAR)} a year.`;
     $('[data-url]').textContent = t.url;
-    $('[data-agent]').textContent = t.agent;
     $('[data-title]').textContent = t.title;
     $('[data-meta]').textContent = t.meta;
-    $('[data-side]').innerHTML = t.side.map((s, i) => `<li${i === 0 ? ' class="is-on"' : ''}>${s}</li>`).join('');
     $('[data-tool-name]').textContent = t.name;
     $('[data-seats]').textContent = `${SEATS} ${t.unit}s`;
     $('[data-source]').textContent = `${t.name} list price $${t.perSeat} per ${t.unit}, Sept 2026.`;
-    count($('[data-rent]'), rent, currentRent);
-    currentRent = rent;
     $('[data-own-bar]').style.width = Math.max(0.8, (OWN_PER_YEAR / rent) * 100) + '%';
 
+    const side = $('[data-side]');
     const body = $('[data-rows]');
-    const html = t.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="tag tag--${r[2]}">${r[3]}</span></td></tr>`).join('');
-    if (!animate || reduce) { body.innerHTML = html; return; }
-    const run = typingRun;
+    const note = $('[data-note]');
+    const agent = $('[data-agent]');
     const win = $('[data-window]');
-    win.classList.remove('is-busy');
-    void win.offsetWidth;
-    win.classList.add('is-busy');
+    side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''}>${x}</li>`).join('');
+    const rowsHtml = t.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="tag tag--${r[2]}">${r[3]}</span></td></tr>`).join('');
+
+    if (!animate || reduce) {
+      body.innerHTML = rowsHtml;
+      note.textContent = t.note;
+      agent.textContent = t.agent;
+      count($('[data-rent]'), rent, rent);
+      currentRent = rent;
+      return;
+    }
+
+    // Staged build, about 2.8 seconds: steps narrate, collections arrive, rows resolve, then the bill recounts.
+    const later = (ms, fn) => setTimeout(() => { if (run === typingRun) fn(); }, ms);
+    win.classList.add('is-building');
+    win.classList.remove('is-busy'); void win.offsetWidth; win.classList.add('is-busy');
+    $$('li', side).forEach(li => li.classList.add('is-wait'));
     $$('tr', body).forEach(tr => tr.classList.add('is-loading'));
-    setTimeout(() => {
-      if (run !== typingRun) return;
-      body.innerHTML = html;
-      $$('tr', body).forEach((tr, i) => { tr.classList.add('is-loading'); setTimeout(() => tr.classList.remove('is-loading'), 180 + i * 140); });
-    }, 520);
+    t.steps.forEach((step, i) => later(i * 560, () => { agent.textContent = step + '…'; }));
+    $$('li', side).forEach((li, i) => later(400 + i * 360, () => li.classList.remove('is-wait')));
+    later(900, () => {
+      body.innerHTML = rowsHtml;
+      $$('tr', body).forEach((tr, i) => { tr.classList.add('is-loading'); later(300 + i * 380, () => tr.classList.remove('is-loading')); });
+    });
+    later(2500, () => {
+      agent.textContent = t.agent;
+      note.textContent = t.note;
+      win.classList.remove('is-building');
+      count($('[data-rent]'), rent, currentRent);
+      currentRent = rent;
+    });
   }
 
   if (typed) {
@@ -186,6 +211,7 @@
       $('[data-brand-url]', brand).textContent = b.url;
       $('[data-brand-code-name]', brand).textContent = `"${b.name}"`;
       $('[data-brand-code-accent]', brand).textContent = `"${b.accent}"`;
+      $('[data-brand-code-url]', brand).textContent = `"${b.url}"`;
     }, 3200);
   }
 

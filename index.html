@@ -70,13 +70,15 @@
             <p class="sr" aria-live="polite" data-command-sr>Example request: replace our Airtable base for a team of 25.</p>
             <a class="btn btn--primary" href="#build-call">Book a build call</a>
           </div>
+          <div class="command__row">
           <div class="command__tools" role="group" aria-label="Choose a tool to replace">
             <span class="command__hint">Try it with</span>
             <button class="chip" type="button" aria-pressed="true" data-tool="airtable">Airtable</button>
             <button class="chip" type="button" aria-pressed="false" data-tool="salesforce">Salesforce</button>
             <button class="chip" type="button" aria-pressed="false" data-tool="zendesk">Zendesk</button>
           </div>
-          <p class="hero__self"><span>Building it yourself?</span> <a href="https://app.frogbot.ai/login">Deploy first app</a> <span>or</span> <button class="link" type="button" data-copy="Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app."><span data-copy-label>copy the agent prompt</span></button></p>
+          <p class="hero__self"><span class="hero__self-q">Building it yourself?</span> <a href="https://app.frogbot.ai/login">Deploy first app</a> <span>or</span> <button class="link" type="button" data-copy="Install the frogbot skill from github.com/frogbotai/frogbot and help me rebuild a SaaS app."><span data-copy-label>copy the agent prompt</span></button></p>
+          </div>
         </div>
 
         <div class="window" data-window>
@@ -94,6 +96,7 @@
                 <h2 class="window__title" data-title>Ops and Inventory Base</h2>
                 <p class="window__meta" data-meta>54,200 rows. Unlimited editors at $0 per seat.</p>
               </div>
+              <p class="window__note"><svg class="icon icon--spark icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 4.7 4.3 8.4 9 9-4.7.6-8.4 4.3-9 9-.6-4.7-4.3-8.4-9-9 4.7-.6 8.4-4.3 9-9Z"/></svg><span data-note>Agent matched 212 of 215 supplier rows from your CSV import. 3 rows held for your review.</span></p>
               <table class="rows">
                 <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
                 <tbody data-rows>
@@ -141,6 +144,51 @@
               <ul><li>Roles and row-level permissions</li><li>Audit log and API keys</li><li>Background jobs and AI agents</li><li>40+ integrations</li><li>Hosting, or run it yourself</li></ul>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section how" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 class="display display--md reveal" id="how-title">Real building blocks, already in place.</h2>
+        <p class="lede reveal">You are not generating thousands of lines of throwaway code. You are configuring an app engine you own.</p>
+        <div class="steps reveal" data-draw>
+          <div class="steps__rail" aria-hidden="true"><span class="steps__light"></span></div>
+          <article class="step">
+            <span class="step__node" aria-hidden="true"></span>
+            <h3>Start from a prompt or your data</h3>
+            <p>Point your coding agent at your workflow or a CSV file. Or hand your current tools to our engineers.</p>
+            <details class="peek">
+              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the config</summary>
+              <pre class="code"><code>export default buildConfig({
+  collections: [Deals, Contacts],
+  agents: [dealCloser],
+});</code></pre>
+            </details>
+          </article>
+          <article class="step">
+            <span class="step__node" aria-hidden="true"></span>
+            <h3>The hard parts are already built</h3>
+            <p>Admin tables, sign-in, permissions, board views and background jobs work before anyone designs a custom screen.</p>
+            <ul class="ticks">
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Admin screens</li>
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Sign-in and roles</li>
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>An API for your other tools</li>
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>End users at $0 per seat</li>
+            </ul>
+          </article>
+          <article class="step">
+            <span class="step__node" aria-hidden="true"></span>
+            <h3>Run it on Dojo, or have us build it</h3>
+            <p>Deploy it yourself for $29 per month, flat. Or have our engineers build it and migrate your data.</p>
+            <details class="peek">
+              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the deploy command</summary>
+              <pre class="code"><code>$ npx frogbot share --data
+Database and 50 GB storage provisioned
+Live: https://crm.frogbot.app</code></pre>
+            </details>
+          </article>
         </div>
       </div>
     </section>
@@ -198,7 +246,7 @@
                   <circle cx="40" cy="120" r="8"/><circle cx="120" cy="120" r="8"/><circle cx="250" cy="56" r="8"/><circle cx="250" cy="184" r="8"/><circle cx="320" cy="120" r="8"/><circle class="is-end" cx="360" cy="120" r="10"/>
                 </g>
                 <g class="flow__labels">
-                  <text x="44" y="94">New ticket</text><text x="124" y="152">Agent reads it</text><text x="250" y="34">Answer from docs</text><text x="250" y="214">Ask a person</text><text x="352" y="150">Resolved</text>
+                  <text x="44" y="94">New ticket</text><text x="112" y="158" style="text-anchor: end">Agent reads it</text><text x="250" y="34">Answer from docs</text><text x="250" y="214">Ask a person</text><text x="352" y="150">Resolved</text>
                 </g>
               </svg>
             </div>
@@ -211,12 +259,12 @@
           <article class="card card--wide reveal">
             <div class="visual visual--brand" data-brand aria-hidden="true">
               <div class="brandcard">
-                <div class="brandcard__top"><span class="brandcard__mark" data-brand-mark>A</span><span class="brandcard__name" data-brand-name>Acme Client Portal</span><span class="brandcard__url" data-brand-url>portal.acme.com</span></div>
+                <div class="brandcard__top"><span class="brandcard__mark" data-brand-mark>A</span><span class="brandcard__id"><span class="brandcard__name" data-brand-name>Acme Client Portal</span><span class="brandcard__url" data-brand-url>portal.acme.com</span></span></div>
                 <div class="brandcard__body"><span class="brandcard__stat"><b>12</b>open requests</span><span class="brandcard__stat"><b>3</b>awaiting approval</span><span class="brandcard__btn">New request</span></div>
               </div>
-              <pre class="code"><code>admin: {
-  brand: { name: <em data-brand-code-name>"Acme Client Portal"</em>,
-           accent: <em data-brand-code-accent>"#6aa8ff"</em> } }</code></pre>
+              <pre class="code"><code>name:   <em data-brand-code-name>"Acme Client Portal"</em>,
+accent: <em data-brand-code-accent>"#6aa8ff"</em>,
+domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
             </div>
             <div class="card__copy">
               <h3>Your name on it, in 3 lines</h3>
@@ -228,51 +276,6 @@
       </div>
     </section>
 
-
-    <!-- How it works -->
-    <section class="section how" id="how" aria-labelledby="how-title">
-      <div class="wrap">
-        <h2 class="display display--md reveal" id="how-title">Real building blocks, already in place.</h2>
-        <p class="lede reveal">You are not generating thousands of lines of throwaway code. You are configuring an app engine you own.</p>
-        <div class="steps reveal" data-draw>
-          <div class="steps__rail" aria-hidden="true"><span class="steps__light"></span></div>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>Start from a prompt or your data</h3>
-            <p>Point your coding agent at your workflow or a CSV file. Or hand your current tools to our engineers.</p>
-            <details class="peek">
-              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the config</summary>
-              <pre class="code"><code>export default buildConfig({
-  collections: [Deals, Contacts],
-  agents: [dealCloser],
-});</code></pre>
-            </details>
-          </article>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>The hard parts are already built</h3>
-            <p>Admin tables, sign-in, permissions, board views and background jobs work before anyone designs a custom screen.</p>
-            <ul class="ticks">
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Admin screens</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Sign-in and roles</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>An API for your other tools</li>
-              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>End users at $0 per seat</li>
-            </ul>
-          </article>
-          <article class="step">
-            <span class="step__node" aria-hidden="true"></span>
-            <h3>Run it on Dojo, or have us build it</h3>
-            <p>Deploy it yourself for $29 per month, flat. Or have our engineers build it and migrate your data.</p>
-            <details class="peek">
-              <summary><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"/></svg>See the deploy command</summary>
-              <pre class="code"><code>$ npx frogbot share --data
-Database and 50 GB storage provisioned
-Live: https://crm.frogbot.app</code></pre>
-            </details>
-          </article>
-        </div>
-      </div>
-    </section>
 
     <!-- What you can replace -->
     <section class="section replace" id="replace" aria-labelledby="replace-title">
@@ -316,7 +319,8 @@ Live: https://crm.frogbot.app</code></pre>
           </li>
         </ol>
         <div class="built__cta reveal">
-          <a class="btn btn--primary btn--lg" href="/build-call">Book a build call</a>
+          <!-- PENDING: the build-call form does not exist yet. Every "Book a build call" on this page lands on this section. Replace this href with the form URL when it ships. Never the login page. -->
+          <a class="btn btn--primary btn--lg" href="#build-call" data-pending="build-call-form">Book a build call</a>
           <ul class="facts">
             <li>Fixed price</li><li>$0 per seat</li><li>You own the code</li>
           </ul>
@@ -428,7 +432,7 @@ Live: https://crm.frogbot.app</code></pre>
               <p class="plan__for">Built and run for you</p>
               <p class="plan__price"><b>Custom</b> fixed price per build</p>
               <p class="plan__what">Our engineers build, migrate and run your app.</p>
-              <a class="btn btn--primary" href="/build-call">Book a build call</a>
+              <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
             </div>
             <ul class="ticks ticks--two">
               <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Working prototype in 48 hours</li>
@@ -466,6 +470,10 @@ Live: https://crm.frogbot.app</code></pre>
             <p>You keep your code and your data. Every FrogBot app is a standard MIT-licensed TypeScript repository. Clone it and export your database at any time.</p>
           </details>
           <details class="qa">
+            <summary>Why can I not type my own request at the top of this page?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+            <p>The bar at the top is a demonstration. FrogBot does not build inside a browser sandbox. Your coding agent, such as Claude Code, Cursor or Codex, builds with FrogBot on your own machine. Or our engineers build it for you.</p>
+          </details>
+          <details class="qa">
             <summary>How is FrogBot different from Lovable, Bolt or Retool?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary>
             <p>Code generators leave you with a large codebase to maintain. Hosted builders keep the app on their platform and charge per user. FrogBot is an open-source framework: a short config file, and an app you own outright.</p>
           </details>
@@ -480,7 +488,7 @@ Live: https://crm.frogbot.app</code></pre>
         <h2 class="display reveal" id="close-title">Build it yourself, or have us do it.</h2>
         <p class="lede reveal">Deploy your first app on Dojo for $29 per month, flat. Or get a working prototype built on your real data in 48 hours.</p>
         <div class="close__cta reveal">
-          <a class="btn btn--primary btn--lg" href="/build-call">Book a build call</a>
+          <a class="btn btn--primary btn--lg" href="#build-call" data-pending="build-call-form">Book a build call</a>
           <a class="btn btn--ghost btn--lg" href="https://app.frogbot.ai/login">Deploy first app</a>
         </div>
       </div>
