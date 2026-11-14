@@ -1219,3 +1219,8 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 @media (max-width: 560px) { .uc__body { height: auto; } }
 /* Header action: hidden only in the full-width bar at the very top, always shown once the bar becomes a pill */
 .js .header.is-scrolled .header__actions .btn { display: inline-flex; opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
+/* Use case pills: a fill shows time until the next one */
+.uc__tabs button { position: relative; overflow: hidden; isolation: isolate; }
+.uc__tabs button::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgb(var(--green-rgb) / 0.22); transform: scaleX(0); transform-origin: left; }
+.uc__tabs button.is-timing::after { animation: uc-timer 5s linear forwards; }
+@keyframes uc-timer { to { transform: scaleX(1); } }

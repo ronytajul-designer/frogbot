@@ -616,3 +616,21 @@
   pick(UC[0]);
 })();
 
+
+/* Use cases autoplay: advance every 5s while on screen; pause on hover or focus; a click restarts the timer. */
+(() => {
+  const wrap = document.querySelector('.uc');
+  const tabs = [...document.querySelectorAll('[data-uc]')];
+  if (!wrap || !tabs.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const DUR = 5000;
+  let timer = null, visible = false, paused = false;
+  const current = () => tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+  const restartBar = () => { tabs.forEach(t => t.classList.remove('is-timing')); const t = tabs[current()]; void t.offsetWidth; if (visible && !paused) t.classList.add('is-timing'); };
+  const schedule = () => { clearTimeout(timer); restartBar(); if (visible && !paused) timer = setTimeout(() => { tabs[(current() + 1) % tabs.length].click(); }, DUR); };
+  tabs.forEach(t => t.addEventListener('click', () => setTimeout(schedule, 0)));
+  wrap.addEventListener('mouseenter', () => { paused = true; schedule(); });
+  wrap.addEventListener('mouseleave', () => { paused = false; schedule(); });
+  wrap.addEventListener('focusin', () => { paused = true; schedule(); });
+  wrap.addEventListener('focusout', e => { if (!wrap.contains(e.relatedTarget)) { paused = false; schedule(); } });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; schedule(); }, { threshold: 0.4 }).observe(wrap);
+})();
