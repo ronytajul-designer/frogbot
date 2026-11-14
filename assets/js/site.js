@@ -456,3 +456,33 @@
   addEventListener('scroll', sync, { passive: true });
   sync();
 })();
+
+/* Mega menu: opens on hover (pointer) or click, closes on Escape, outside click or leaving. */
+(() => {
+  const items = [...document.querySelectorAll('[data-mm]')];
+  if (!items.length) return;
+  const set = (item, open) => {
+    const btn = item.querySelector('.nav__btn'), panel = item.querySelector('.mm');
+    btn.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  };
+  const closeAll = except => items.forEach(i => { if (i !== except) set(i, false); });
+  const hover = matchMedia('(hover: hover)').matches;
+  items.forEach(item => {
+    const btn = item.querySelector('.nav__btn');
+    let timer;
+    btn.addEventListener('click', () => { const open = btn.getAttribute('aria-expanded') !== 'true'; closeAll(item); set(item, open); });
+    if (hover) {
+      item.addEventListener('mouseenter', () => { clearTimeout(timer); closeAll(item); set(item, true); });
+      item.addEventListener('mouseleave', () => { timer = setTimeout(() => set(item, false), 160); });
+    }
+    item.addEventListener('focusout', e => { if (!item.contains(e.relatedTarget)) set(item, false); });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    const open = items.find(i => i.querySelector('.nav__btn').getAttribute('aria-expanded') === 'true');
+    if (open) { set(open, false); open.querySelector('.nav__btn').focus(); }
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('[data-mm]')) closeAll(); });
+})();
+

@@ -879,3 +879,53 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
   .header.is-scrolled .header__bar { padding: 0 6px 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .header, .header__bar { transition: none; } }
+
+/* Header v3: centred mega menu, Sign in as an outlined control */
+.header__bar { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; }
+.header__nav { margin: 0; justify-self: center; }
+.header__actions { justify-self: end; margin: 0; }
+.nav { display: flex; gap: 4px; }
+.nav__item { position: relative; }
+.nav__btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--ink-2); font-size: 16px; font-weight: 500; text-decoration: none; transition: color 0.2s, background-color 0.2s; }
+.nav__btn:hover, .nav__btn[aria-expanded="true"] { color: var(--fb-ink); background: rgb(255 255 255 / 0.06); }
+.nav__chev { transition: transform 0.25s var(--ease); color: var(--ink-3); }
+.nav__btn[aria-expanded="true"] .nav__chev { transform: rotate(180deg); }
+.mm {
+  position: absolute; top: calc(100% + 14px); left: 50%; z-index: 60; transform: translateX(-50%);
+  padding: 12px; border: 1px solid var(--line-strong); border-radius: 20px;
+  background: rgb(14 20 34 / 0.96); backdrop-filter: blur(20px);
+  box-shadow: 0 32px 64px -24px rgb(0 0 0 / 0.9), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  animation: mm-in 0.25s var(--ease);
+}
+.mm::before { content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
+@keyframes mm-in { from { opacity: 0; transform: translate(-50%, -6px); } }
+.mm[hidden] { display: none; }
+.mm--sm { width: 400px; }
+.mm--lg { width: 820px; display: grid; grid-template-columns: 1fr 1fr; }
+.mm--lg .mm__col + .mm__col { border-left: 1px solid var(--line); padding-left: 12px; margin-left: 12px; }
+.mm__head { padding: 8px 12px; font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.mm__list { display: grid; gap: 2px; }
+.mm__item { display: flex; gap: 14px; padding: 12px; border-radius: 14px; text-decoration: none; transition: background-color 0.2s; }
+.mm__item:hover { background: rgb(255 255 255 / 0.05); }
+.mm__icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgb(var(--green-rgb) / 0.35); background: rgb(var(--green-rgb) / 0.08); color: var(--fb-green); }
+.mm__item--rep .mm__icon { border-color: rgb(255 138 138 / 0.35); background: rgb(255 138 138 / 0.08); color: var(--rent); }
+.mm__body { display: grid; gap: 2px; min-width: 0; }
+.mm__title { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-weight: 600; color: var(--fb-ink); }
+.mm__text { font-size: 14px; line-height: 20px; color: var(--ink-3); }
+.mm__badge { padding: 0 8px; border-radius: 999px; background: rgb(var(--green-rgb) / 0.14); color: var(--fb-green); font-size: 14px; font-weight: 600; line-height: 22px; }
+.header__signin { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: rgb(255 255 255 / 0.03); color: var(--fb-ink); font-size: 14px; font-weight: 600; }
+.header__signin:hover { border-color: rgb(var(--green-rgb) / 0.6); background: rgb(var(--green-rgb) / 0.08); }
+.header__signin .icon { color: var(--ink-2); }
+.menu { max-height: calc(100vh - 96px); overflow-y: auto; }
+.menu__group { border-bottom: 1px solid var(--line); }
+.menu__group summary { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 12px; list-style: none; cursor: pointer; color: var(--fb-ink); font-weight: 600; }
+.menu__group summary::-webkit-details-marker { display: none; }
+.menu__group[open] .nav__chev { transform: rotate(180deg); }
+.menu__group .mm__list { padding-bottom: 12px; }
+.menu__actions { display: grid; gap: 8px; margin-top: 12px; }
+.menu__actions .btn { margin: 0; }
+@media (max-width: 1080px) { .mm--lg { width: 720px; } }
+@media (max-width: 960px) { .header__bar { grid-template-columns: 1fr auto; } .header__nav, .header__signin { display: none; } .header__menu { display: inline-flex; } }
+.header .mm__item { display: flex; align-items: flex-start; min-height: 0; padding: 12px; border-radius: 14px; color: inherit; background: none; }
+.header .mm__item:hover { background: rgb(255 255 255 / 0.05); color: inherit; }
+.mm { background: #0e1422; }

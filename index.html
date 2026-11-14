@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794672748">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794672748">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794672988">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794672988">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -29,13 +29,56 @@
         <img src="brand/logo/frogbot-logo.svg" alt="" width="136" height="28">
       </a>
       <nav class="header__nav" aria-label="Main">
-        <a href="/frogbot">Product</a>
-        <a href="#replace">Solutions</a>
-        <a href="/pricing">Pricing</a>
-        <a href="https://docs.frogbot.ai">Docs</a>
+        <ul class="nav">
+          <li class="nav__item" data-mm>
+            <button type="button" class="nav__btn" aria-expanded="false" aria-controls="mm-product">Product<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="mm mm--sm" id="mm-product" hidden>
+              <ul class="mm__list">
+              <li><a class="mm__item" href="/frogbot"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM16.5 13v7M13 16.5h7"/></svg></span><span class="mm__body"><span class="mm__title">FrogBot<span class="mm__badge">Open source, MIT</span></span><span class="mm__text">Full-stack framework with database, admin screens, board views, agents, jobs and 40+ integrations.</span></span></a></li>
+              <li><a class="mm__item" href="/dojo"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.500 4.500 0 0 1-1 9H7ZM12 11v6M9.500 13.500 12 11l2.500 2.500"/></svg></span><span class="mm__body"><span class="mm__title">Dojo<span class="mm__badge">$29 per app per month</span></span><span class="mm__text">One-command cloud deploy with database, SSL and unlimited users.</span></span></a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav__item" data-mm>
+            <button type="button" class="nav__btn" aria-expanded="false" aria-controls="mm-solutions">Solutions<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="mm mm--lg" id="mm-solutions" hidden>
+              <div class="mm__col">
+                <p class="mm__head">By team</p>
+                <ul class="mm__list">
+              <li><a class="mm__item" href="/solutions/internal-builders"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.400L4 17l3 3 5.3-5.3a4 4 0 0 0 5.400-5.400l-2.400 2.400-2.600-.6-.6-2.600 2.600-2.200Z"/></svg></span><span class="mm__body"><span class="mm__title">Internal builders</span><span class="mm__text">Replace bloated SaaS renewals in a weekend.</span></span></a></li>
+              <li><a class="mm__item" href="/solutions/agencies"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 13l9 5 9-5"/></svg></span><span class="mm__body"><span class="mm__title">Agencies and consultants</span><span class="mm__text">Ship client portals under your brand, with $0 seat fees.</span></span></a></li>
+              <li><a class="mm__item" href="/solutions/enterprise-it"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.500-3 7.500-7 9-4-1.500-7-4.500-7-9V6l7-3Z"/></svg></span><span class="mm__body"><span class="mm__title">Enterprise IT</span><span class="mm__text">Govern AI apps with SSO, SCIM, audit logs and your own cloud.</span></span></a></li>
+              <li><a class="mm__item" href="/solutions/founders"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19l3-1 8-8a4 4 0 0 0-6-6L2 12l-1 3M14 6l4 4M9 15l-3 3"/></svg></span><span class="mm__body"><span class="mm__title">Founders</span><span class="mm__text">Replace several SaaS bills with one app you own.</span></span></a></li>
+              <li><a class="mm__item" href="/solutions/operators"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l2-8h12l2 8v6H4v-6ZM4 13h5l1 2h4l1-2h5"/></svg></span><span class="mm__body"><span class="mm__title">Operators</span><span class="mm__text">Drop in the file you dread and automate the chores, with review.</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mm__col">
+                <p class="mm__head">Replace legacy SaaS</p>
+                <ul class="mm__list">
+              <li><a class="mm__item mm__item--rep" href="/solutions/kill-airtable"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M10 10v9"/></svg></span><span class="mm__body"><span class="mm__title">Replace Airtable<span class="mm__badge">Save $13,500/yr</span></span><span class="mm__text">Move linked grids, boards and forms to a real database.</span></span></a></li>
+              <li><a class="mm__item mm__item--rep" href="/solutions/kill-salesforce-hubspot"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.500-7-10a4 4 0 0 1 7-2.500A4 4 0 0 1 19 11c0 5.500-7 10-7 10Z"/></svg></span><span class="mm__body"><span class="mm__title">Replace Salesforce and HubSpot<span class="mm__badge">Save $55k to $105k/yr</span></span><span class="mm__text">Move deal pipelines, Gmail sync and AI agents.</span></span></a></li>
+              <li><a class="mm__item mm__item--rep" href="/solutions/kill-zendesk"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM9.500 9a2.500 2.500 0 1 1 3.500 2.300c-.6.300-1 .9-1 1.600V14M12 17h.01"/></svg></span><span class="mm__body"><span class="mm__title">Replace Zendesk<span class="mm__badge">Save $27,600/yr</span></span><span class="mm__text">Move ticket queues, SLAs and answers from your docs.</span></span></a></li>
+              <li><a class="mm__item mm__item--rep" href="/solutions/kill-jira-asana"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v11h-4z"/></svg></span><span class="mm__body"><span class="mm__title">Replace Jira and Asana<span class="mm__badge">Save $9k to $18k/yr</span></span><span class="mm__text">Move sprint boards, specs and approvals.</span></span></a></li>
+              <li><a class="mm__item mm__item--rep" href="/solutions/kill-retool"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg></span><span class="mm__body"><span class="mm__title">Replace Retool<span class="mm__badge">$0 per viewer</span></span><span class="mm__text">Move SQL tables, actions and SSO to TypeScript you own.</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav__item" data-mm>
+            <button type="button" class="nav__btn" aria-expanded="false" aria-controls="mm-resources">Resources<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="mm mm--sm" id="mm-resources" hidden>
+              <ul class="mm__list">
+              <li><a class="mm__item" href="https://docs.frogbot.ai"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5ZM19 17H6"/></svg></span><span class="mm__body"><span class="mm__title">Docs</span><span class="mm__text">Config reference, CLI commands and agent skill setup.</span></span></a></li>
+              <li><a class="mm__item" href="/guides"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM15.500 8.500l-2 5-5 2 2-5 5-2Z"/></svg></span><span class="mm__body"><span class="mm__title">Guides</span><span class="mm__text">Step-by-step blueprints for replacing SaaS tools with AI.</span></span></a></li>
+              <li><a class="mm__item" href="/blog"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6zM9 12h6M9 16h6M9 8h3"/></svg></span><span class="mm__body"><span class="mm__title">Blog</span><span class="mm__text">Engineering deep dives, launches and product updates.</span></span></a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav__item"><a class="nav__btn" href="/pricing">Pricing</a></li>
+        </ul>
       </nav>
       <div class="header__actions">
-        <a class="header__signin" href="https://app.frogbot.ai/login">Sign in</a>
+        <a class="header__signin" href="https://app.frogbot.ai/login"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 20c1.500-3.500 4.500-5 8-5s6.500 1.500 8 5"/></svg>Sign in</a>
         <a class="btn btn--primary btn--sm" href="#build-call" data-pending="build-call-form">Book a build call</a>
         <button class="header__menu" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
           <span class="sr">Menu</span>
@@ -44,12 +87,14 @@
       </div>
     </div>
     <nav class="menu" id="mobile-menu" aria-label="Mobile" hidden>
-      <a href="/frogbot">Product</a>
-      <a href="#replace">Solutions</a>
+      <details class="menu__group"><summary>Product<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><ul class="mm__list"><li><a class="mm__item" href="/frogbot"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM16.5 13v7M13 16.5h7"/></svg></span><span class="mm__body"><span class="mm__title">FrogBot<span class="mm__badge">Open source, MIT</span></span><span class="mm__text">Full-stack framework with database, admin screens, board views, agents, jobs and 40+ integrations.</span></span></a></li><li><a class="mm__item" href="/dojo"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.500 4.500 0 0 1-1 9H7ZM12 11v6M9.500 13.500 12 11l2.500 2.500"/></svg></span><span class="mm__body"><span class="mm__title">Dojo<span class="mm__badge">$29 per app per month</span></span><span class="mm__text">One-command cloud deploy with database, SSL and unlimited users.</span></span></a></li></ul></details>
+      <details class="menu__group"><summary>Solutions<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p class="mm__head">By team</p><ul class="mm__list"><li><a class="mm__item" href="/solutions/internal-builders"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.400L4 17l3 3 5.3-5.3a4 4 0 0 0 5.400-5.400l-2.400 2.400-2.600-.6-.6-2.600 2.600-2.200Z"/></svg></span><span class="mm__body"><span class="mm__title">Internal builders</span><span class="mm__text">Replace bloated SaaS renewals in a weekend.</span></span></a></li><li><a class="mm__item" href="/solutions/agencies"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 13l9 5 9-5"/></svg></span><span class="mm__body"><span class="mm__title">Agencies and consultants</span><span class="mm__text">Ship client portals under your brand, with $0 seat fees.</span></span></a></li><li><a class="mm__item" href="/solutions/enterprise-it"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.500-3 7.500-7 9-4-1.500-7-4.500-7-9V6l7-3Z"/></svg></span><span class="mm__body"><span class="mm__title">Enterprise IT</span><span class="mm__text">Govern AI apps with SSO, SCIM, audit logs and your own cloud.</span></span></a></li><li><a class="mm__item" href="/solutions/founders"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19l3-1 8-8a4 4 0 0 0-6-6L2 12l-1 3M14 6l4 4M9 15l-3 3"/></svg></span><span class="mm__body"><span class="mm__title">Founders</span><span class="mm__text">Replace several SaaS bills with one app you own.</span></span></a></li><li><a class="mm__item" href="/solutions/operators"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l2-8h12l2 8v6H4v-6ZM4 13h5l1 2h4l1-2h5"/></svg></span><span class="mm__body"><span class="mm__title">Operators</span><span class="mm__text">Drop in the file you dread and automate the chores, with review.</span></span></a></li></ul><p class="mm__head">Replace legacy SaaS</p><ul class="mm__list"><li><a class="mm__item mm__item--rep" href="/solutions/kill-airtable"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M10 10v9"/></svg></span><span class="mm__body"><span class="mm__title">Replace Airtable<span class="mm__badge">Save $13,500/yr</span></span><span class="mm__text">Move linked grids, boards and forms to a real database.</span></span></a></li><li><a class="mm__item mm__item--rep" href="/solutions/kill-salesforce-hubspot"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.500-7-10a4 4 0 0 1 7-2.500A4 4 0 0 1 19 11c0 5.500-7 10-7 10Z"/></svg></span><span class="mm__body"><span class="mm__title">Replace Salesforce and HubSpot<span class="mm__badge">Save $55k to $105k/yr</span></span><span class="mm__text">Move deal pipelines, Gmail sync and AI agents.</span></span></a></li><li><a class="mm__item mm__item--rep" href="/solutions/kill-zendesk"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM9.500 9a2.500 2.500 0 1 1 3.500 2.300c-.6.300-1 .9-1 1.600V14M12 17h.01"/></svg></span><span class="mm__body"><span class="mm__title">Replace Zendesk<span class="mm__badge">Save $27,600/yr</span></span><span class="mm__text">Move ticket queues, SLAs and answers from your docs.</span></span></a></li><li><a class="mm__item mm__item--rep" href="/solutions/kill-jira-asana"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v11h-4z"/></svg></span><span class="mm__body"><span class="mm__title">Replace Jira and Asana<span class="mm__badge">Save $9k to $18k/yr</span></span><span class="mm__text">Move sprint boards, specs and approvals.</span></span></a></li><li><a class="mm__item mm__item--rep" href="/solutions/kill-retool"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg></span><span class="mm__body"><span class="mm__title">Replace Retool<span class="mm__badge">$0 per viewer</span></span><span class="mm__text">Move SQL tables, actions and SSO to TypeScript you own.</span></span></a></li></ul></details>
+      <details class="menu__group"><summary>Resources<svg class="icon icon--sm nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><ul class="mm__list"><li><a class="mm__item" href="https://docs.frogbot.ai"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5ZM19 17H6"/></svg></span><span class="mm__body"><span class="mm__title">Docs</span><span class="mm__text">Config reference, CLI commands and agent skill setup.</span></span></a></li><li><a class="mm__item" href="/guides"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM15.500 8.500l-2 5-5 2 2-5 5-2Z"/></svg></span><span class="mm__body"><span class="mm__title">Guides</span><span class="mm__text">Step-by-step blueprints for replacing SaaS tools with AI.</span></span></a></li><li><a class="mm__item" href="/blog"><span class="mm__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6zM9 12h6M9 16h6M9 8h3"/></svg></span><span class="mm__body"><span class="mm__title">Blog</span><span class="mm__text">Engineering deep dives, launches and product updates.</span></span></a></li></ul></details>
       <a href="/pricing">Pricing</a>
-      <a href="https://docs.frogbot.ai">Docs</a>
-      <a href="https://app.frogbot.ai/login">Sign in</a>
-      <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
+      <div class="menu__actions">
+        <a class="btn btn--ghost" href="https://app.frogbot.ai/login">Sign in</a>
+        <a class="btn btn--primary" href="#build-call" data-pending="build-call-form">Book a build call</a>
+      </div>
     </nav>
   </header>
 
@@ -567,6 +612,6 @@ domain: <em data-brand-code-url>"portal.acme.com"</em></code></pre>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794672748" defer></script>
+  <script src="assets/js/site.js?v=1794672988" defer></script>
 </body>
 </html>
