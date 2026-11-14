@@ -1332,3 +1332,4 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 @media (max-width: 1080px) { .plans2 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .plans2 { grid-template-columns: 1fr; } }
 .plan2__price { flex-wrap: nowrap; white-space: nowrap; }
+.plan2__tag { background: rgb(var(--green-rgb) / 0.12); color: var(--fb-green); border: 1px solid rgb(var(--green-rgb) / 0.4); line-height: 22px; }
