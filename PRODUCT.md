@@ -71,6 +71,8 @@ Scope (confirmed by designer): the home page is redesigned first. Other pages fo
 - Name: FrogBot. Sub-brand: Dojo (cloud).
 - Logo and colors (binding, confirmed by designer): taken from the live site and stored in `brand/`. See `brand/README.md` and `brand/tokens.css`.
 - Redesign rules (binding, confirmed by designer): use the site's colors and logo, a free Google font, reusable components, and an 8px grid.
+- Fonts (binding, confirmed by designer): Funnel Display for headings, Funnel Sans for text. The italic Chakra Petch headline is retired.
+- Style direction (confirmed by designer): this is an AI product and the site must feel like one. Polish the existing site rather than restructure it, with animated section visuals. Reference for the level and style: https://ovo-waiting.framer.website/
 - Voice (confirmed by designer): follow the tone of the leading companies in this industry, adapted to this business. The working guide is `brand/voice.md`.
 - Voice on the live site today: combative, short absolute statements, developer vocabulary. Examples: "Pay for the app. Never for the seat." "Built to own, not rent." "Own your code and data forever."
 - Brand green (binding, confirmed by designer): `#3acf6a` is the single brand and primary color everywhere.

@@ -3,7 +3,7 @@
   Colors are copied from the live frogbot.ai site (read 2026-11-14), not invented.
   The brand green is unified to the logo green, #3acf6a.
   Spacing follows the 8px grid required for the redesign.
-  Type families and the final type scale are decided when the home page redesign starts.
+  Type: Funnel Display (headings) and Funnel Sans (text). The type scale is set when the home page is built.
 */
 
 :root {
@@ -11,6 +11,10 @@
      The live site mixes #22e05a, #3acf6a and #2f964f; the redesign uses only this one. */
   --fb-green: #3acf6a;          /* logo, CTAs, links, highlights */
   --fb-green-ink: #04210d;      /* text on a green fill */
+
+  /* Type */
+  --font-display: "Funnel Display", sans-serif;
+  --font-text: "Funnel Sans", sans-serif;
 
   /* Dark surfaces, darkest to lightest */
   --fb-surface-sunken: #050912;

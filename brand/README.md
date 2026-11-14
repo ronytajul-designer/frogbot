@@ -38,7 +38,7 @@ The site is dark only. There is no light theme.
 - Hero headline only: Chakra Petch 700, italic, uppercase (Google Fonts, free).
 - Code and prompts: system monospace.
 
-Both families already satisfy the "free Google font" rule. The final choice is made when the redesign starts.
+Decision (designer, 2026-11-14): the redesign retires both. Headings use Funnel Display and text uses Funnel Sans, both free Google fonts, set upright with tight letter spacing.
 
 ## Facts worth knowing before redesign
 
