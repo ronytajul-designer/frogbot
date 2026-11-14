@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794678739">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794678739">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794678964">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794678964">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -413,20 +413,23 @@
 
     <!-- What you can replace -->
     <section class="section replace" id="replace" aria-labelledby="replace-title">
-      <div class="wrap replace__grid">
-        <div>
+      <div class="wrap uc">
+        <div class="uc__copy">
           <h2 class="display display--md reveal" id="replace-title">Build the exact tool your team needs.</h2>
           <p class="lede reveal">Replace a subscription you have outgrown, or launch a client portal under your own name.</p>
+          <div class="uc__tabs reveal" role="tablist" aria-label="Use cases"><button type="button" role="tab" id="uct-crm" aria-controls="ucp" aria-selected="true" tabindex="0" data-uc="crm">Custom CRM</button><button type="button" role="tab" id="uct-portal" aria-controls="ucp" aria-selected="false" tabindex="-1" data-uc="portal">Client Portal</button><button type="button" role="tab" id="uct-support" aria-controls="ucp" aria-selected="false" tabindex="-1" data-uc="support">AI Support Desk</button><button type="button" role="tab" id="uct-sprint" aria-controls="ucp" aria-selected="false" tabindex="-1" data-uc="sprint">Project & Sprint Tracker</button><button type="button" role="tab" id="uct-invoice" aria-controls="ucp" aria-selected="false" tabindex="-1" data-uc="invoice">Invoice & Ops Automation</button><button type="button" role="tab" id="uct-compliance" aria-controls="ucp" aria-selected="false" tabindex="-1" data-uc="compliance">Compliance Pipeline</button></div>
+          <div class="uc__desc" aria-live="polite"><p><b data-uc-lead></b> <span data-uc-text></span></p><a class="uc__more" data-uc-href href="#"><span data-uc-more></span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
         </div>
-        <ul class="directory reveal">
-          <li><a href="/solutions/kill-salesforce-hubspot"><span class="directory__name">Custom CRM</span><span class="directory__what">Replace Salesforce and HubSpot</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li><a href="/solutions/kill-zendesk"><span class="directory__name">AI Support Desk</span><span class="directory__what">Replace Zendesk</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li><a href="/solutions/kill-jira-asana"><span class="directory__name">Project and Sprint Tracker</span><span class="directory__what">Replace Jira and Asana</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li><a href="/solutions/kill-airtable"><span class="directory__name">Invoice and Ops Automation</span><span class="directory__what">Replace Airtable</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li><a href="/solutions/agencies"><span class="directory__name">Client Portal</span><span class="directory__what">Under your own brand</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li><a href="/solutions/enterprise-it"><span class="directory__name">Compliance Pipeline</span><span class="directory__what">Approvals with an audit trail</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-        </ul>
+        <div class="uc__win reveal" id="ucp" role="tabpanel" aria-labelledby="uct-crm">
+          <div class="uc__bar">
+            <span class="uc__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="uc__url" data-uc-url></span>
+            <span class="uc__mode" role="group" aria-label="Show"><button type="button" data-ucm="live" aria-pressed="true">Live app</button><button type="button" data-ucm="config" aria-pressed="false">Config</button></span>
+          </div>
+          <div class="uc__body" data-uc-body></div>
+        </div>
       </div>
+      <script type="application/json" id="uc-data">[{"id": "crm", "tab": "Custom CRM", "url": "custom-crm.frogbot.app", "kicker": "Custom CRM", "metric": "Pipeline value: $412,500", "badge": "AI enriched", "lead": "Replaces Salesforce and HubSpot.", "text": "Track deals on boards, enrich leads from Gmail and draft renewal quotes, without $175 per seat.", "href": "/solutions/kill-salesforce-hubspot", "more": "See the CRM build", "rows": [["Acme Corp", "$84,000, enterprise", "ok", "Contract sent", "Follow-up Thursday"], ["Linear Labs", "$32,000, annual", "ok", "Negotiation", "Pricing approved"], ["Raycast Inc", "$19,500, expansion", "ok", "Closed won", "Synced to Stripe"]], "cfg": ["collections: [Deals, Contacts]", "integrations: ['gmail', 'stripe']", "agents: [leadEnricher]"]}, {"id": "portal", "tab": "Client Portal", "url": "client-portal.frogbot.app", "kicker": "Client portal", "metric": "Client logins: 140, at $0 per seat", "badge": "White-labelled", "lead": "Replaces $39 per seat portal tools.", "text": "Give every client a branded portal for deliverables, approvals and invoices, with $0 client-seat fees.", "href": "/solutions/agencies", "more": "See the portal build", "rows": [["Q4 brand redesign", "Deliverable 4", "ok", "Approved", "Client signed off"], ["SEO content engine", "Weekly run", "ok", "Live", "18 pages published"], ["Monthly retainer", "$6,500 invoice", "ok", "Paid", "0% platform fee"]], "cfg": ["collections: [Deliverables, Invoices]", "brand: { name: 'Acme Studio' }", "roles: ['client', 'team']"]}, {"id": "support", "tab": "AI Support Desk", "url": "ai-support-desk.frogbot.app", "kicker": "AI support desk", "metric": "Average resolution: 1m 42s", "badge": "$0 per resolution", "lead": "Replaces Zendesk and $1.50 AI fees.", "text": "Agents triage tickets, cite your docs and pause for a person on refunds. $0 per resolution.", "href": "/solutions/kill-zendesk", "more": "See the support build", "rows": [["#4821 SSO login help", "Enterprise tier", "ok", "Auto-resolved", "Cited docs section 4.2"], ["#4822 Refund request, $240", "Billing queue", "warn", "Needs approval", "Credit note drafted"], ["#4823 Webhook timeout", "API support", "ok", "Resolved", "Replayed job #902"]], "cfg": ["collections: [Tickets, Customers]", "agents: [ticketTriage]", "approvals: ['refund']"]}, {"id": "sprint", "tab": "Project & Sprint Tracker", "url": "sprint-tracker.frogbot.app", "kicker": "Project and sprint tracker", "metric": "Active sprint: 28 of 31 done", "badge": "Board + GitHub", "lead": "Replaces Jira and Asana.", "text": "Run sprints on boards and calendars, with GitHub-linked tasks and unlimited viewers.", "href": "/solutions/kill-jira-asana", "more": "See the tracker build", "rows": [["FB-104 Ship SAML sign-in", "Platform team", "ok", "Merged", "PR #412 linked"], ["FB-108 Customer CSV import", "Core app", "warn", "In review", "2 reviewers"], ["FB-112 Weekly digest job", "Automation", "ok", "Scheduled", "Every Monday 8am"]], "cfg": ["collections: [Issues, Sprints]", "integrations: ['github']", "jobs: [weeklyDigest]"]}, {"id": "invoice", "tab": "Invoice & Ops Automation", "url": "invoice-ops.frogbot.app", "kicker": "Invoice and ops automation", "metric": "Reconciled: 100% automatic", "badge": "Stripe + Xero", "lead": "Replaces Airtable and Zapier chains.", "text": "Reconcile Stripe and Xero payouts, read PDFs on a schedule and route exceptions to Slack.", "href": "/solutions/kill-airtable", "more": "See the ops build", "rows": [["INV-2094 AWS Cloud", "$4,120.00", "ok", "Matched", "Receipt verified"], ["INV-2095 Contractor payout", "$8,500.00", "warn", "Needs approval", "Over $5k threshold"], ["INV-2096 Figma renewal", "$1,440.00", "warn", "Flagged", "Duplicate seat"]], "cfg": ["collections: [Invoices, Vendors]", "integrations: ['stripe', 'xero', 'slack']", "jobs: [nightlyReconcile]"]}, {"id": "compliance", "tab": "Compliance Pipeline", "url": "compliance.frogbot.app", "kicker": "Compliance pipeline", "metric": "Audit trail: 100% logged", "badge": "Human checkpoints", "lead": "Replaces manual review bottlenecks.", "text": "AI checks contracts, claims and onboarding packets against your rules, with sign-off queues and an audit trail.", "href": "/solutions/enterprise-it", "more": "See the compliance build", "rows": [["DPA-409 Vendor data agreement", "Indemnity clause deviation", "warn", "Needs review", "Routed to Legal"], ["AD-882 Q4 paid social claims", "Checked against FTC rules", "ok", "Approved", "Auto-cleared (99%)"], ["KYC-119 Entity onboarding", "W-9, COI and ownership matched", "ok", "Approved", "Audit log written"]], "cfg": ["collections: [Reviews, Policies]", "approvals: ['legal']", "auditLog: true"]}]</script>
     </section>
 
     <!-- We build it for you -->
@@ -653,6 +656,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="assets/js/site.js?v=1794678739" defer></script>
+  <script src="assets/js/site.js?v=1794678964" defer></script>
 </body>
 </html>

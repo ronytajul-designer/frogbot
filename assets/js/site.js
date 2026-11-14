@@ -571,3 +571,48 @@
   }, { threshold: 0.3 }).observe(wl);
 })();
 
+/* Use cases: tabs swap the preview, Live app / Config toggle inside it. */
+(() => {
+  const data = document.getElementById('uc-data');
+  if (!data) return;
+  const UC = JSON.parse(data.textContent);
+  const $ = s => document.querySelector(s);
+  const tabs = [...document.querySelectorAll('[data-uc]')];
+  const body = $('[data-uc-body]'), panel = $('#ucp');
+  const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let cur = UC[0], mode = 'live';
+  const render = () => {
+    if (mode === 'config') {
+      body.innerHTML = `<div class="uc__cfg">// frogbot.config.ts\nexport default buildConfig({\n${cur.cfg.map(l => '  ' + esc(l) + ',').join('\n')}\n});</div>`;
+      return;
+    }
+    body.innerHTML = `<div class="uc__head"><div><p class="uc__kicker">${esc(cur.kicker)}</p><p class="uc__metric">${esc(cur.metric)}</p></div><span class="uc__badge">${esc(cur.badge)}</span></div>
+      <div class="uc__rows">${cur.rows.map((r, i) => `<div class="uc__row" style="--i:${i}"><span><b>${esc(r[0])}</b><i>${esc(r[1])}</i></span><span><span class="tag tag--${r[2]}">${esc(r[3])}</span><small>${esc(r[4])}</small></span></div>`).join('')}</div>`;
+  };
+  const pick = (u, focus) => {
+    cur = u;
+    tabs.forEach(t => { const on = t.dataset.uc === u.id; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; if (on && focus) t.focus(); });
+    panel.setAttribute('aria-labelledby', 'uct-' + u.id);
+    $('[data-uc-url]').textContent = u.url;
+    $('[data-uc-lead]').textContent = u.lead;
+    $('[data-uc-text]').textContent = u.text;
+    $('[data-uc-more]').textContent = u.more;
+    $('[data-uc-href]').href = u.href;
+    render();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pick(UC[i]));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      pick(UC[(i + (e.key === 'ArrowRight' ? 1 : UC.length - 1)) % UC.length], true);
+    });
+  });
+  document.querySelectorAll('[data-ucm]').forEach(b => b.addEventListener('click', () => {
+    mode = b.dataset.ucm;
+    document.querySelectorAll('[data-ucm]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  }));
+  pick(UC[0]);
+})();
+
