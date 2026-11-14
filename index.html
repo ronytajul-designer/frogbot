@@ -82,45 +82,71 @@
         </div>
 
         <div class="window" data-window>
-          <div class="window__chrome">
-            <span class="window__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="window__url" data-url>airtable.frogbot.app/admin</span>
-            <span class="window__agent"><i class="pulse" aria-hidden="true"></i><span data-agent>Agent built 4 collections, 3 roles, 2 automations</span></span>
-          </div>
-          <div class="window__body">
-            <ul class="window__side" aria-label="Collections in the example app" data-side>
-              <li class="is-on">Inventory</li><li>Suppliers</li><li>Purchase orders</li><li>Automations</li>
-            </ul>
-            <div class="window__main">
-              <div class="window__head">
-                <h2 class="window__title" data-title>Ops and Inventory Base</h2>
-                <p class="window__meta" data-meta>54,200 rows. Unlimited editors at $0 per seat.</p>
-              </div>
-              <p class="window__note"><svg class="icon icon--spark icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 4.7 4.3 8.4 9 9-4.7.6-8.4 4.3-9 9-.6-4.7-4.3-8.4-9-9 4.7-.6 8.4-4.3 9-9Z"/></svg><span data-note>Agent matched 212 of 215 supplier rows from your CSV import. 3 rows held for your review.</span></p>
-              <table class="rows">
-                <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
-                <tbody data-rows>
-                  <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td></tr>
-                  <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td></tr>
-                  <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td></tr>
-                  <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td></tr>
-                </tbody>
-              </table>
+          <aside class="pane side" aria-label="Example app navigation">
+            <div class="side__ws">
+              <img src="brand/logo/frogbot-icon.svg" alt="" width="40" height="40">
+              <div><p class="side__ws-name" data-ws>Ops workspace</p><p class="side__ws-sub">Unlimited users</p></div>
             </div>
-            <aside class="saving" aria-label="Example yearly cost">
-              <p class="saving__label">Example, <span data-seats>25 seats</span>, per year</p>
-              <div class="saving__row">
-                <p class="saving__name">Rented, <span data-tool-name>Airtable</span></p>
-                <p class="saving__rent"><s data-rent>$13,500</s></p>
-                <span class="bar bar--rent" aria-hidden="true"></span>
+            <p class="side__label">General</p>
+            <ul class="side__list">
+              <li><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14ZM20 20l-4-4"/></svg>Search<kbd>⌘K</kbd></li>
+              <li><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v10H4zM4 11h16"/></svg>Billing<span class="side__chip">$29/mo</span></li>
+            </ul>
+            <p class="side__label">Collections</p>
+            <ul class="side__list side__list--cols" data-side>
+              <li class="is-on" style="--c:var(--fb-green)"><i></i>Inventory</li><li style="--c:#fbbf24"><i></i>Suppliers</li><li style="--c:#6aa8ff"><i></i>Purchase orders</li><li style="--c:#c59bff"><i></i>Automations</li>
+            </ul>
+            <div class="side__agent">
+              <span class="side__agent-mark"><img src="brand/logo/frogbot-icon.svg" alt="" width="32" height="32"><i class="pulse" aria-hidden="true"></i></span>
+              <div><p class="side__agent-name">FrogBot agent</p><p class="side__agent-status" data-agent>Agent built 4 collections, 3 roles, 2 automations</p></div>
+            </div>
+          </aside>
+
+          <div class="window__col">
+            <div class="pane top">
+              <div class="top__row">
+                <div>
+                  <h2 class="window__title" data-title>Ops and Inventory Base</h2>
+                  <p class="window__meta" data-meta>54,200 rows. Unlimited editors at $0 per seat.</p>
+                </div>
+                <span class="sr" data-url>airtable.frogbot.app/admin</span>
+                <div class="top__tabs" aria-hidden="true"><span class="is-on"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M10 10v9"/></svg>Table</span><span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v11h-4z"/></svg>Board</span><span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 14h6l-1 7 8-11h-6l1-7Z"/></svg>Automations</span></div>
+                <span class="top__btn"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM20 6a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM20 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM7.7 11l8.600-4M7.700 13l8.600 4"/></svg>Share</span>
               </div>
-              <div class="saving__row">
-                <p class="saving__name">Owned, FrogBot</p>
-                <p class="saving__own" data-own>$348</p>
-                <span class="bar bar--own" aria-hidden="true" data-own-bar></span>
+            </div>
+
+            <div class="window__content">
+              <div class="window__main">
+                <p class="window__note"><svg class="icon icon--spark icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 4.7 4.3 8.4 9 9-4.7.6-8.4 4.3-9 9-.6-4.7-4.3-8.4-9-9 4.7-.6 8.4-4.3 9-9Z"/></svg><span data-note>Agent matched 212 of 215 supplier rows from your CSV import. 3 rows held for your review.</span></p>
+                <table class="rows">
+                  <thead><tr><th scope="col">Record</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
+                  <tbody data-rows>
+                    <tr><td>INV-9042 Apex Industrial</td><td>$14,820, net 30</td><td><span class="tag tag--ok">Synced</span></td></tr>
+                    <tr><td>INV-9043 Northstar Freight</td><td>$3,410, due Friday</td><td><span class="tag tag--warn">Needs review</span></td></tr>
+                    <tr><td>INV-9044 Kestrel Packaging</td><td>$8,190, approved</td><td><span class="tag tag--ok">Synced</span></td></tr>
+                    <tr><td>INV-9045 Pacific Customs</td><td>$1,950, customs hold</td><td><span class="tag tag--warn">Needs review</span></td></tr>
+                  </tbody>
+                </table>
               </div>
-              <p class="saving__note">Pro plan, one app, unlimited users. Add-ons extra. <span data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
-            </aside>
+              <aside class="pane saving" aria-label="Example yearly cost">
+                <p class="saving__label">Example, <span data-seats>25 seats</span>, per year</p>
+                <div class="saving__row">
+                  <p class="saving__name">Rented, <span data-tool-name>Airtable</span></p>
+                  <p class="saving__rent"><s data-rent>$13,500</s></p>
+                  <span class="bar bar--rent" aria-hidden="true"></span>
+                </div>
+                <div class="saving__row">
+                  <p class="saving__name">Owned, FrogBot</p>
+                  <p class="saving__own" data-own>$348</p>
+                  <span class="bar bar--own" aria-hidden="true" data-own-bar></span>
+                </div>
+                <p class="saving__note">Pro plan, one app, unlimited users. Add-ons extra. <span data-source>Airtable list price $45 per seat, Sept 2026.</span></p>
+              </aside>
+            </div>
+
+            <div class="ask" aria-hidden="true">
+              <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3ZM6 11a6 6 0 0 0 12 0M12 17v4"/></svg><span class="ask__text">Ask the agent to add a field, a view or an automation</span><span class="ask__send"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-6 16-3-7-7-1Z"/></svg></span>
+            </div>
           </div>
           <p class="window__example">Example data</p>
         </div>

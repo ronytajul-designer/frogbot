@@ -6,12 +6,13 @@
 
   // Owned price: Pro plan, one app, $29 per month.
   const OWN_PER_YEAR = 29 * 12;
+  const SIDE_COLORS = ['var(--fb-green)', '#fbbf24', '#6aa8ff', '#c59bff'];
   const SEATS = 25;
 
   // Per-seat list prices are the ones FrogBot publishes with a date (Sept 2026).
   const TOOLS = {
     airtable: {
-      name: 'Airtable', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
+      name: 'Airtable', ws: 'Ops workspace', noun: 'base', perSeat: 45, unit: 'seat', url: 'airtable.frogbot.app/admin',
       title: 'Ops and Inventory Base', meta: '54,200 rows. Unlimited editors at $0 per seat.',
       agent: 'Agent built 4 collections, 3 roles, 2 automations',
       steps: ['Reading your Airtable base', 'Creating 4 collections', 'Setting 3 roles', 'Wiring 2 automations'],
@@ -25,7 +26,7 @@
       ]
     },
     salesforce: {
-      name: 'Salesforce', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
+      name: 'Salesforce', ws: 'Revenue workspace', noun: 'CRM', perSeat: 175, unit: 'seat', url: 'crm.frogbot.app/admin',
       title: 'Revenue CRM', meta: 'The 5 fields reps use. Gmail and Slack connected.',
       agent: 'Agent built 5 collections, 4 roles, 3 automations',
       steps: ['Reading your Salesforce export', 'Creating 5 collections', 'Setting 4 roles', 'Wiring 3 automations'],
@@ -39,7 +40,7 @@
       ]
     },
     zendesk: {
-      name: 'Zendesk', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
+      name: 'Zendesk', ws: 'Support workspace', noun: 'help desk', perSeat: 115, unit: 'agent', url: 'support.frogbot.app/admin',
       title: 'Support Inbox', meta: 'Unlimited support agents. Answers drawn from your docs.',
       agent: 'Agent built 3 collections, 3 roles, 4 automations',
       steps: ['Reading your Zendesk tickets', 'Creating 3 collections', 'Setting 3 roles', 'Wiring 4 automations'],
@@ -123,7 +124,8 @@
     const note = $('[data-note]');
     const agent = $('[data-agent]');
     const win = $('[data-window]');
-    side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''}>${x}</li>`).join('');
+    side.innerHTML = t.side.map((x, i) => `<li${i === 0 ? ' class="is-on"' : ''} style="--c:${SIDE_COLORS[i % 4]}"><i></i>${x}</li>`).join('');
+    $('[data-ws]').textContent = t.ws;
     const rowsHtml = t.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="tag tag--${r[2]}">${r[3]}</span></td></tr>`).join('');
 
     if (!animate || reduce) {
