@@ -493,13 +493,53 @@
   new IntersectionObserver(([e]) => box.classList.toggle('in-view', e.isIntersecting), { threshold: 0.2 }).observe(box);
 })();
 
-/* Integrations hub: light one connection at a time while on screen. */
+/* Integrations: tiles drift gently; spokes follow them; one connection lights at a time. */
 (() => {
-  const hub = document.querySelector('.hub');
-  if (!hub || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const lines = [...hub.querySelectorAll('.hub__line')], apps = [...hub.querySelectorAll('.hub__app')];
-  let i = 0, id = null;
-  const step = () => { lines.forEach((l, k) => l.classList.toggle('is-on', k === i)); apps.forEach((a, k) => a.classList.toggle('is-on', k === i)); i = (i + 1) % apps.length; };
-  new IntersectionObserver(([e]) => { if (e.isIntersecting && !id) { step(); id = setInterval(step, 1100); } else if (!e.isIntersecting && id) { clearInterval(id); id = null; } }, { threshold: 0.3 }).observe(hub);
+  const hub = document.querySelector('[data-hub]');
+  if (!hub) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tiles = [...hub.querySelectorAll('.hub__tile')], lines = [...hub.querySelectorAll('.hub__line')];
+  const base = lines.map(l => [+l.getAttribute('x2'), +l.getAttribute('y2')]);
+  let raf = null, lit = 0, tick = null, t0 = performance.now();
+  const frame = now => {
+    const t = (now - t0) / 1000;
+    tiles.forEach((el, i) => {
+      const dx = Math.sin(t * 0.6 + i * 1.7) * 6, dy = Math.cos(t * 0.5 + i * 1.3) * 5;
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      const box = hub.getBoundingClientRect();
+      lines[i].setAttribute('x2', (base[i][0] + dx * 440 / box.width).toFixed(1));
+      lines[i].setAttribute('y2', (base[i][1] + dy * 256 / box.height).toFixed(1));
+    });
+    raf = requestAnimationFrame(frame);
+  };
+  const light = () => { tiles.forEach((el, i) => el.classList.toggle('is-on', i === lit)); lines.forEach((l, i) => l.classList.toggle('is-on', i === lit)); lit = (lit + 1) % tiles.length; };
+  if (reduce) return;
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(frame); if (!tick) { light(); tick = setInterval(light, 1200); } }
+    else { cancelAnimationFrame(raf); raf = null; clearInterval(tick); tick = null; }
+  }, { threshold: 0.2 }).observe(hub);
+})();
+
+/* Database card: Kanban, then the agent card gets approved and moves to Closed won, then Table, then Calendar. */
+(() => {
+  const db = document.querySelector('[data-db]');
+  if (!db || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const show = v => { db.querySelectorAll('[data-dbv]').forEach(x => x.hidden = x.dataset.dbv !== v); db.querySelectorAll('[data-dbt]').forEach(x => x.classList.toggle('is-on', x.dataset.dbt === v)); };
+  const card = db.querySelector('[data-approve-card]'), slot = db.querySelector('[data-db-slot]'), won = db.querySelector('[data-db-won]'), btn = db.querySelector('[data-db-approve]');
+  const reset = () => { card.classList.remove('is-moving'); card.style.display = ''; slot.innerHTML = ''; won.textContent = '12'; };
+  const steps = [
+    [0, () => { reset(); show('board'); }],
+    [1600, () => btn.classList.add('is-pressed')],
+    [1800, () => { btn.classList.remove('is-pressed'); card.classList.add('is-moving'); }],
+    [2400, () => { card.style.display = 'none'; slot.innerHTML = '<div class="db__card"><b>Globex custom SLA</b><i class="ok">Approved, synced</i></div>'; won.textContent = '13'; }],
+    [4400, () => show('table')],
+    [6600, () => show('cal')],
+  ];
+  let timers = [], loop = null;
+  const run = () => { timers.forEach(clearTimeout); timers = steps.map(([ms, fn]) => setTimeout(fn, ms)); };
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !loop) { run(); loop = setInterval(run, 8800); }
+    else if (!e.isIntersecting && loop) { clearInterval(loop); loop = null; timers.forEach(clearTimeout); }
+  }, { threshold: 0.3 }).observe(db);
 })();
 

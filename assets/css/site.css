@@ -1048,7 +1048,7 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .visual--flow svg { padding: 0; }
 .flow__labels text { font-size: 13px; }
 @media (max-width: 560px) { .hub__app { padding: 2px 8px; } .visual { height: 224px; } }
-@media (prefers-reduced-motion: reduce) { .box.in-view .hub__line, .hub__line { transition: stroke 0.4s, stroke-width 0.4s; }
+.hub__line { transition: stroke 0.4s, stroke-width 0.4s; }
 .hub__line.is-on { stroke: var(--fb-green); stroke-width: 2; }
 .hub__app.is-on { border-color: var(--fb-green); color: var(--fb-green); box-shadow: 0 0 0 4px rgb(var(--green-rgb) / 0.12); }
 @media (max-width: 560px) {
@@ -1058,3 +1058,53 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
   .flow__labels text { font-size: 15px; }
   .visual--brand { height: auto; padding: 20px; }
 }
+
+/* Database card v3: a real app window, like the original, improved */
+.visual--db { padding: 20px 24px 0; height: 256px; display: flex; align-items: flex-end; }
+.db { width: 100%; height: 100%; border: 1px solid var(--line-strong); border-bottom: 0; border-radius: 14px 14px 0 0; background: var(--fb-surface-sunken); overflow: hidden; display: flex; flex-direction: column; }
+.db__bar { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.db__dots { display: flex; gap: 6px; } .db__dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--fb-surface-elevated); }
+.db__name { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.db__tabs { margin-left: auto; display: flex; gap: 4px; font-size: 14px; color: var(--ink-3); }
+.db__tabs span { padding: 2px 10px; border-radius: 999px; transition: background-color 0.3s, color 0.3s; }
+.db__tabs .is-on { background: rgb(var(--green-rgb) / 0.14); color: var(--fb-green); font-weight: 600; }
+.db__view { flex: 1; padding: 12px; animation: db-in 0.5s var(--ease); }
+.db__view[hidden] { display: none; }
+@keyframes db-in { from { opacity: 0; transform: translateY(6px); } }
+.db__board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.db__col { display: flex; flex-direction: column; gap: 8px; padding: 8px; border-radius: 10px; background: rgb(255 255 255 / 0.02); }
+.db__head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.db__head b { min-width: 20px; padding: 0 6px; border-radius: 999px; background: rgb(255 255 255 / 0.08); text-align: center; font-size: 12px; }
+.db__head b.warn { background: rgb(251 191 36 / 0.16); color: var(--fb-warning); }
+.db__head b.ok { background: rgb(var(--green-rgb) / 0.16); color: var(--fb-green); }
+.db__card { display: grid; gap: 2px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--fb-surface-raised); font-size: 13px; transition: transform 0.6s var(--ease), opacity 0.6s, border-color 0.4s; }
+.db__card b { font-weight: 600; color: var(--fb-ink); }
+.db__card i { font-style: normal; color: var(--ink-3); }
+.db__card i.ok, .db__row .ok { color: var(--fb-green); }
+.db__row .warn { color: var(--fb-warning); }
+.db__card--agent { border-color: rgb(var(--green-rgb) / 0.5); background: linear-gradient(180deg, rgb(var(--green-rgb) / 0.1), var(--fb-surface-raised)); }
+.db__btn { justify-self: start; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; padding: 2px 8px; border-radius: 6px; background: var(--fb-green); color: var(--fb-green-ink); font-weight: 600; font-size: 12px; }
+.db__btn.is-pressed { transform: scale(0.94); }
+.db__card.is-moving { transform: translateX(110%); opacity: 0; }
+.db__slot .db__card { animation: db-in 0.5s var(--ease); }
+.db__table { display: grid; align-content: start; gap: 0; font-size: 13px; }
+.db__row { display: grid; grid-template-columns: 1.4fr 1fr 0.7fr; padding: 8px 6px; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+.db__row span:first-child { color: var(--fb-ink); font-weight: 500; }
+.db__row--h span, .db__row--h span:first-child { color: var(--ink-3); font-weight: 600; }
+.db__cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: 12px; }
+.db__day { min-height: 30px; padding: 3px 5px; border-radius: 6px; background: rgb(255 255 255 / 0.03); color: var(--ink-3); }
+.db__day.has { background: rgb(var(--green-rgb) / 0.1); color: var(--fb-ink); }
+.db__day em { display: block; font-style: normal; font-size: 11px; color: var(--fb-green); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Integrations v3: brand marks that drift gently but stay wired to the hub */
+.hub__line { fill: none; stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke 0.4s; }
+.hub__line.is-on { stroke: var(--fb-green); stroke-width: 1.5; }
+.hub__tile {
+  position: absolute; left: var(--x); top: var(--y); display: grid; place-items: center; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border-radius: 12px; border: 1px solid var(--line-strong); background: var(--fb-surface-raised); box-shadow: 0 8px 20px -10px rgb(0 0 0 / 0.8);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.hub__tile svg { width: 22px; height: 22px; fill: var(--c); }
+.hub__tile.is-on { border-color: var(--fb-green); box-shadow: 0 0 0 4px rgb(var(--green-rgb) / 0.12), 0 8px 20px -10px rgb(0 0 0 / 0.8); }
+@media (max-width: 560px) { .hub__tile { width: 36px; height: 36px; margin: -18px 0 0 -18px; } .hub__tile svg { width: 18px; height: 18px; } .db__card { font-size: 12px; } .db__tabs span:nth-child(3) { display: none; } }
+@media (max-width: 560px) { .db__board { grid-template-columns: 1fr 1fr; } .db__board .db__col:first-child { display: none; } .db__head { font-size: 12px; } }
