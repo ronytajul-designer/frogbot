@@ -814,3 +814,15 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 .starter__copy { flex: none; min-height: 36px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--fb-surface); font-size: 14px; font-weight: 600; color: var(--fb-ink); transition: border-color 0.2s; }
 .starter__copy:hover { border-color: rgb(var(--green-rgb) / 0.6); }
 @media (max-width: 560px) { .starter__panel { flex-direction: column; align-items: stretch; } .starter__copy { min-height: 44px; } .starter__panel code { font-size: 14px; } }
+
+/* Hero cleanup: one action row, quieter starter box, header action appears after the hero */
+.hero__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.starter { margin-top: 40px; width: min(100%, 640px); }
+.starter__box { background: rgb(20 26 42 / 0.6); }
+.starter__panel code { font-size: 14px; line-height: 22px; color: var(--ink-2); }
+.header__actions .btn { transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s 0.3s; }
+.js .header:not(.is-past-hero) .header__actions .btn { opacity: 0; transform: translateY(-4px); visibility: hidden; pointer-events: none; }
+.js .header.is-past-hero .header__actions .btn { transition-delay: 0s; }
+@media (max-width: 560px) { .hero__cta .btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .header__actions .btn { transition: none; } }
+.hero__offer { text-wrap: balance; }

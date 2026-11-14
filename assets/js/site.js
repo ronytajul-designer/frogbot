@@ -440,3 +440,11 @@
     });
   });
 })();
+
+/* Header action shows once the hero's own buttons have scrolled away, so only one "Book a build call" is on screen at a time. */
+(() => {
+  const header = document.querySelector('[data-header]');
+  const cta = document.querySelector('.hero__cta');
+  if (!header || !cta) return;
+  new IntersectionObserver(([e]) => header.classList.toggle('is-past-hero', !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: '-72px 0px 0px 0px' }).observe(cta);
+})();
