@@ -778,3 +778,33 @@
     else if (!visible && raf) { cancelAnimationFrame(raf); raf = null; }
   }).observe(c);
 })();
+
+/* Builder terminal: type the active line, then show the reply. Re-types when the tab changes. */
+(() => {
+  const box = document.querySelector('[data-starter]');
+  if (!box) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const names = { agent: 'Claude Code', cli: 'Terminal' };
+  let run = 0, seen = false;
+  const play = panel => {
+    const code = panel.querySelector('[data-type-line]'), out = panel.querySelector('.term__out');
+    const full = code.dataset.full || (code.dataset.full = code.textContent);
+    if (reduce) { code.textContent = full; out.classList.remove('is-wait'); return; }
+    const me = ++run; let i = 0;
+    code.textContent = ''; code.classList.add('is-typing'); out.classList.add('is-wait');
+    const step = () => {
+      if (me !== run) return;
+      code.textContent = full.slice(0, ++i);
+      if (i < full.length) setTimeout(step, 18 + Math.random() * 30);
+      else { code.classList.remove('is-typing'); setTimeout(() => me === run && out.classList.remove('is-wait'), 350); }
+    };
+    step();
+  };
+  const active = () => [...box.querySelectorAll('.term__panel')].find(p => !p.hidden);
+  box.querySelectorAll('[data-st]').forEach(t => t.addEventListener('click', () => {
+    box.querySelector('[data-term-name]').textContent = names[t.dataset.st];
+    setTimeout(() => play(active()), 0);
+  }));
+  new IntersectionObserver(([e]) => { if (e.isIntersecting && !seen) { seen = true; play(active()); } }, { threshold: 0.5 }).observe(box);
+})();
+
