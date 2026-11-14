@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-14T10:56:50.219Z",
         "reason": "builder triage 2026-11-14: all nine findings are structural containers (hairline-ruled lists, full-bleed section bands, window title bar, illustration frames) whose text insets were checked in rendered screenshots at 1440 and 390; no text sits closer than 16px to a visible edge"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-14T15:09:11.185Z",
+        "reason": "designer asked 2026-11-14 for the hero dashboard in the style of the ovo-superstar reference, which is floating panels inside an app shell; the other nesting is product UI drawn inside bento illustrations"
       }
     ]
   }
