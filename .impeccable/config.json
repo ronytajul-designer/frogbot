@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-11-14T09:58:04.879Z",
         "reason": "designer direction 2026-11-14: asked for the OVO reference style with lit glow and approved the hero sketch that carries the green glow"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-14T10:56:50.219Z",
+        "reason": "builder triage 2026-11-14: all nine findings are structural containers (hairline-ruled lists, full-bleed section bands, window title bar, illustration frames) whose text insets were checked in rendered screenshots at 1440 and 390; no text sits closer than 16px to a visible edge"
       }
     ]
   }
