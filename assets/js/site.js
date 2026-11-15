@@ -860,7 +860,7 @@
       paint(performance.now());
     };
     // the cursor drops water ripples: rings spread out slowly and lift only the pixels already there
-    const ripples = [], LIFE = 2600, SPEED = 0.12, WIDTH = 14; // ms, px per ms, px
+    const ripples = [], LIFE = 2000, SPEED = 0.2, WIDTH = 14; // ms, px per ms, px
     let last = { x: -1e4, y: -1e4, t: 0 };
     const paint = now => {
       const d = img.data; d.fill(0);
@@ -898,8 +898,8 @@
       host.addEventListener('pointermove', e => {
         const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, now = performance.now();
         // one drop per short pause or distance, so it stays calm instead of a trail
-        if (Math.hypot(x - last.x, y - last.y) < 90 && now - last.t < 700) return;
-        if (now - last.t < 260) return;
+        if (Math.hypot(x - last.x, y - last.y) < 50 && now - last.t < 350) return;
+        if (now - last.t < 120) return;
         last = { x, y, t: now };
         ripples.push({ x, y, t: now });
         if (ripples.length > 5) ripples.shift();
