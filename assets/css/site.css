@@ -1577,3 +1577,10 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .footer { background-color: var(--fb-surface) !important; }
 .sticky { background: rgb(9 14 27 / 0.88); }
 .plan2--lit .plan2__tag { background: #0e1f17; }
+/* Pixel fields (and their ripples) fade into the solid page at every edge, so nothing looks cut */
+.px {
+  -webkit-mask-image: linear-gradient(180deg, transparent 4%, #000 20%, #000 55%, transparent 94%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, transparent 4%, #000 20%, #000 55%, transparent 94%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-composite: intersect;
+}
