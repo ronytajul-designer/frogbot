@@ -1493,3 +1493,9 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 .close__cta .btn--ghost:hover { color: var(--fb-ink); background: rgb(255 255 255 / 0.04); transform: none; }
 .close__cta .btn--ghost::after { content: "→"; margin-left: 2px; transition: transform 0.25s var(--ease); }
 .close__cta .btn--ghost:hover::after { transform: translateX(3px); }
+/* Fix: the fixed desktop window height must not apply on tablets and phones, or the content overflows the next section */
+@media (max-width: 1080px) {
+  .window { height: auto; grid-template-rows: none; }
+  .window__col, .window__content, .window__main { min-height: 0; height: auto; }
+  .window .view { flex: none; max-height: none; overflow: visible; }
+}
