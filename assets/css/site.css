@@ -1747,3 +1747,17 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 @media (max-width: 560px) { .header .header__actions .btn--primary { display: none !important; } }
 .header__menu { border-radius: 50%; }
 html.menu-open .header.is-hidden { transform: none; }
+
+/* ---------- Mobile type and spacing: tighter rhythm, smaller headings ---------- */
+@media (max-width: 560px) {
+  .section, .box { padding-top: 56px !important; padding-bottom: 56px !important; }
+  .split { padding-top: 48px !important; padding-bottom: 48px !important; }
+  .hero { padding-top: 120px !important; }
+  .close { padding-top: 96px !important; }
+  h1, .hero h1 { font-size: 36px !important; line-height: 1.1 !important; }
+  .display, .display--md, .split__title { font-size: 28px !important; line-height: 1.18 !important; }
+  .close .display { font-size: 32px !important; }
+  .lede { font-size: 16px !important; line-height: 1.55 !important; }
+  .flow__step h3 { font-size: 20px !important; line-height: 28px !important; }
+  h2.display + * { margin-top: 16px !important; }
+}
