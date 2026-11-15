@@ -1552,3 +1552,28 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
   background-repeat: no-repeat !important;
 }
 .db__card--agent { background-image: none !important; background-color: rgb(var(--green-rgb) / 0.08) !important; }
+
+/* ---------- Surface system: page, card, inset, item. One colour per level, everywhere ----------
+   page  #090e1b  --fb-surface         (body, every section)
+   card  #0e1422  --fb-surface-mid     (every top level card and panel)
+   inset #050912  --fb-surface-sunken  (code, terminals, mini windows inside a card)
+   item  #141a2a  --fb-surface-raised  (rows, chips, small cards inside an inset) */
+:root { --card-bg: var(--fb-surface-mid); }
+.card, .split__card, .flow__visual, .uc, .plan2, .plan2--lit, .plan, .costbars, .track, .window, .mm, .calc, .brandcard, .dev, .window .saving {
+  --card-bg: var(--fb-surface-mid);
+  background-color: var(--fb-surface-mid) !important;
+}
+.visual { background: transparent !important; }
+.code, .fv-code, .fv-term, .wl__code, .uc__win, .uc__cfg, .mp__code, .mr__cmd, .term, .db, .track__link, .header .mp, .dev__tabs, .board__col, .starter__box {
+  background-color: var(--fb-surface-sunken) !important;
+}
+.header .mp:hover { --card-bg: var(--fb-surface-sunken); }
+.db__card, .board__card, .hub__app, .hub__tile, .wl__app, .side__agent, .fv-stack li, .term__copy, .chrome__url, .chrome__mode, .starter__copy, .step__node, .track__dot {
+  background-color: var(--fb-surface-raised);
+}
+.db__card--agent { background-color: rgb(var(--green-rgb) / 0.08) !important; }
+.hub__tile.is-on { background-color: var(--c); }
+.hub__tile[title="Notion"].is-on { background-color: #fff; }
+.footer { background-color: var(--fb-surface) !important; }
+.sticky { background: rgb(9 14 27 / 0.88); }
+.plan2--lit .plan2__tag { background: #0e1f17; }
