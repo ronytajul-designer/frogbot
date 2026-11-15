@@ -824,7 +824,7 @@
   const SHAPES = {
     hero:  [{ ax: 0.04, ay: 0.78, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.96, ay: 0.72, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.5, ay: 1.04, rx: 0.55, ry: 0.2, g: 0.8 }],
     built: [{ ax: 0.98, ay: 0.06, rx: 0.4, ry: 0.6, g: 0.95 }],
-    close: [{ ax: 0.5, ay: 0.62, rx: 0.62, ry: 0.6, g: 1.35 }, { ax: 0.0, ay: 0.3, rx: 0.24, ry: 0.45, g: 0.8 }, { ax: 1.0, ay: 0.35, rx: 0.24, ry: 0.45, g: 0.8 }],
+    close: [{ ax: 0.5, ay: 0.3, rx: 0.5, ry: 0.32, g: 0.7 }, { ax: 0.0, ay: 0.45, rx: 0.24, ry: 0.5, g: 0.8 }, { ax: 1.0, ay: 0.45, rx: 0.24, ry: 0.5, g: 0.8 }],
   };
   // seeded value noise with fractal octaves: irregular, cloud-like, never geometric
   const seed = 1337;
@@ -841,6 +841,38 @@
   const make = c => {
     const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
     let cols = 0, rows = 0, base = null, noise = null, img = null;
+    // closing section: a large frog head made of the same pixels, peeking up from the bottom
+    const isFrog = c.dataset.px === 'close';
+    let frogA = null, sil = null, fcv = null, fctx = null, fbox = null;
+    const eye = { x: 0, y: 0, tx: 0, ty: 0, blink: 1 };
+    const SKIN = [
+      new Path2D('M 93.9,67.1 C 92.9,79.9 73.6,90 50,90 26.4,90 7.1,79.9 6.1,67.1 Z'),
+      new Path2D('m 92.2,59.4 c 0.5,0.9 0.8,1.8 1.1,2.7 H 6.7 C 7,61.2 7.3,60.3 7.8,59.5 8.3,58.5 8.3,57.3 7.6,56.3 5.8,53.6 4.8,50.4 4.8,46.9 c 0,-9.4 7.6,-17 17,-17 7.2,0 13.4,4.5 15.9,10.9 0.5,1.3 1.8,2.1 3.1,1.9 3,-0.3 6.1,-0.5 9.2,-0.5 3.2,0 6.3,0.2 9.2,0.5 1.3,0.2 2.6,-0.6 3.1,-1.8 C 65,33.8 72.1,29 80.2,30 c 7.8,0.9 14.1,7.3 14.9,15.1 0.4,4.1 -0.7,8 -2.8,11.1 -0.6,1 -0.6,2.2 -0.1,3.2 z'),
+      new Path2D('m 65.5,14.8 -7.8,3.9 c -0.3,0.1 -0.6,0.1 -0.8,-0.2 l -6.5,-8.3 c -0.3,-0.3 -0.7,-0.3 -1,0 l -6.2,8.5 C 43,18.9 42.7,19 42.4,18.9 l -8,-4.1 c -0.5,-0.2 -1,0.2 -0.9,0.7 L 36.7,29 c 0.1,0.5 0.6,0.9 1.1,0.9 h 24.5 c 0.5,0 1,-0.4 1.1,-0.9 l 3.1,-13.5 c 0,-0.5 -0.5,-0.9 -1,-0.7 z'),
+    ];
+    const drawFrog = () => {
+      if (!fbox) return;
+      const { s, ox, oy } = fbox;
+      fctx.setTransform(1, 0, 0, 1, 0, 0); fctx.clearRect(0, 0, cols, rows);
+      fctx.setTransform(s, 0, 0, s, ox, oy);
+      fctx.globalCompositeOperation = 'source-over'; fctx.fillStyle = '#fff';
+      SKIN.forEach(p => fctx.fill(p));
+      // eye holes: a ring and a pupil, both cut out; the pupils look toward the pointer
+      fctx.globalCompositeOperation = 'destination-out';
+      for (const cx of [21.8, 78.2]) {
+        fctx.save(); fctx.translate(cx, 46.9); fctx.scale(1, eye.blink);
+        fctx.lineWidth = 5; fctx.beginPath(); fctx.arc(0, 0, 10.2, 0, Math.PI * 2); fctx.stroke();
+        fctx.beginPath(); fctx.arc(eye.x, eye.y / Math.max(eye.blink, 0.3), 4.6, 0, Math.PI * 2); fctx.fill();
+        fctx.restore();
+      }
+      fctx.globalCompositeOperation = 'source-over';
+      const a = fctx.getImageData(0, 0, cols, rows).data;
+      const top = oy + 9.6 * s, h = 80 * s;
+      for (let y = 0; y < rows; y++) {
+        const g = 0.5 + 0.7 * Math.min(1, Math.max(0, (y - top) / h));
+        for (let x = 0; x < cols; x++) { const i = y * cols + x; frogA[i] = (a[i * 4 + 3] / 255) * g; }
+      }
+    };
     const build = () => {
       const r = c.getBoundingClientRect();
       cols = Math.ceil(r.width / CELL); rows = Math.ceil(r.height / CELL);
@@ -855,6 +887,23 @@
         }
         const i = y * cols + x;
         base[i] = m; noise[i] = fbm(x / 70, y / 70);
+      }
+      if (isFrog) {
+        frogA = new Float32Array(cols * rows); sil = new Uint8Array(cols * rows);
+        fcv = fcv || document.createElement('canvas'); fcv.width = cols; fcv.height = rows;
+        fctx = fcv.getContext('2d', { willReadFrequently: true });
+        const btn = c.parentElement.querySelector('.close__cta');
+        const br = btn ? btn.getBoundingClientRect() : null;
+        const fw = Math.min(660, r.width * 0.62) / CELL, s = fw / 92;
+        const topPx = br ? br.bottom - r.top + 48 : r.height * 0.55;
+        fbox = { s, ox: cols / 2 - 50 * s, oy: topPx / CELL - 9.6 * s };
+        // silhouette (skin plus eyes) keeps the ambient texture out of the eye holes
+        fctx.setTransform(s, 0, 0, s, fbox.ox, fbox.oy); fctx.fillStyle = '#fff';
+        SKIN.forEach(p => fctx.fill(p));
+        for (const cx of [21.8, 78.2]) { fctx.beginPath(); fctx.arc(cx, 46.9, 12.7, 0, Math.PI * 2); fctx.fill(); }
+        const sa = fctx.getImageData(0, 0, cols, rows).data;
+        for (let i = 0; i < sil.length; i++) sil[i] = sa[i * 4 + 3] > 128 ? 1 : 0;
+        drawFrog();
       }
       img = ctx.createImageData(cols, rows);
       paint(performance.now());
@@ -872,6 +921,7 @@
       for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
         const i = y * cols + x;
         let m = base[i];
+        if (frogA) m = sil[i] ? frogA[i] : m;
         if (m <= 0) continue;
         for (const r of live) {
           const dx = x - r.x, dy = y - r.y;
@@ -888,12 +938,44 @@
       ctx.putImageData(img, 0, 0);
     };
     let raf = null;
+    const host = c.parentElement;
     const tick = now => {
       while (ripples.length && now - ripples[0].t > LIFE) ripples.shift();
+      let eyesMoving = false;
+      if (frogA) {
+        const ex = eye.tx - eye.x, ey = eye.ty - eye.y;
+        eyesMoving = Math.abs(ex) + Math.abs(ey) > 0.02;
+        if (eyesMoving) { eye.x += ex * 0.18; eye.y += ey * 0.18; drawFrog(); }
+      }
       paint(now);
-      raf = ripples.length ? requestAnimationFrame(tick) : null;
+      raf = ripples.length || eyesMoving ? requestAnimationFrame(tick) : null;
     };
-    const host = c.parentElement;
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    if (isFrog && !reduce) {
+      let onScreen = false;
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(c);
+      if (matchMedia('(hover: hover)').matches) addEventListener('pointermove', e => {
+        if (!onScreen || !fbox) return;
+        const r = c.getBoundingClientRect();
+        const fx = r.left + (fbox.ox + 50 * fbox.s) * CELL, fy = r.top + (fbox.oy + 46.9 * fbox.s) * CELL;
+        const dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 300) * 3.4;
+        eye.tx = dx / d * k; eye.ty = dy / d * k; kick();
+      }, { passive: true });
+      const blink = () => {
+        if (onScreen && !document.hidden && fbox) {
+          const t0 = performance.now();
+          const step = now => {
+            const t = (now - t0) / 180; // close and open in 180ms
+            eye.blink = t >= 1 ? 1 : Math.max(0.1, Math.abs(1 - 2 * t));
+            drawFrog(); paint(now);
+            if (t < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+        setTimeout(blink, 2800 + Math.random() * 3600);
+      };
+      setTimeout(blink, 2000);
+    }
     if (!reduce && matchMedia('(hover: hover)').matches) {
       host.addEventListener('pointermove', e => {
         const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, now = performance.now();

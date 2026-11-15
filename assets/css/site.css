@@ -1658,3 +1658,11 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 @media (prefers-reduced-motion: reduce) { .split__ring svg.frog { animation: none; transition: none; } }
 @media (max-width: 560px) { .split__ring svg.frog { width: 112px; height: 112px; margin: -56px 0 0 -56px; } }
 .split__ring svg.frog { width: 196px; height: 196px; margin: -98px 0 0 -98px; } @media (max-width: 560px) { .split__ring svg.frog { width: 168px; height: 168px; margin: -84px 0 0 -84px; } }
+/* Closing CTA: room for the pixel frog peeking up from the bottom */
+.close { padding: 160px 0 clamp(280px, 30vw, 440px); }
+.px--close {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  animation: none !important; transform: none !important;
+}
+.close { padding-bottom: clamp(300px, 34vw, 480px); }
