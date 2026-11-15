@@ -285,7 +285,12 @@
       setTimeout(syncSaving, 2000);
     });
     // First view: type the sentence and resolve the rows once the hero has risen.
-    if (!reduce) setTimeout(() => showTool('airtable'), 500);
+    // Run the build once the window is actually on screen, not while the visitor is still reading the headline
+    if (!reduce) {
+      const win0 = $('[data-window]');
+      const io0 = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io0.disconnect(); showTool(state.tool && state.tool.name ? Object.keys(TOOLS).find(k => TOOLS[k] === state.tool) || 'airtable' : 'airtable'); } }, { threshold: 0.45 });
+      io0.observe(win0);
+    }
   }
 
   /* Copy the agent prompt */
@@ -394,7 +399,7 @@
     ticking = false;
     if (innerWidth <= 820) { win.style.setProperty('--p', 1); return; }
     const start = 0;
-    const end = win.offsetTop - 120;
+    const end = Math.max(1, win.offsetTop - innerHeight * 0.45);
     const p = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
     win.style.setProperty('--p', p.toFixed(3));
   };
@@ -831,31 +836,68 @@
   };
   const fbm = (x, y) => vnoise(x, y) * 0.55 + vnoise(x * 2.1, y * 2.1) * 0.28 + vnoise(x * 4.3, y * 4.3) * 0.17;
   const CELL = 2;
-  const draw = c => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const make = c => {
     const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
-    const r = c.getBoundingClientRect();
-    const cols = Math.ceil(r.width / CELL), rows = Math.ceil(r.height / CELL);
-    c.width = cols; c.height = rows;
-    const img = ctx.createImageData(cols, rows), d = img.data;
-    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
-      let m = 0;
-      for (const sh of shape) {
-        const dx = (x / cols - sh.ax) / sh.rx, dy = (y / rows - sh.ay) / sh.ry;
-        const f = 1 - Math.sqrt(dx * dx + dy * dy);
-        if (f > 0) m = Math.max(m, f * sh.g);
+    let cols = 0, rows = 0, base = null, noise = null, img = null;
+    const glow = { x: -1e4, y: -1e4, a: 0, ta: 0 };
+    const build = () => {
+      const r = c.getBoundingClientRect();
+      cols = Math.ceil(r.width / CELL); rows = Math.ceil(r.height / CELL);
+      c.width = cols; c.height = rows;
+      base = new Float32Array(cols * rows); noise = new Float32Array(cols * rows);
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        let m = 0;
+        for (const sh of shape) {
+          const dx = (x / cols - sh.ax) / sh.rx, dy = (y / rows - sh.ay) / sh.ry;
+          const f = 1 - Math.sqrt(dx * dx + dy * dy);
+          if (f > 0) m = Math.max(m, f * sh.g);
+        }
+        const i = y * cols + x;
+        base[i] = m; noise[i] = fbm(x / 70, y / 70);
       }
-      if (m <= 0) continue;
-      const n = fbm(x / 70, y / 70);
-      const v = Math.min(1, m * (0.25 + n * 1.05));
-      if (v > B8[(y & 7) * 8 + (x & 7)]) {
-        const i = (y * cols + x) * 4;
-        d[i] = 58; d[i + 1] = 207; d[i + 2] = 106; d[i + 3] = 40 + Math.round(v * 70);
+      img = ctx.createImageData(cols, rows);
+      paint();
+    };
+    // the cursor adds a soft lens of extra density, so pixels appear around it and fade as it leaves
+    const R = 70;
+    const paint = () => {
+      const d = img.data; d.fill(0);
+      const gx = glow.x / CELL, gy = glow.y / CELL, ga = glow.a;
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        const i = y * cols + x;
+        let m = base[i];
+        if (ga > 0.01) {
+          const dx = x - gx, dy = y - gy, dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < R) { const k = 1 - dist / R; m = Math.max(m, k * k * 1.1 * ga); }
+        }
+        if (m <= 0) continue;
+        const v = Math.min(1, m * (0.25 + noise[i] * 1.05));
+        if (v > B8[(y & 7) * 8 + (x & 7)]) {
+          const o = i * 4;
+          d[o] = 58; d[o + 1] = 207; d[o + 2] = 106; d[o + 3] = 40 + Math.round(v * 80);
+        }
       }
+      ctx.putImageData(img, 0, 0);
+    };
+    let raf = null;
+    const tick = () => {
+      glow.a += (glow.ta - glow.a) * 0.12;
+      paint();
+      raf = Math.abs(glow.ta - glow.a) > 0.01 || glow.ta > 0 ? requestAnimationFrame(tick) : null;
+    };
+    const host = c.parentElement;
+    if (!reduce && matchMedia('(hover: hover)').matches) {
+      host.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        glow.x = e.clientX - r.left; glow.y = e.clientY - r.top; glow.ta = 1;
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+      host.addEventListener('pointerleave', () => { glow.ta = 0; if (!raf) raf = requestAnimationFrame(tick); });
     }
-    ctx.putImageData(img, 0, 0);
+    build();
+    let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
   };
-  const all = () => fields.forEach(draw);
-  all();
-  let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(all, 150); });
+  fields.forEach(make);
 })();
 
