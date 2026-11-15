@@ -1673,3 +1673,4 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 }
 .close { padding-bottom: clamp(360px, 42vw, 600px); }
 .close { padding-bottom: calc(40px + min(660px, 62vw) * 0.86); }
+.close { padding-bottom: calc(48px + min(660px, 62vw) * 0.59); } @media (max-width: 560px) { .close { padding-bottom: calc(40px + 62vw * 0.86); } }
