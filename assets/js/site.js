@@ -824,7 +824,7 @@
   const SHAPES = {
     hero:  [{ ax: 0.04, ay: 0.78, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.96, ay: 0.72, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.5, ay: 1.04, rx: 0.55, ry: 0.2, g: 0.8 }],
     built: [{ ax: 0.98, ay: 0.06, rx: 0.4, ry: 0.6, g: 0.95 }],
-    close: [{ ax: 0.5, ay: 0.3, rx: 0.5, ry: 0.32, g: 0.7 }, { ax: 0.0, ay: 0.45, rx: 0.24, ry: 0.5, g: 0.8 }, { ax: 1.0, ay: 0.45, rx: 0.24, ry: 0.5, g: 0.8 }],
+    close: [{ ax: 0.0, ay: 0.6, rx: 0.18, ry: 0.45, g: 0.5 }, { ax: 1.0, ay: 0.6, rx: 0.18, ry: 0.45, g: 0.5 }],
   };
   // seeded value noise with fractal octaves: irregular, cloud-like, never geometric
   const seed = 1337;
@@ -1071,10 +1071,10 @@ void main(){
       setInterval(() => {
         if (!onScreen || !btn || document.hidden) return;
         const r = c.getBoundingClientRect(), b = btn.getBoundingClientRect();
-        ripples.push({ x: b.left + b.width / 2 - r.left, y: b.top + b.height / 2 - r.top, t: performance.now(), amp: 0.7 });
+        ripples.push({ x: b.left + b.width / 2 - r.left, y: b.top + b.height / 2 - r.top, t: performance.now(), amp: 0.35 });
         if (ripples.length > 3) ripples.shift();
         if (!raf) raf = requestAnimationFrame(tick);
-      }, 2400);
+      }, 4800);
     }
     build();
     let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
