@@ -841,7 +841,6 @@
   const make = c => {
     const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
     let cols = 0, rows = 0, base = null, noise = null, img = null;
-    const glow = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, a: 0, ta: 0 };
     const build = () => {
       const r = c.getBoundingClientRect();
       cols = Math.ceil(r.width / CELL); rows = Math.ceil(r.height / CELL);
@@ -858,22 +857,28 @@
         base[i] = m; noise[i] = fbm(x / 70, y / 70);
       }
       img = ctx.createImageData(cols, rows);
-      paint();
+      paint(performance.now());
     };
-    // the cursor adds a soft lens of extra density, so pixels appear around it and fade as it leaves
-    const R = 120;
-    const paint = () => {
+    // the cursor drops water ripples: rings spread out slowly and lift only the pixels already there
+    const ripples = [], LIFE = 2600, SPEED = 0.12, WIDTH = 14; // ms, px per ms, px
+    let last = { x: -1e4, y: -1e4, t: 0 };
+    const paint = now => {
       const d = img.data; d.fill(0);
-      const gx = glow.x / CELL, gy = glow.y / CELL, ga = glow.a;
+      const live = ripples.map(r => {
+        const age = (now - r.t) / LIFE;
+        return { x: r.x / CELL, y: r.y / CELL, rad: (now - r.t) * SPEED / CELL, amp: 0.6 * (1 - age) * (1 - age) };
+      });
+      const w = WIDTH / CELL;
       for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
         const i = y * cols + x;
         let m = base[i];
-        if (ga > 0.01) {
-          // a soft horizontal scan line, not a circle: wide along x, thin along y
-          const dx = (x - gx) / 220, dy = (y - gy) / 20, dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 1) { const k = 1 - dist; const sm = k * k * (3 - 2 * k); m = Math.max(m, sm * 0.55 * ga); }
-        }
         if (m <= 0) continue;
+        for (const r of live) {
+          const dx = x - r.x, dy = y - r.y;
+          if (Math.abs(dx) > r.rad + w || Math.abs(dy) > r.rad + w) continue;
+          const off = Math.abs(Math.sqrt(dx * dx + dy * dy) - r.rad);
+          if (off < w) { const k = 1 - off / w; m += k * k * (3 - 2 * k) * r.amp * Math.min(1, m * 3); }
+        }
         const v = Math.min(1, m * (0.25 + noise[i] * 1.05));
         if (v > B8[(y & 7) * 8 + (x & 7)]) {
           const o = i * 4;
@@ -883,23 +888,23 @@
       ctx.putImageData(img, 0, 0);
     };
     let raf = null;
-    const tick = () => {
-      // the lens trails the cursor and eases in and out slowly, like a radar sweep catching up
-      glow.x += (glow.tx - glow.x) * 0.06; glow.y += (glow.ty - glow.y) * 0.06;
-      glow.a += (glow.ta - glow.a) * (glow.ta > glow.a ? 0.04 : 0.025);
-      paint();
-      const moving = Math.abs(glow.tx - glow.x) + Math.abs(glow.ty - glow.y) > 0.5;
-      raf = moving || Math.abs(glow.ta - glow.a) > 0.005 ? requestAnimationFrame(tick) : null;
+    const tick = now => {
+      while (ripples.length && now - ripples[0].t > LIFE) ripples.shift();
+      paint(now);
+      raf = ripples.length ? requestAnimationFrame(tick) : null;
     };
     const host = c.parentElement;
     if (!reduce && matchMedia('(hover: hover)').matches) {
       host.addEventListener('pointermove', e => {
-        const r = c.getBoundingClientRect();
-        glow.tx = e.clientX - r.left; glow.ty = e.clientY - r.top; glow.ta = 1;
-        if (glow.x < -1e3) { glow.x = glow.tx; glow.y = glow.ty; }
+        const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, now = performance.now();
+        // one drop per short pause or distance, so it stays calm instead of a trail
+        if (Math.hypot(x - last.x, y - last.y) < 90 && now - last.t < 700) return;
+        if (now - last.t < 260) return;
+        last = { x, y, t: now };
+        ripples.push({ x, y, t: now });
+        if (ripples.length > 5) ripples.shift();
         if (!raf) raf = requestAnimationFrame(tick);
       });
-      host.addEventListener('pointerleave', () => { glow.ta = 0; if (!raf) raf = requestAnimationFrame(tick); });
     }
     build();
     let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
