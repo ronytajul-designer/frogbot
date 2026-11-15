@@ -1499,3 +1499,23 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
   .window__col, .window__content, .window__main { min-height: 0; height: auto; }
   .window .view { flex: none; max-height: none; overflow: visible; }
 }
+
+/* ---------- Pixel field: dithered green texture replaces every glow gradient ---------- */
+.px { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; image-rendering: pixelated; }
+.hero .px--hero { z-index: 0; }
+.hero__inner { position: relative; z-index: 1; }
+.hero__dots { display: none; }
+.built .wrap, .close .wrap { position: relative; z-index: 1; }
+
+/* Flat surfaces: no radial or linear colour washes on cards and panels */
+.split__card, .uc, .visual, .plan2--lit, .window .saving, .costbars, .faq2__ask, .mp, .mr, .track, .term, .db__card--agent, .window__note, .dev { background-image: none !important; }
+.split__card { background-color: var(--fb-surface-raised); }
+.uc { background-color: var(--fb-surface); }
+.visual { background-color: var(--fb-surface-sunken); }
+.plan2--lit { background-color: var(--fb-surface-sunken); box-shadow: none; }
+.window .saving { background-color: var(--fb-surface); }
+.matrix__hl { background: rgb(var(--green-rgb) / 0.06); }
+.window { box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.9); }
+.btn--primary, .hero__cta .btn--primary, .close__cta .btn--primary { box-shadow: none; }
+.btn--primary:hover { box-shadow: none; }
+.window { background: var(--fb-surface-sunken); backdrop-filter: none; }
