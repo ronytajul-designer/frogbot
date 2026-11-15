@@ -1519,3 +1519,7 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 .btn--primary, .hero__cta .btn--primary, .close__cta .btn--primary { box-shadow: none; }
 .btn--primary:hover { box-shadow: none; }
 .window { background: var(--fb-surface-sunken); backdrop-filter: none; }
+/* Fine pixel field: drawn once, drifts very slowly */
+.px { inset: -16px; width: calc(100% + 32px); height: calc(100% + 32px); animation: px-drift 24s ease-in-out infinite alternate; }
+@keyframes px-drift { to { transform: translate(10px, -8px); } }
+@media (prefers-reduced-motion: reduce) { .px { animation: none; } }

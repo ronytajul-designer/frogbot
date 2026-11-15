@@ -808,64 +808,54 @@
   new IntersectionObserver(([e]) => { if (e.isIntersecting && !seen) { seen = true; play(active()); } }, { threshold: 0.5 }).observe(box);
 })();
 
-/* Pixel field: an ordered-dither (Bayer 4x4) green texture that drifts slowly.
-   Each field has an anchor and falloff so the texture gathers in one place and fades out. */
+/* Pixel field: a fine dithered texture in the spirit of print halftones.
+   Organic value noise (not sine waves) shaped by soft anchors, quantised with an 8x8 Bayer matrix
+   at 2px cells, drawn once per size. Motion is a slow CSS drift, so it costs nothing per frame. */
 (() => {
   const fields = [...document.querySelectorAll('[data-px]')];
   if (!fields.length) return;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
-  // where the texture gathers, as fractions of the canvas, and how strong it is
+  const B8 = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21].map(v => (v + 0.5) / 64);
   const SHAPES = {
-    hero:  [{ ax: 0.06, ay: 0.78, rx: 0.34, ry: 0.5, gain: 1.15 }, { ax: 0.94, ay: 0.72, rx: 0.34, ry: 0.5, gain: 1.15 }, { ax: 0.5, ay: 1.02, rx: 0.6, ry: 0.22, gain: 0.9 }],
-    built: [{ ax: 0.96, ay: 0.08, rx: 0.42, ry: 0.65, gain: 1.05 }],
-    close: [{ ax: 0.5, ay: 1.05, rx: 0.6, ry: 0.75, gain: 1.1 }, { ax: 0.02, ay: 0.2, rx: 0.22, ry: 0.4, gain: 0.8 }, { ax: 0.98, ay: 0.3, rx: 0.22, ry: 0.4, gain: 0.8 }],
+    hero:  [{ ax: 0.04, ay: 0.78, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.96, ay: 0.72, rx: 0.3, ry: 0.55, g: 1 }, { ax: 0.5, ay: 1.04, rx: 0.55, ry: 0.2, g: 0.8 }],
+    built: [{ ax: 0.98, ay: 0.06, rx: 0.4, ry: 0.6, g: 0.95 }],
+    close: [{ ax: 0.5, ay: 1.08, rx: 0.6, ry: 0.7, g: 1 }, { ax: 0.0, ay: 0.25, rx: 0.2, ry: 0.4, g: 0.7 }, { ax: 1.0, ay: 0.3, rx: 0.2, ry: 0.4, g: 0.7 }],
   };
-  const noise = (x, y, t) => (
-    Math.sin(x * 0.045 + t * 0.6) + Math.sin(y * 0.06 - t * 0.45) +
-    Math.sin((x + y) * 0.03 + t * 0.3) + Math.sin(Math.hypot(x - 60, y - 40) * 0.05 - t * 0.5)
-  ) / 8 + 0.5;
-  const make = c => {
-    const ctx = c.getContext('2d');
-    const shape = SHAPES[c.dataset.px];
-    const CELL = 5;
-    let cols = 0, rows = 0, raf = null, t0 = performance.now(), visible = false;
-    const size = () => {
-      const r = c.getBoundingClientRect();
-      cols = Math.ceil(r.width / CELL); rows = Math.ceil(r.height / CELL);
-      c.width = cols; c.height = rows;
-      draw(reduce ? 0 : (performance.now() - t0) / 1000);
-    };
-    const draw = t => {
-      const img = ctx.createImageData(cols, rows), d = img.data;
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
-        let v = 0;
-        for (const sh of shape) {
-          const dx = (x / cols - sh.ax) / sh.rx, dy = (y / rows - sh.ay) / sh.ry;
-          const f = 1 - Math.sqrt(dx * dx + dy * dy);
-          if (f > 0) v = Math.max(v, f * f * sh.gain);
-        }
-        if (v <= 0) continue;
-        v *= noise(x, y, t);
-        const thr = BAYER[(y & 3) * 4 + (x & 3)];
-        if (v > thr) {
-          const i = (y * cols + x) * 4, strong = v > thr + 0.25;
-          d[i] = 58; d[i + 1] = 207; d[i + 2] = 106; d[i + 3] = strong ? 150 : 70;
-        }
+  // seeded value noise with fractal octaves: irregular, cloud-like, never geometric
+  const seed = 1337;
+  const hash = (x, y) => { let h = x * 374761393 + y * 668265263 + seed * 2246822519; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967295; };
+  const smooth = t => t * t * (3 - 2 * t);
+  const vnoise = (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = smooth(x - xi), yf = smooth(y - yi);
+    const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+    return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+  };
+  const fbm = (x, y) => vnoise(x, y) * 0.55 + vnoise(x * 2.1, y * 2.1) * 0.28 + vnoise(x * 4.3, y * 4.3) * 0.17;
+  const CELL = 2;
+  const draw = c => {
+    const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
+    const r = c.getBoundingClientRect();
+    const cols = Math.ceil(r.width / CELL), rows = Math.ceil(r.height / CELL);
+    c.width = cols; c.height = rows;
+    const img = ctx.createImageData(cols, rows), d = img.data;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      let m = 0;
+      for (const sh of shape) {
+        const dx = (x / cols - sh.ax) / sh.rx, dy = (y / rows - sh.ay) / sh.ry;
+        const f = 1 - Math.sqrt(dx * dx + dy * dy);
+        if (f > 0) m = Math.max(m, f * sh.g);
       }
-      ctx.putImageData(img, 0, 0);
-    };
-    let last = 0;
-    const loop = now => { if (now - last > 90) { draw((now - t0) / 1000); last = now; } raf = requestAnimationFrame(loop); };
-    size();
-    addEventListener('resize', size);
-    if (reduce) return;
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible && !raf) raf = requestAnimationFrame(loop);
-      else if (!visible && raf) { cancelAnimationFrame(raf); raf = null; }
-    }).observe(c);
+      if (m <= 0) continue;
+      const n = fbm(x / 70, y / 70);
+      const v = Math.min(1, m * (0.25 + n * 1.05));
+      if (v > B8[(y & 7) * 8 + (x & 7)]) {
+        const i = (y * cols + x) * 4;
+        d[i] = 58; d[i + 1] = 207; d[i + 2] = 106; d[i + 3] = 40 + Math.round(v * 70);
+      }
+    }
+    ctx.putImageData(img, 0, 0);
   };
-  fields.forEach(make);
+  const all = () => fields.forEach(draw);
+  all();
+  let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(all, 150); });
 })();
 
