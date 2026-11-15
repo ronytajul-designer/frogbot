@@ -1708,3 +1708,26 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .menu__group .nav__chev { transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1); }
 .menu__group summary { transition: color 0.2s; }
 .menu__group[open] summary { color: var(--fb-green); }
+
+/* ---------- Mobile: shorter comparison and pricing, full screen menu ---------- */
+.compare__more { display: none; }
+@media (max-width: 560px) {
+  .compare:not(.is-all) .matrix td[data-col="Retool, Airtable"], .compare:not(.is-all) .matrix td[data-col="Lovable, Bolt"] { display: none; }
+  .compare__more { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; margin-top: 16px; border: 1px solid var(--line); border-radius: 999px; font: 600 14px var(--font-text); color: var(--ink-2); }
+  .matrix tr { padding: 16px 0; }
+  /* plans become a swipe row with the next card peeking */
+  .plans2 { display: flex !important; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding: 16px 16px 8px; scroll-padding-inline: 16px; scrollbar-width: none; }
+  .plans2::-webkit-scrollbar { display: none; }
+  .plans2 > * { flex: 0 0 84%; scroll-snap-align: start; }
+  /* full screen menu */
+  .header .menu { position: fixed; inset: 0; z-index: -1; margin: 0; max-height: none; height: 100dvh; padding: 88px 16px calc(24px + env(safe-area-inset-bottom)); border: 0; border-radius: 0; background: rgb(9 14 27 / 0.97); overflow-y: auto; align-content: start; }
+  html.menu-open, html.menu-open body { overflow: hidden; }
+}
+/* Mobile comparison: each row is a compact 2 column grid, FrogBot beside the alternative */
+@media (max-width: 560px) {
+  .matrix tr { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px 0 !important; }
+  .matrix tbody th { grid-column: 1 / -1; margin: 0 0 4px !important; font-size: 16px !important; line-height: 24px !important; }
+  .matrix td { flex-direction: column; align-items: flex-start !important; justify-content: flex-start !important; gap: 4px !important; min-height: 0 !important; padding: 12px !important; border: 1px solid var(--line) !important; border-radius: 12px !important; font-size: 14px; line-height: 20px; }
+  .matrix td::before { font-size: 12px; line-height: 16px; }
+  .matrix td.is-own { border-color: rgb(var(--green-rgb) / 0.4) !important; background: rgb(var(--green-rgb) / 0.06) !important; }
+}

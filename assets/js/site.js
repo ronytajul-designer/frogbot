@@ -115,12 +115,12 @@
       const rows = [...menu.children];
       if (open) {
         menu.hidden = false;
-        anim = M.animate(menu, { opacity: [0, 1], transform: ['translateY(-12px) scale(0.96)', 'translateY(0) scale(1)'], clipPath: ['inset(0 0 100% 0 round 20px)', 'inset(0 0 0% 0 round 20px)'] },
+        anim = M.animate(menu, { opacity: [0, 1], transform: ['translateY(-12px) scale(0.96)', 'translateY(0) scale(1)'], clipPath: ['inset(0 0 100% 0)', 'inset(0 0 0% 0)'] },
           { type: 'spring', stiffness: 380, damping: 32, mass: 0.9 });
         M.animate(rows, { opacity: [0, 1], transform: ['translateY(10px)', 'translateY(0)'] },
           { delay: M.stagger(0.045, { start: 0.08 }), type: 'spring', stiffness: 420, damping: 30 });
       } else {
-        anim = M.animate(menu, { opacity: 0, transform: 'translateY(-8px) scale(0.98)', clipPath: 'inset(0 0 100% 0 round 20px)' }, { duration: 0.22, ease: [0.4, 0, 1, 1] });
+        anim = M.animate(menu, { opacity: 0, transform: 'translateY(-8px) scale(0.98)', clipPath: 'inset(0 0 100% 0)' }, { duration: 0.22, ease: [0.4, 0, 1, 1] });
         anim.then(() => { if (toggle.getAttribute('aria-expanded') === 'false') { menu.hidden = true; menu.style.cssText = ''; } });
       }
     };
@@ -1185,3 +1185,16 @@ void main(){
   };
   setTimeout(blink, 1800);
 })();
+
+/* Mobile: comparison shows FrogBot against per-seat SaaS first; pricing opens on the Pro plan */
+(() => {
+  const more = document.querySelector('[data-compare-more]');
+  if (more) more.addEventListener('click', () => {
+    const open = more.closest('.compare').classList.toggle('is-all');
+    more.setAttribute('aria-expanded', String(open));
+    more.textContent = open ? 'Show less' : 'Compare with Retool, Airtable, Lovable and Bolt';
+  });
+  const plans = document.querySelector('.plans2'), pro = plans && plans.querySelector('.plan2--lit');
+  if (plans && pro && matchMedia('(max-width: 560px)').matches) plans.scrollLeft = pro.offsetLeft - 16;
+})();
+
