@@ -1198,3 +1198,20 @@ void main(){
   if (plans && pro && matchMedia('(max-width: 560px)').matches) plans.scrollLeft = pro.offsetLeft - 16;
 })();
 
+
+/* Mobile top bar: hide on scroll down, show on scroll up (never while the menu is open) */
+(() => {
+  const header = document.querySelector('.header');
+  if (!header) return;
+  const mq = matchMedia('(max-width: 560px)');
+  let lastY = scrollY, ticking = false;
+  const update = () => {
+    ticking = false;
+    const y = scrollY, d = y - lastY;
+    if (!mq.matches || document.documentElement.classList.contains('menu-open') || y < 80) header.classList.remove('is-hidden');
+    else if (d > 6) header.classList.add('is-hidden');
+    else if (d < -6) header.classList.remove('is-hidden');
+    if (Math.abs(d) > 6) lastY = y;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+})();

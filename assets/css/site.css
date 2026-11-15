@@ -1737,3 +1737,10 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
   .header .menu[hidden] { display: none; }
   .header .menu > * { flex-shrink: 0; }
 }
+/* Mobile: the top bar hides while scrolling down and comes back on scroll up; booking lives in the bottom bar */
+@media (max-width: 560px) {
+  .header { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s var(--ease), width 0.5s var(--ease), padding 0.5s var(--ease); }
+  .header.is-hidden { transform: translateY(calc(-100% - 24px)); }
+  .header .header__bar .btn--primary { display: none; }
+}
+@media (max-width: 560px) { .header .header__actions .btn--primary { display: none !important; } }
