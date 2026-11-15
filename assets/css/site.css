@@ -1639,3 +1639,12 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .split__ring .frog .frog__eye circle:first-child { fill: none; stroke: #3acf6a; stroke-width: 5; }
 .split__ring .frog .frog__pupil { fill: #3acf6a; }
 @media (max-width: 560px) { .split__ring svg.frog { width: 72px; height: 72px; } }
+
+/* ---------- Open sections: How it works and Comparison, no card frames ---------- */
+.flow__visual, .costbars {
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  background: none !important; background-image: none !important;
+}
+.flow__visual { padding: 0 !important; height: auto !important; min-height: 184px; justify-content: flex-start; }
+.costbars { padding: 0 !important; margin-top: 48px; }
+.compare__scroll { margin-top: 48px; }
