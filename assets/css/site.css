@@ -1761,3 +1761,41 @@ html.menu-open .header.is-hidden { transform: none; }
   .flow__step h3 { font-size: 20px !important; line-height: 28px !important; }
   h2.display + * { margin-top: 16px !important; }
 }
+
+/* ---------- Mobile fixes: Use cases and Comparison ---------- */
+@media (max-width: 560px) {
+  /* use cases: tabs in one swipe row, compact rows with the status on the right */
+  .uc { padding: 0 !important; }
+  .uc__tabs { flex-wrap: nowrap !important; overflow-x: auto; margin-inline: -16px; padding: 0 16px 4px; scrollbar-width: none; scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .uc__tabs::-webkit-scrollbar { display: none; }
+  .uc__tabs button { flex: none; scroll-snap-align: start; }
+  .uc__desc { margin-top: 16px !important; }
+  .uc__row { flex-direction: row !important; align-items: center !important; padding: 12px !important; }
+  .uc__row > span:last-child { text-align: right !important; }
+  .uc__row small { display: none; }
+  .uc__body { min-height: 0 !important; }
+
+  /* comparison: column names once at the top, then just the values in each row */
+  .costbars { margin-top: 24px; padding: 20px !important; }
+  .compare__scroll { margin-top: 24px !important; }
+  .compare:not(.is-all) .matrix thead { display: block; position: sticky; top: 0; z-index: 2; padding: 12px 0 8px; background: var(--fb-surface); }
+  .compare:not(.is-all) .matrix thead tr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .compare:not(.is-all) .matrix thead td, .compare:not(.is-all) .matrix thead th:nth-of-type(n+3) { display: none; }
+  .compare:not(.is-all) .matrix thead th { display: block; padding: 0 12px !important; border: 0 !important; background: none !important; font: 600 14px/20px var(--font-text) !important; color: var(--ink-3); }
+  .compare:not(.is-all) .matrix thead th.is-own { color: var(--fb-green); }
+  .compare:not(.is-all) .matrix thead .matrix__brand img { width: 16px; height: 16px; }
+  .compare:not(.is-all) .matrix td::before { display: none; }
+  .compare:not(.is-all) .matrix td { min-height: 48px !important; justify-content: center !important; }
+  .matrix tbody th { font-size: 15px !important; color: var(--ink-2); }
+  .matrix td:not(.is-own) { border-color: transparent !important; background: rgb(255 255 255 / 0.03); }
+  .matrix__hl { display: none; }
+}
+@media (max-width: 560px) {
+  .uc { grid-template-columns: minmax(0, 1fr) !important; }
+  .uc__copy, .uc__win { min-width: 0; }
+  .compare:not(.is-all) .matrix thead { position: static; padding: 0 0 4px; }
+}
+@media (max-width: 560px) {
+  .uc__tabs { margin-inline: 0 !important; padding: 0 0 4px !important; }
+  .matrix tr { padding: 12px 0 !important; }
+}
