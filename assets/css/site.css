@@ -1544,3 +1544,11 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .flow::before { background: rgb(var(--green-rgb) / 0.25); }
 .matrix__hl, .matrix .is-own { background: rgb(var(--green-rgb) / 0.06) !important; }
 .plan2--lit { box-shadow: none !important; }
+/* Card texture v2: dithered noise image from site.js, pinned to the top right */
+.flow__visual, .uc, .mr, .split__card, .visual, .plan2--lit, .plan--lit, .window .saving, .saving, .dev, .header .mm__cta, .header .mp:hover, .bento > *, .box__card {
+  background-image: var(--px-tex, none) !important;
+  background-size: 360px 240px !important;
+  background-position: top right !important;
+  background-repeat: no-repeat !important;
+}
+.db__card--agent { background-image: none !important; background-color: rgb(var(--green-rgb) / 0.08) !important; }

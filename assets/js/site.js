@@ -912,3 +912,31 @@
   fields.forEach(make);
 })();
 
+
+/* Card texture: one static dithered noise image (same language as the hero field),
+   gathered in the top right corner and fading out. Used as a CSS background on cards. */
+(() => {
+  const W = 360, H = 240, CELL = 2, cols = W / CELL, rows = H / CELL;
+  const B = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21].map(v => (v + 0.5) / 64);
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const G = 64, grid = Array.from({ length: G * G }, rnd);
+  const vn = (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const g = (a, b) => grid[((b & 63) * G) + (a & 63)];
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    return (g(xi, yi) * (1 - u) + g(xi + 1, yi) * u) * (1 - v) + (g(xi, yi + 1) * (1 - u) + g(xi + 1, yi + 1) * u) * v;
+  };
+  const fbm = (x, y) => vn(x, y) * 0.55 + vn(x * 2.1, y * 2.1) * 0.3 + vn(x * 4.3, y * 4.3) * 0.15;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+    const dx = (cols - x) / cols, dy = y / rows;
+    const fall = Math.max(0, 1 - Math.sqrt(dx * dx * 0.9 + dy * dy * 1.4));
+    const m = fall * fall * (0.2 + fbm(x / 22, y / 22) * 1.3);
+    if (m > B[(y & 7) * 8 + (x & 7)]) {
+      ctx.fillStyle = `rgba(58,207,106,${(22 + Math.min(1, m) * 58) / 255})`;
+      ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
+    }
+  }
+  document.documentElement.style.setProperty('--px-tex', `url(${c.toDataURL()})`);
+})();
