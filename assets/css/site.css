@@ -1584,3 +1584,7 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
   mask-image: linear-gradient(180deg, transparent 4%, #000 20%, #000 55%, transparent 94%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
   mask-composite: intersect;
 }
+/* Text CTA hover: a clear pill appears behind it, so the hover reads on top of the pixel field */
+.hero__cta .btn--ghost, .close__cta .btn--ghost { border: 1px solid transparent; transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease); }
+.hero__cta .btn--ghost:hover, .close__cta .btn--ghost:hover { color: var(--fb-ink); background: rgb(255 255 255 / 0.1); border-color: rgb(255 255 255 / 0.18); backdrop-filter: blur(8px); }
+.hero__cta .btn--ghost:focus-visible, .close__cta .btn--ghost:focus-visible { border-color: var(--fb-green); }
