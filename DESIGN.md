@@ -9,6 +9,7 @@ Recorded from the built home page (`index.html`, `assets/css/site.css`) on 2026-
 - Muted red `#ff8a8a` (`--rent`) only for prices people pay today. Amber only for "needs review".
 - Dark surfaces from darkest to lightest: `--fb-surface-sunken`, `--fb-surface`, `--fb-surface-mid`, `--fb-surface-raised`, `--fb-surface-elevated`.
 - Text: headings `#f8fafc` (18.4:1), body `#a3abbd` (8.4:1), labels and small print `#8b93a7` (6.3:1). Solid greys, never transparent white, so headings and body read as two levels. Hairlines at 10% white, stronger at 20%.
+- Green rule: brand green `#3acf6a` appears only on primary buttons, the logo and frogs, the "Most popular" plan and the hero and closing pixel fields. Every other accent (headline emphasis, ticks, tags, active tabs, links, card texture) is neutral light `#e4e7ee`.
 - Brand logos (integrations, social) are white or grey at rest and take their own colour only when active or hovered.
 
 **Type**

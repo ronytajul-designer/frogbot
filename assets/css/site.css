@@ -1811,3 +1811,23 @@ html.menu-open .header.is-hidden { transform: none; }
 .section .wrap > :last-child, .flow, .compare__scroll + .fine, .pricing__foot { margin-bottom: 0 !important; }
 .split__card { padding: 0 !important; min-height: 0 !important; }
 @media (max-width: 560px) { .split__ring { margin-bottom: -16px !important; } }
+
+/* ---------- Green only for action and brand ----------
+   Every accent that used the brand green now uses a neutral light accent.
+   Green is kept for: primary buttons, the logo and frogs (images and hex fills),
+   the "Most popular" plan, and the pixel fields (drawn in JS). */
+:root {
+  --brand: #3acf6a; --brand-rgb: 58 207 106;
+  --fb-green: #e4e7ee; --green-rgb: 228 231 238;
+}
+.btn--primary { background: var(--brand) !important; color: #04210d !important; }
+.btn--primary:hover { background: #5be084 !important; }
+.btn--primary:focus-visible { outline-color: var(--brand); }
+/* the one highlighted plan keeps its green frame and badge */
+.plan2--lit { border-color: rgb(var(--brand-rgb) / 0.55) !important; }
+.plan2--lit .plan2__tag { color: var(--brand) !important; box-shadow: 0 0 16px rgb(var(--brand-rgb) / 0.35) !important; }
+.plan2--lit .plan2__tag::before { background: conic-gradient(from 0deg, transparent 0 70%, rgb(var(--brand-rgb) / 0.2) 78%, #b8ffd0 88%, var(--brand) 92%, transparent 100%) !important; }
+.plan2--lit .plan2__tag::after { box-shadow: inset 0 0 0 1px rgb(var(--brand-rgb) / 0.35) !important; }
+/* neutral accents read as quiet white, not a second highlight colour */
+.own { color: var(--fb-ink) !important; }
+.matrix .is-own, .matrix__hl { background: rgb(255 255 255 / 0.04) !important; }

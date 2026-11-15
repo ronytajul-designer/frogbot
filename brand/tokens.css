@@ -9,7 +9,7 @@
 :root {
   /* Brand green. One green everywhere (designer decision, 2026-11-14).
      The live site mixes #22e05a, #3acf6a and #2f964f; the redesign uses only this one. */
-  --fb-green: #3acf6a;          /* logo, CTAs, links, highlights */
+  --fb-green: #3acf6a;          /* brand green: primary buttons, logo, frogs, the highlighted plan only */
   --fb-green-ink: #04210d;      /* text on a green fill */
 
   /* Type */
