@@ -1624,3 +1624,17 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .split__copy { padding: 0 !important; }
 .uc { padding: 0 !important; }
 .split__title { font-size: clamp(32px, 3.6vw, 48px); line-height: 1.15; }
+/* Use cases: lighter left column, bigger product window */
+@media (min-width: 961px) {
+  .uc { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 72px; }
+  .uc__tabs { flex-direction: column; flex-wrap: nowrap; gap: 0; margin-top: 32px; }
+  .uc__tabs button { min-height: 40px; padding: 0 16px; border: 0; border-left: 2px solid var(--line); border-radius: 0; background: none; text-align: left; font-size: 16px; color: var(--ink-3); }
+  .uc__tabs button:hover { color: var(--fb-ink); }
+  .uc__tabs button[aria-selected="true"] { color: var(--fb-ink); background: none; border-left-color: var(--line-strong); }
+  .uc__tabs button::after { inset: 0 auto 0 -2px; width: 2px; background: var(--fb-green); transform: scaleY(0); transform-origin: top; }
+  .uc__tabs button.is-timing::after { animation-name: uc-timer-y; }
+  .uc__desc { margin-top: 24px; min-height: 0; font-size: 15px; color: var(--ink-3); }
+  .uc__body { height: 360px; }
+}
+@keyframes uc-timer-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (min-width: 961px) { .uc__desc [data-uc-text] { display: none; } .uc__desc b { color: var(--fb-ink); font-weight: 600; } }
