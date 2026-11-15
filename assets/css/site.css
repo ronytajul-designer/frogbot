@@ -1589,13 +1589,10 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .hero__cta .btn--ghost:hover, .close__cta .btn--ghost:hover { color: var(--fb-ink); background: rgb(255 255 255 / 0.1); border-color: rgb(255 255 255 / 0.18); backdrop-filter: blur(8px); }
 .hero__cta .btn--ghost:focus-visible, .close__cta .btn--ghost:focus-visible { border-color: var(--fb-green); }
 
-/* How it works (Colby): on large screens text comes first, number before the heading, visual below */
-@media (min-width: 961px) {
-  .flow__step .flow__n { order: 0; margin-top: 0; }
-  .flow__step h3 { order: 1; }
-  .flow__step > p:last-child { order: 2; margin-bottom: 32px; }
-  .flow__step .flow__visual { order: 3; margin-top: auto; }
-  /* connector runs through the numbers now, not the visuals */
-  .flow::before { top: 16px; left: 32px; right: calc(33.33% - 16px); }
-  .flow__n { position: relative; z-index: 1; background: var(--fb-surface); }
-}
+/* How it works (Colby): number and heading on one line, then text, then the visual. Same order on every screen */
+.flow__step { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto 1fr auto; column-gap: 12px; align-items: center; }
+.flow__step .flow__n { grid-column: 1; grid-row: 1; margin: 0; }
+.flow__step h3 { grid-column: 2; grid-row: 1; margin: 0; }
+.flow__step > p:last-child { grid-column: 1 / -1; grid-row: 2; align-self: start; margin: 12px 0 24px; }
+.flow__step .flow__visual { grid-column: 1 / -1; grid-row: 3; }
+.flow::before { display: none; }
