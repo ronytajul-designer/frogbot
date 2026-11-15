@@ -1731,3 +1731,9 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
   .matrix td::before { font-size: 12px; line-height: 16px; }
   .matrix td.is-own { border-color: rgb(var(--green-rgb) / 0.4) !important; background: rgb(var(--green-rgb) / 0.06) !important; }
 }
+/* full screen menu: stack groups as blocks so an open group keeps its full height and the panel scrolls */
+@media (max-width: 560px) {
+  .header .menu { display: flex; flex-direction: column; gap: 4px; overscroll-behavior: contain; }
+  .header .menu[hidden] { display: none; }
+  .header .menu > * { flex-shrink: 0; }
+}
