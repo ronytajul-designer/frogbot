@@ -1694,3 +1694,17 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .pricing__foot .link { display: inline-flex; align-items: center; min-height: 44px; }
 .foot__oss { min-height: 44px; }
 .px.is-gl { animation: none; }
+/* Mobile menu: burger morphs into a close mark; groups clip while their height animates */
+.burger { position: relative; width: 18px; height: 12px; display: block; }
+.burger i { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.2s, top 0.35s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.burger i:nth-child(1) { top: 0; } .burger i:nth-child(2) { top: 5px; } .burger i:nth-child(3) { top: 10px; }
+[aria-expanded="true"] .burger i:nth-child(1) { top: 5px; transform: rotate(45deg); }
+[aria-expanded="true"] .burger i:nth-child(2) { opacity: 0; transform: scaleX(0.2); }
+[aria-expanded="true"] .burger i:nth-child(3) { top: 5px; transform: rotate(-45deg); }
+.header__menu { color: var(--fb-ink); transition: background-color 0.25s, border-color 0.25s; }
+[aria-expanded="true"].header__menu { background: rgb(255 255 255 / 0.06); border-color: var(--line-strong); }
+.menu { transform-origin: top right; will-change: transform, opacity; }
+.menu__group { overflow: hidden; }
+.menu__group .nav__chev { transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.menu__group summary { transition: color 0.2s; }
+.menu__group[open] summary { color: var(--fb-green); }

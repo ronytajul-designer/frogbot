@@ -104,7 +104,44 @@
   const toggle = $('[data-menu-toggle]');
   const menu = $('#mobile-menu');
   if (toggle && menu) {
-    const set = open => { toggle.setAttribute('aria-expanded', String(open)); menu.hidden = !open; };
+    // Framer Motion (vanilla "motion") springs: the panel drops in with a soft spring and the rows follow in a stagger.
+    const M = window.Motion, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let anim = null;
+    const set = open => {
+      toggle.setAttribute('aria-expanded', String(open));
+      document.documentElement.classList.toggle('menu-open', open);
+      if (!M || still) { menu.hidden = !open; return; }
+      anim && anim.stop && anim.stop();
+      const rows = [...menu.children];
+      if (open) {
+        menu.hidden = false;
+        anim = M.animate(menu, { opacity: [0, 1], transform: ['translateY(-12px) scale(0.96)', 'translateY(0) scale(1)'], clipPath: ['inset(0 0 100% 0 round 20px)', 'inset(0 0 0% 0 round 20px)'] },
+          { type: 'spring', stiffness: 380, damping: 32, mass: 0.9 });
+        M.animate(rows, { opacity: [0, 1], transform: ['translateY(10px)', 'translateY(0)'] },
+          { delay: M.stagger(0.045, { start: 0.08 }), type: 'spring', stiffness: 420, damping: 30 });
+      } else {
+        anim = M.animate(menu, { opacity: 0, transform: 'translateY(-8px) scale(0.98)', clipPath: 'inset(0 0 100% 0 round 20px)' }, { duration: 0.22, ease: [0.4, 0, 1, 1] });
+        anim.then(() => { if (toggle.getAttribute('aria-expanded') === 'false') { menu.hidden = true; menu.style.cssText = ''; } });
+      }
+    };
+    // accordion groups open and close with a spring on height, their items slide in
+    menu.querySelectorAll('.menu__group').forEach(d => {
+      const sum = d.querySelector('summary');
+      sum.addEventListener('click', e => {
+        if (!M || still) return;
+        e.preventDefault();
+        const from = d.offsetHeight;
+        if (!d.open) {
+          d.open = true;
+          const to = d.offsetHeight;
+          M.animate(d, { height: [from + 'px', to + 'px'] }, { type: 'spring', stiffness: 300, damping: 32 }).then(() => { d.style.height = ''; });
+          M.animate([...d.querySelectorAll('.mm__head, .mm__item')], { opacity: [0, 1], transform: ['translateX(-8px)', 'translateX(0)'] }, { delay: M.stagger(0.03, { start: 0.05 }), duration: 0.35, ease: [0.22, 1, 0.36, 1] });
+        } else {
+          const to = sum.offsetHeight + 1;
+          M.animate(d, { height: [from + 'px', to + 'px'] }, { duration: 0.25, ease: [0.4, 0, 0.2, 1] }).then(() => { d.open = false; d.style.height = ''; });
+        }
+      });
+    });
     toggle.addEventListener('click', () => set(menu.hidden));
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) { set(false); toggle.focus(); } });
     menu.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
