@@ -399,7 +399,8 @@
     ticking = false;
     if (innerWidth <= 820) { win.style.setProperty('--p', 1); return; }
     const start = 0;
-    const end = Math.max(1, win.offsetTop - innerHeight * 0.45);
+    const top = win.getBoundingClientRect().top + scrollY;
+    const end = Math.max(1, top - innerHeight * 0.2);
     const p = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
     win.style.setProperty('--p', p.toFixed(3));
   };
