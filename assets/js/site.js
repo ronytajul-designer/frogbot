@@ -977,6 +977,9 @@
       const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height * 0.42);
       const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 240) * 3.6;
       pupils.forEach(p => { p.style.transform = `translate(${dx / d * k}px, ${dy / d * k}px)`; });
+      // the whole frog leans a little toward the pointer
+      const lean = Math.min(1, d / 400) * 8;
+      frog.style.setProperty('--fx', `${dx / d * lean}px`); frog.style.setProperty('--fy', `${dy / d * lean * 0.6}px`);
     };
   }
   const blink = () => {
