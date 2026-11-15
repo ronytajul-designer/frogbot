@@ -962,3 +962,29 @@
   new IntersectionObserver(([e], o) => { if (e.isIntersecting) { log.classList.add('is-in'); o.disconnect(); } }, { threshold: 0.4 }).observe(log);
 })();
 
+
+/* Frog eyes: pupils look toward the pointer and the frog blinks at random, like the original */
+(() => {
+  const frog = document.querySelector('[data-frog]');
+  if (!frog || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const pupils = frog.querySelectorAll('.frog__pupil');
+  if (matchMedia('(hover: hover)').matches) {
+    let raf = 0, px = 0, py = 0;
+    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(look); }, { passive: true });
+    const look = () => {
+      raf = 0;
+      const r = frog.getBoundingClientRect();
+      const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height * 0.42);
+      const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 240) * 3.6;
+      pupils.forEach(p => { p.style.transform = `translate(${dx / d * k}px, ${dy / d * k}px)`; });
+    };
+  }
+  const blink = () => {
+    frog.classList.add('is-blink');
+    setTimeout(() => frog.classList.remove('is-blink'), 140);
+    // now and then a double blink
+    if (Math.random() < 0.25) setTimeout(() => { frog.classList.add('is-blink'); setTimeout(() => frog.classList.remove('is-blink'), 120); }, 320);
+    setTimeout(blink, 2600 + Math.random() * 3600);
+  };
+  setTimeout(blink, 1800);
+})();

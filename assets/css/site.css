@@ -1638,3 +1638,14 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 }
 @keyframes uc-timer-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @media (min-width: 961px) { .uc__desc [data-uc-text] { display: none; } .uc__desc b { color: var(--fb-ink); font-weight: 600; } }
+/* 80/20 frog: pupils follow the pointer, eyes blink now and then */
+.split__ring { margin-bottom: 32px; }
+.frog__pupil { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.frog__eye { transform-box: view-box; transition: transform 0.09s ease-in; }
+.frog.is-blink .frog__eye { transform: scaleY(0.12); }
+.split__ring svg.frog { width: 96px; height: 96px; transform: none; }
+.split__ring .frog circle { stroke-width: 0; }
+.split__ring .frog circle:first-child { fill: #3acf6a; }
+.split__ring .frog .frog__eye circle:first-child { fill: none; stroke: #3acf6a; stroke-width: 5; }
+.split__ring .frog .frog__pupil { fill: #3acf6a; }
+@media (max-width: 560px) { .split__ring svg.frog { width: 72px; height: 72px; } }
