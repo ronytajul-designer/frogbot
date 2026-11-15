@@ -953,3 +953,12 @@
   }
   document.documentElement.style.setProperty('--px-tex', `url(${c.toDataURL()})`);
 })();
+
+/* Build log: lines appear one after another the first time the log scrolls into view */
+(() => {
+  const log = document.querySelector('[data-blog]');
+  if (!log) return;
+  log.querySelectorAll('li').forEach((li, i) => li.style.setProperty('--i', i));
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { log.classList.add('is-in'); o.disconnect(); } }, { threshold: 0.4 }).observe(log);
+})();
+
