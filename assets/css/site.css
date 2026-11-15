@@ -1693,3 +1693,4 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 /* tap targets of at least 44px */
 .pricing__foot .link { display: inline-flex; align-items: center; min-height: 44px; }
 .foot__oss { min-height: 44px; }
+.px.is-gl { animation: none; }

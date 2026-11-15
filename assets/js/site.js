@@ -839,7 +839,11 @@
   const CELL = 2;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const make = c => {
-    const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
+    // WebGL when available and motion is allowed: the noise is recomputed every frame on the GPU,
+    // so the texture flows slowly forever. Otherwise the static 2D version below.
+    const gl = reduce ? null : c.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: false });
+    const ctx = gl ? null : c.getContext('2d'), shape = SHAPES[c.dataset.px];
+    let dirty = true;
     let cols = 0, rows = 0, base = null, noise = null, img = null;
     // closing section: a large frog head made of the same pixels, peeking up from the bottom
     const isFrog = c.dataset.px === 'close';
@@ -867,6 +871,7 @@
       }
       fctx.globalCompositeOperation = 'source-over';
       const a = fctx.getImageData(0, 0, cols, rows).data;
+      dirty = true;
       const top = oy + 9.6 * s, h = 80 * s;
       for (let y = 0; y < rows; y++) {
         const g = 0.5 + 0.7 * Math.min(1, Math.max(0, (y - top) / h));
@@ -905,13 +910,13 @@
         for (let i = 0; i < sil.length; i++) sil[i] = sa[i * 4 + 3] > 128 ? 1 : 0;
         drawFrog();
       }
-      img = ctx.createImageData(cols, rows);
+      img = ctx ? ctx.createImageData(cols, rows) : null; dirty = true;
       paint(performance.now());
     };
     // the cursor drops water ripples: rings spread out slowly and lift only the pixels already there
     const ripples = [], LIFE = 2000, SPEED = 0.2, WIDTH = 14; // ms, px per ms, px
     let last = { x: -1e4, y: -1e4, t: 0 };
-    const paint = now => {
+    const paint2d = now => {
       const d = img.data; d.fill(0);
       const live = ripples.map(r => {
         const age = (now - r.t) / LIFE;
@@ -937,6 +942,75 @@
       }
       ctx.putImageData(img, 0, 0);
     };
+    let paint = paint2d;
+    let glOn = false, lastFrame = 0;
+    const FRAME = matchMedia('(pointer: coarse)').matches ? 50 : 33; // ~20 fps on phones, ~30 on desktop
+    if (gl) {
+      const VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+      const FS = `precision mediump float;
+uniform sampler2D u_base; uniform vec2 u_size; uniform float u_t; uniform vec4 u_r[4];
+float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
+  return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
+float fbm(vec2 p){ return vn(p) * .55 + vn(p * 2.1) * .28 + vn(p * 4.3) * .17; }
+float b2(vec2 a){ a = floor(a); return fract(a.x / 2. + a.y * a.y * .75); }
+float b8(vec2 a){ return (b2(.25 * a) * .25 + b2(.5 * a)) * .25 + b2(a); }
+void main(){
+  vec2 c = vec2(floor(gl_FragCoord.x), u_size.y - 1. - floor(gl_FragCoord.y));
+  float m = texture2D(u_base, (c + .5) / u_size).r * 2.;
+  if (m <= 0.002) { gl_FragColor = vec4(0.); return; }
+  for (int k = 0; k < 4; k++) { vec4 r = u_r[k]; if (r.w > 0.) {
+    float off = abs(length(c - r.xy) - r.z);
+    if (off < 7.) { float q = 1. - off / 7.; m += q * q * (3. - 2. * q) * r.w * min(1., m * 3.); } } }
+  // slow domain warped flow: the blotches drift and reshape, about one cycle every 25s
+  vec2 p = c / 70.;
+  float w = fbm(p * .6 + vec2(u_t * .02, -u_t * .015));
+  float n = fbm(p + vec2(w * 1.4 + u_t * .03, w * .9 - u_t * .02));
+  float v = min(1., m * (.25 + n * 1.05));
+  if (v > b8(c) + .5 / 64.) gl_FragColor = vec4(58. / 255., 207. / 255., 106. / 255., (40. + v * 80.) / 255.);
+  else gl_FragColor = vec4(0.);
+}`;
+      const sh = (t, src) => { const o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return o; };
+      const prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(prog);
+      if (gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        gl.useProgram(prog);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+        [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.NEAREST));
+        [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE));
+        gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+        const U = n => gl.getUniformLocation(prog, n);
+        const uSize = U('u_size'), uT = U('u_t'), uR = U('u_r'), t0 = performance.now();
+        let bytes = null;
+        paint = now => {
+          if (!cols) return;
+          if (dirty) {
+            if (!bytes || bytes.length !== cols * rows) bytes = new Uint8Array(cols * rows);
+            for (let i = 0; i < bytes.length; i++) {
+              const m = frogA ? (sil[i] ? frogA[i] : base[i]) : base[i];
+              bytes[i] = Math.min(255, Math.round(m * 127.5));
+            }
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, cols, rows, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, bytes);
+            dirty = false;
+          }
+          const r = new Float32Array(16);
+          ripples.slice(-4).forEach((q, k) => {
+            const age = (now - q.t) / LIFE; if (age >= 1) return;
+            r.set([q.x / CELL, q.y / CELL, (now - q.t) * SPEED / CELL, (q.amp || 0.28) * (1 - age) * (1 - age)], k * 4);
+          });
+          gl.viewport(0, 0, cols, rows);
+          gl.uniform2f(uSize, cols, rows); gl.uniform1f(uT, (now - t0) / 1000); gl.uniform4fv(uR, r);
+          gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        };
+        c.classList.add('is-gl');
+        new IntersectionObserver(([e]) => { glOn = e.isIntersecting && !document.hidden; if (glOn) kick(); }).observe(c);
+        document.addEventListener('visibilitychange', () => { glOn = !document.hidden && c.getBoundingClientRect().bottom > 0 && c.getBoundingClientRect().top < innerHeight; if (glOn) kick(); });
+      }
+    }
     let raf = null;
     const host = c.parentElement;
     const tick = now => {
@@ -947,8 +1021,9 @@
         eyesMoving = Math.abs(ex) + Math.abs(ey) > 0.02;
         if (eyesMoving) { eye.x += ex * 0.18; eye.y += ey * 0.18; drawFrog(); }
       }
-      paint(now);
-      raf = ripples.length || eyesMoving ? requestAnimationFrame(tick) : null;
+      if (paint === paint2d) paint(now);
+      else if (now - lastFrame >= FRAME) { lastFrame = now; paint(now); }
+      raf = (paint !== paint2d && glOn) || ripples.length || eyesMoving ? requestAnimationFrame(tick) : null;
     };
     const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
     if (isFrog && !reduce) {
