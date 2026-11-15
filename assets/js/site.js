@@ -110,6 +110,7 @@
     const set = open => {
       toggle.setAttribute('aria-expanded', String(open));
       document.documentElement.classList.toggle('menu-open', open);
+      if (open) document.querySelector('.header').classList.remove('is-hidden');
       if (!M || still) { menu.hidden = !open; return; }
       anim && anim.stop && anim.stop();
       const rows = [...menu.children];

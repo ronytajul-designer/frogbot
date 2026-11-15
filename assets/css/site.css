@@ -1722,7 +1722,7 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
   .plans2 > * { flex: 0 0 84%; scroll-snap-align: start; }
   /* full screen menu */
   .header .menu { position: fixed; inset: 0; z-index: -1; margin: 0; max-height: none; height: 100dvh; padding: 88px 16px calc(24px + env(safe-area-inset-bottom)); border: 0; border-radius: 0; background: rgb(9 14 27 / 0.97); overflow-y: auto; align-content: start; }
-  html.menu-open, html.menu-open body { overflow: hidden; }
+  html.menu-open { overflow: hidden; }
 }
 /* Mobile comparison: each row is a compact 2 column grid, FrogBot beside the alternative */
 @media (max-width: 560px) {
@@ -1746,3 +1746,4 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 }
 @media (max-width: 560px) { .header .header__actions .btn--primary { display: none !important; } }
 .header__menu { border-radius: 50%; }
+html.menu-open .header.is-hidden { transform: none; }
