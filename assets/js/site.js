@@ -1142,7 +1142,7 @@ void main(){
     const fall = Math.max(0, 1 - Math.sqrt(dx * dx * 0.9 + dy * dy * 1.4));
     const m = fall * fall * (0.2 + fbm(x / 22, y / 22) * 1.3);
     if (m > B[(y & 7) * 8 + (x & 7)]) {
-      ctx.fillStyle = `rgba(228,231,238,${(8 + Math.min(1, m) * 26) / 255})`;
+      ctx.fillStyle = `rgba(58,207,106,${(14 + Math.min(1, m) * 40) / 255})`;
       ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
     }
   }

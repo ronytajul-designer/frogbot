@@ -1831,3 +1831,5 @@ html.menu-open .header.is-hidden { transform: none; }
 /* neutral accents read as quiet white, not a second highlight colour */
 .own { color: var(--fb-ink) !important; }
 .matrix .is-own, .matrix__hl { background: rgb(255 255 255 / 0.04) !important; }
+/* 80/20 ring keeps the brand green arc on the grey track: it is part of the frog mark */
+.ring__real { stroke: var(--brand) !important; filter: drop-shadow(0 0 8px rgb(var(--brand-rgb) / 0.6)) !important; }
