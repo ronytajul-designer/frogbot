@@ -1799,3 +1799,15 @@ html.menu-open .header.is-hidden { transform: none; }
   .uc__tabs { margin-inline: 0 !important; padding: 0 0 4px !important; }
   .matrix tr { padding: 12px 0 !important; }
 }
+
+/* ---------- One section rhythm on every screen: 120 desktop, 96 tablet, 56 phone ---------- */
+:root { --sec: 120px; }
+@media (max-width: 1024px) { :root { --sec: 96px; } }
+@media (max-width: 560px) { :root { --sec: 56px; } }
+.section, .box, .split { padding-top: var(--sec) !important; padding-bottom: var(--sec) !important; }
+.hero { padding-bottom: var(--sec) !important; }
+.close { padding-top: var(--sec) !important; }
+.split__ring { margin-top: 0 !important; margin-bottom: 0 !important; }
+.section .wrap > :last-child, .flow, .compare__scroll + .fine, .pricing__foot { margin-bottom: 0 !important; }
+.split__card { padding: 0 !important; min-height: 0 !important; }
+@media (max-width: 560px) { .split__ring { margin-bottom: -16px !important; } }
