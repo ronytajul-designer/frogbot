@@ -866,7 +866,7 @@
       const d = img.data; d.fill(0);
       const live = ripples.map(r => {
         const age = (now - r.t) / LIFE;
-        return { x: r.x / CELL, y: r.y / CELL, rad: (now - r.t) * SPEED / CELL, amp: 0.6 * (1 - age) * (1 - age) };
+        return { x: r.x / CELL, y: r.y / CELL, rad: (now - r.t) * SPEED / CELL, amp: 0.28 * (1 - age) * (1 - age) };
       });
       const w = WIDTH / CELL;
       for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
@@ -898,11 +898,11 @@
       host.addEventListener('pointermove', e => {
         const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, now = performance.now();
         // one drop per short pause or distance, so it stays calm instead of a trail
-        if (Math.hypot(x - last.x, y - last.y) < 50 && now - last.t < 350) return;
-        if (now - last.t < 120) return;
+        if (Math.hypot(x - last.x, y - last.y) < 160 && now - last.t < 900) return;
+        if (now - last.t < 400) return;
         last = { x, y, t: now };
         ripples.push({ x, y, t: now });
-        if (ripples.length > 5) ripples.shift();
+        if (ripples.length > 2) ripples.shift();
         if (!raf) raf = requestAnimationFrame(tick);
       });
     }
