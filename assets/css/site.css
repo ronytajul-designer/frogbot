@@ -36,7 +36,8 @@ html { scrollbar-color: var(--fb-surface-elevated) var(--fb-surface-sunken); }
 
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip { position: fixed; left: 16px; top: -64px; z-index: 100; padding: 12px 16px; border-radius: 8px; background: var(--fb-green); color: var(--fb-green-ink); font-weight: 600; text-decoration: none; transition: top 0.2s var(--ease); }
-.skip:focus { top: 16px; }
+.skip:focus { top: -64px; }
+.skip:focus-visible { top: 16px; }
 .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
 .own { color: var(--fb-green); }
 .icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
