@@ -1674,3 +1674,22 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 .close { padding-bottom: clamp(360px, 42vw, 600px); }
 .close { padding-bottom: calc(40px + min(660px, 62vw) * 0.86); }
 .close { padding-bottom: calc(48px + min(660px, 62vw) * 0.59); } @media (max-width: 560px) { .close { padding-bottom: calc(40px + 62vw * 0.86); } }
+
+/* ---------- Mobile audit fixes ---------- */
+@media (max-width: 560px) {
+  /* hero dashboard: the note grows to fit its wrapped button instead of overlapping the role chips */
+  .window__note { height: auto; }
+  /* the lone status dot whose text is hidden on phones */
+  .chrome__left { display: none; }
+  /* phone section rhythm: 72px, as the tokens specify */
+  .section, .box { padding-top: 72px; padding-bottom: 72px; }
+  .split { padding-top: 56px; padding-bottom: 56px; }
+  .split__ring { margin: 32px 0 0; }
+  /* agent flow: keep the end labels inside the card */
+  svg:has(.flow__labels) { padding: 0 16px; box-sizing: border-box; overflow: visible; }
+  /* closing frog: whole head and mouth fit inside the section */
+  .close { padding-bottom: calc(56px + 62vw * 0.95); }
+}
+/* tap targets of at least 44px */
+.pricing__foot .link { display: inline-flex; align-items: center; min-height: 44px; }
+.foot__oss { min-height: 44px; }
