@@ -841,7 +841,7 @@
   const make = c => {
     const ctx = c.getContext('2d'), shape = SHAPES[c.dataset.px];
     let cols = 0, rows = 0, base = null, noise = null, img = null;
-    const glow = { x: -1e4, y: -1e4, a: 0, ta: 0 };
+    const glow = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, a: 0, ta: 0 };
     const build = () => {
       const r = c.getBoundingClientRect();
       cols = Math.ceil(r.width / CELL); rows = Math.ceil(r.height / CELL);
@@ -861,7 +861,7 @@
       paint();
     };
     // the cursor adds a soft lens of extra density, so pixels appear around it and fade as it leaves
-    const R = 70;
+    const R = 120;
     const paint = () => {
       const d = img.data; d.fill(0);
       const gx = glow.x / CELL, gy = glow.y / CELL, ga = glow.a;
@@ -870,7 +870,7 @@
         let m = base[i];
         if (ga > 0.01) {
           const dx = x - gx, dy = y - gy, dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < R) { const k = 1 - dist / R; m = Math.max(m, k * k * 1.1 * ga); }
+          if (dist < R) { const k = 1 - dist / R; const sm = k * k * (3 - 2 * k); m = Math.max(m, sm * 0.55 * ga); }
         }
         if (m <= 0) continue;
         const v = Math.min(1, m * (0.25 + noise[i] * 1.05));
@@ -883,15 +883,19 @@
     };
     let raf = null;
     const tick = () => {
-      glow.a += (glow.ta - glow.a) * 0.12;
+      // the lens trails the cursor and eases in and out slowly, like a radar sweep catching up
+      glow.x += (glow.tx - glow.x) * 0.06; glow.y += (glow.ty - glow.y) * 0.06;
+      glow.a += (glow.ta - glow.a) * (glow.ta > glow.a ? 0.04 : 0.025);
       paint();
-      raf = Math.abs(glow.ta - glow.a) > 0.01 || glow.ta > 0 ? requestAnimationFrame(tick) : null;
+      const moving = Math.abs(glow.tx - glow.x) + Math.abs(glow.ty - glow.y) > 0.5;
+      raf = moving || Math.abs(glow.ta - glow.a) > 0.005 ? requestAnimationFrame(tick) : null;
     };
     const host = c.parentElement;
     if (!reduce && matchMedia('(hover: hover)').matches) {
       host.addEventListener('pointermove', e => {
         const r = c.getBoundingClientRect();
-        glow.x = e.clientX - r.left; glow.y = e.clientY - r.top; glow.ta = 1;
+        glow.tx = e.clientX - r.left; glow.ty = e.clientY - r.top; glow.ta = 1;
+        if (glow.x < -1e3) { glow.x = glow.tx; glow.y = glow.ty; }
         if (!raf) raf = requestAnimationFrame(tick);
       });
       host.addEventListener('pointerleave', () => { glow.ta = 0; if (!raf) raf = requestAnimationFrame(tick); });
