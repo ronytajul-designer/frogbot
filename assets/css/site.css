@@ -1641,9 +1641,4 @@ body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background
 @media (max-width: 560px) { .split__ring svg.frog { width: 72px; height: 72px; } }
 
 /* ---------- Open sections: How it works and Comparison, no card frames ---------- */
-.costbars {
-  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
-  background: none !important; background-image: none !important;
-}
-.costbars { padding: 0 !important; margin-top: 48px; }
 .compare__scroll { margin-top: 48px; }
