@@ -3,8 +3,8 @@
 :root {
   --green-rgb: 58 207 106;
   --rent: #ff8a8a;
-  --ink-2: rgb(248 250 252 / 0.72);
-  --ink-3: rgb(248 250 252 / 0.56);
+  --ink-2: #a3abbd; /* body text, solid cool grey, 8.4:1 on the page */
+  --ink-3: #8b93a7; /* labels and small print, 6.3:1 on the page */
   --line: rgb(255 255 255 / 0.1);
   --line-strong: rgb(255 255 255 / 0.2);
   --wrap: 1248px;
