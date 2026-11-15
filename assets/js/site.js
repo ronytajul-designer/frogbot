@@ -869,8 +869,9 @@
         const i = y * cols + x;
         let m = base[i];
         if (ga > 0.01) {
-          const dx = x - gx, dy = y - gy, dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < R) { const k = 1 - dist / R; const sm = k * k * (3 - 2 * k); m = Math.max(m, sm * 0.55 * ga); }
+          // a soft horizontal scan line, not a circle: wide along x, thin along y
+          const dx = (x - gx) / 220, dy = (y - gy) / 20, dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 1) { const k = 1 - dist; const sm = k * k * (3 - 2 * k); m = Math.max(m, sm * 0.55 * ga); }
         }
         if (m <= 0) continue;
         const v = Math.min(1, m * (0.25 + noise[i] * 1.05));

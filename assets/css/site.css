@@ -1526,3 +1526,21 @@ svg.foot__word text { font: 700 260px var(--font-display); letter-spacing: -0.05
 
 /* Secondary call to action: plain text, no arrow */
 .hero__cta .btn--ghost::after, .close__cta .btn--ghost::after { content: none; }
+
+/* ---------- One page colour, no section dividers, pixel texture instead of card glows ---------- */
+body, .box, .built, .pricing, .footer, .faq, .compare, .how, .close { background-color: var(--fb-surface) !important; }
+.box, .how, .replace, .directory, .built, .compare, .pricing, .faq, .close, .footer, .foot__base, .footer__base { border-top: 0 !important; }
+/* pixel texture: 1px green dots on a 4px grid, fading out from the top of each card */
+.flow__visual, .uc, .mr, .split__card, .visual, .plan2--lit, .plan--lit, .db__card--agent, .window .saving, .saving, .dev, .header .mm__cta, .header .mp:hover {
+  background-image:
+    linear-gradient(180deg, transparent 0, var(--card-bg, var(--fb-surface-sunken)) 56%),
+    radial-gradient(rgb(var(--green-rgb) / 0.2) 0.8px, transparent 1px) !important;
+  background-size: 100% 100%, 6px 6px !important;
+  background-clip: padding-box !important;
+  background-color: var(--card-bg, var(--fb-surface-sunken)) !important;
+}
+.uc, .window .saving, .dev { --card-bg: var(--fb-surface); }
+.split__card, .db__card--agent { --card-bg: var(--fb-surface-raised); }
+.flow::before { background: rgb(var(--green-rgb) / 0.25); }
+.matrix__hl, .matrix .is-own { background: rgb(var(--green-rgb) / 0.06) !important; }
+.plan2--lit { box-shadow: none !important; }
