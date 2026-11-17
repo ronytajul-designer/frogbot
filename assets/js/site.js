@@ -903,8 +903,11 @@
       fctx.globalCompositeOperation = 'destination-out';
       for (const cx of [21.8, 78.2]) {
         fctx.save(); fctx.translate(cx, 46.9); fctx.scale(1, eye.blink);
-        fctx.lineWidth = 5; fctx.beginPath(); fctx.arc(0, 0, 10.2, 0, Math.PI * 2); fctx.stroke();
-        fctx.beginPath(); fctx.arc(eye.x, eye.y / Math.max(eye.blink, 0.3), 4.6, 0, Math.PI * 2); fctx.fill();
+        // like the logo: one cut-out disc with a single green dot for the pupil
+        fctx.globalCompositeOperation = 'destination-out';
+        fctx.beginPath(); fctx.arc(0, 0, 12, 0, Math.PI * 2); fctx.fill();
+        fctx.globalCompositeOperation = 'source-over';
+        fctx.beginPath(); fctx.arc(eye.x, eye.y / Math.max(eye.blink, 0.3), 5.1, 0, Math.PI * 2); fctx.fill();
         fctx.restore();
       }
       fctx.globalCompositeOperation = 'source-over';

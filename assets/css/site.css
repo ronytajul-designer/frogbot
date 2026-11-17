@@ -1833,3 +1833,6 @@ html.menu-open .header.is-hidden { transform: none; }
 .matrix .is-own, .matrix__hl { background: rgb(255 255 255 / 0.04) !important; }
 /* 80/20 ring keeps the brand green arc on the grey track: it is part of the frog mark */
 .ring__real { stroke: var(--brand) !important; filter: drop-shadow(0 0 8px rgb(var(--brand-rgb) / 0.6)) !important; }
+/* frog eyes like the logo: one dark disc and a single green dot */
+.split__ring .frog .frog__eye circle:first-child { fill: var(--fb-surface) !important; stroke: none !important; }
+.split__ring .frog .frog__pupil { fill: #3acf6a !important; }
