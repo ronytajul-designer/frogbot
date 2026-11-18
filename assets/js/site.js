@@ -716,9 +716,14 @@
       for (let i = 1; i < steps.length; i++) {
         await wait(700); if (me !== run) return;
         const from = fillTo(i - 1), to = fillTo(i);
-        await M.animate(from, to, { duration: 1.1, ease: [0.65, 0, 0.35, 1], onUpdate: v => list.style.setProperty('--fill', v + 'px') });
+        let done = false;
+        // tick in the same frame the bar touches the dot, not a frame later when the animation resolves
+        await M.animate(from, to, { duration: 1.1, ease: [0.65, 0, 0.35, 1], onUpdate: v => {
+          list.style.setProperty('--fill', v + 'px');
+          if (!done && v >= to - 0.5 && me === run) { done = true; tick(i); }
+        } });
         if (me !== run) return;
-        tick(i);
+        if (!done) tick(i);
       }
       await wait(2200);
     }
