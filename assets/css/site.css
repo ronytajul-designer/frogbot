@@ -1849,5 +1849,5 @@ html.menu-open .header.is-hidden { transform: none; }
 /* Accent headings: the emphasised words are bright white, the rest of the heading is a softer white.
    Green stays for actions only. */
 :root { --ink-strong: #ffffff; --ink-soft: #9aa2b4; }
-h1:has(.own), h2:has(.own) { color: var(--ink-soft) !important; }
+h1:has(.own), h2:has(.own) { color: rgb(255 255 255 / 0.4) !important; }
 .own { color: var(--ink-strong) !important; }
