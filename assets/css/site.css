@@ -1834,3 +1834,6 @@ html.menu-open .header.is-hidden { transform: none; }
 h1:has(.own), h2:has(.own) { color: rgb(255 255 255 / 0.4) !important; }
 .own { color: var(--ink-strong) !important; }
 .track__list::after { transition: none !important; }
+/* tracker: a dot fills and ticks at the same instant (no white ring first) */
+.track__dot { transition: none !important; }
+.track__step.is-active .track__dot { box-shadow: none !important; border-color: var(--line-strong) !important; }

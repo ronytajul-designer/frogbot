@@ -683,46 +683,49 @@
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; schedule(); }, { threshold: 0.4 }).observe(wrap);
 })();
 
-/* Build tracker: steps complete one after another, then the cycle restarts. */
+/* Build tracker, as a loop:
+   1. step one is ticked, 2. the bar slides down and the next dot fills and ticks with a bounce
+   the moment the bar touches it, 3. same for the last step, 4. everything clears at once (the bar
+   never runs backwards), step one ticks again after a second, and the loop starts over. */
 (() => {
   const track = document.querySelector('[data-track]');
   if (!track) return;
   const steps = [...track.querySelectorAll('.track__step')], list = track.querySelector('.track__list');
-  // n = the step the line is travelling to. That step shows as active while the line moves,
-  // and is ticked the moment the line reaches its dot.
-  const set = n => {
-    const k = Math.min(n, steps.length - 1);
-    const dots = steps.map(s => s.querySelector('.track__dot')), y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
+  const dots = steps.map(s => s.querySelector('.track__dot'));
+  const M = window.Motion, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
+  const measure = () => {
     list.style.setProperty('--line-top', y(dots[0]) + 'px');
-    list.style.setProperty('--line-h', (y(dots[steps.length - 1]) - y(dots[0])) + 'px');
-    const to = y(dots[k]) - y(dots[0]);
-    const M = window.Motion, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    steps.forEach((s, i) => { s.classList.toggle('is-done', i < k); s.classList.toggle('is-active', i === k); });
-    let ticked = false;
-    const arrive = () => {
-      if (ticked) return; ticked = true;
-      steps[k].classList.add('is-done');
-      if (M && !still) M.animate(dots[k], { scale: [0.8, 1] }, { type: 'spring', stiffness: 160, damping: 20 });
-    };
-    if (!M || still) { list.style.setProperty('--fill', to + 'px'); arrive(); return; }
-    const from = parseFloat(list.style.getPropertyValue('--fill')) || 0;
-    fillAnim && fillAnim.stop && fillAnim.stop();
-    if (Math.abs(to - from) < 1) arrive();
-    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 60, damping: 18, mass: 1.4, onUpdate: v => {
-      list.style.setProperty('--fill', v + 'px');
-      if (to > from && v >= to - 2) arrive();
-    } });
-    if (to <= from) arrive();
-    M.animate(steps[k].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-6px)', 'translateX(0)'] }, { type: 'spring', stiffness: 90, damping: 22, mass: 1.2 });
+    list.style.setProperty('--line-h', (y(dots[dots.length - 1]) - y(dots[0])) + 'px');
   };
-  let fillAnim = null;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(steps.length); return; }
-  let n = 0, id = null;
-  // one beat per step, one beat holding the finished build, then start again
-  const tick = () => { if (n < steps.length) set(n); n = n >= steps.length ? 0 : n + 1; };
+  const fillTo = i => y(dots[i]) - y(dots[0]);
+  const tick = i => {
+    steps[i].classList.add('is-done');
+    if (M && !still) M.animate(dots[i], { scale: [0.6, 1] }, { type: 'spring', stiffness: 420, damping: 11 });
+  };
+  measure(); addEventListener('resize', measure);
+  if (!M || still) { steps.forEach(s => s.classList.add('is-done')); list.style.setProperty('--fill', fillTo(dots.length - 1) + 'px'); return; }
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  let run = 0, visible = false;
+  const loop = async me => {
+    while (me === run) {
+      steps.forEach(s => s.classList.remove('is-done', 'is-active'));
+      list.style.setProperty('--fill', '0px');
+      await wait(1000); if (me !== run) return;
+      tick(0);
+      for (let i = 1; i < steps.length; i++) {
+        await wait(700); if (me !== run) return;
+        const from = fillTo(i - 1), to = fillTo(i);
+        await M.animate(from, to, { duration: 1.1, ease: [0.65, 0, 0.35, 1], onUpdate: v => list.style.setProperty('--fill', v + 'px') });
+        if (me !== run) return;
+        tick(i);
+      }
+      await wait(2200);
+    }
+  };
   new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !id) { n = 0; tick(); id = setInterval(tick, 2600); }
-    else if (!e.isIntersecting && id) { clearInterval(id); id = null; }
+    if (e.isIntersecting && !visible) { visible = true; loop(++run); }
+    else if (!e.isIntersecting && visible) { visible = false; run++; }
   }, { threshold: 0.4 }).observe(track);
 })();
 
