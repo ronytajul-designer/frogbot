@@ -1836,3 +1836,5 @@ html.menu-open .header.is-hidden { transform: none; }
 /* frog eyes like the logo: one dark disc and a single green dot */
 .split__ring .frog .frog__eye circle:first-child { fill: var(--fb-surface) !important; stroke: none !important; }
 .split__ring .frog .frog__pupil { fill: #3acf6a !important; }
+/* Bento: four equal cards, two per row */
+@media (min-width: 561px) { .bento > .card, .bento > .card--wide { grid-column: span 6 !important; } }
