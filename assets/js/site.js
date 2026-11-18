@@ -688,27 +688,38 @@
   const track = document.querySelector('[data-track]');
   if (!track) return;
   const steps = [...track.querySelectorAll('.track__step')], list = track.querySelector('.track__list');
+  // n = the step the line is travelling to. That step shows as active while the line moves,
+  // and is ticked the moment the line reaches its dot.
   const set = n => {
-    steps.forEach((s, i) => { s.classList.toggle('is-done', i < n); s.classList.toggle('is-active', i === n); });
-    const dots = steps.map(s => s.querySelector('.track__dot')), top = dots[0].offsetTop + dots[0].offsetParent.offsetTop;
-    const k = Math.min(n, steps.length - 1), y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
+    const k = Math.min(n, steps.length - 1);
+    const dots = steps.map(s => s.querySelector('.track__dot')), y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
     list.style.setProperty('--line-top', y(dots[0]) + 'px');
     list.style.setProperty('--line-h', (y(dots[steps.length - 1]) - y(dots[0])) + 'px');
     const to = y(dots[k]) - y(dots[0]);
-    const M = window.Motion;
-    if (!M || matchMedia('(prefers-reduced-motion: reduce)').matches) { list.style.setProperty('--fill', to + 'px'); return; }
-    // spring physics: the progress line overshoots a touch and settles, the finished dot pops, the new step slides in
+    const M = window.Motion, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    steps.forEach((s, i) => { s.classList.toggle('is-done', i < k); s.classList.toggle('is-active', i === k); });
+    let ticked = false;
+    const arrive = () => {
+      if (ticked) return; ticked = true;
+      steps[k].classList.add('is-done');
+      if (M && !still) M.animate(dots[k], { scale: [0.8, 1] }, { type: 'spring', stiffness: 160, damping: 20 });
+    };
+    if (!M || still) { list.style.setProperty('--fill', to + 'px'); arrive(); return; }
     const from = parseFloat(list.style.getPropertyValue('--fill')) || 0;
     fillAnim && fillAnim.stop && fillAnim.stop();
-    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 60, damping: 18, mass: 1.4, onUpdate: v => list.style.setProperty('--fill', v + 'px') });
-    if (n > 0 && n <= steps.length) M.animate(dots[n - 1], { scale: [0.8, 1] }, { type: 'spring', stiffness: 160, damping: 20 });
-    if (n < steps.length) M.animate(steps[n].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-6px)', 'translateX(0)'] }, { type: 'spring', stiffness: 90, damping: 22, mass: 1.2 });
-    if (n === 0) steps.forEach(st => M.animate(st.querySelector('.track__dot'), { scale: [0.94, 1] }, { type: 'spring', stiffness: 120, damping: 20 }));
+    if (Math.abs(to - from) < 1) arrive();
+    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 60, damping: 18, mass: 1.4, onUpdate: v => {
+      list.style.setProperty('--fill', v + 'px');
+      if (to > from && v >= to - 2) arrive();
+    } });
+    if (to <= from) arrive();
+    M.animate(steps[k].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-6px)', 'translateX(0)'] }, { type: 'spring', stiffness: 90, damping: 22, mass: 1.2 });
   };
   let fillAnim = null;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(steps.length); return; }
   let n = 0, id = null;
-  const tick = () => { set(n); n = n >= steps.length ? 0 : n + 1; };
+  // one beat per step, one beat holding the finished build, then start again
+  const tick = () => { if (n < steps.length) set(n); n = n >= steps.length ? 0 : n + 1; };
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting && !id) { n = 0; tick(); id = setInterval(tick, 2600); }
     else if (!e.isIntersecting && id) { clearInterval(id); id = null; }
