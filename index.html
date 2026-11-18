@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="brand/tokens.css?v=1794997933">
-  <link rel="stylesheet" href="assets/css/site.css?v=1794997933">
+  <link rel="stylesheet" href="brand/tokens.css?v=1794998157">
+  <link rel="stylesheet" href="assets/css/site.css?v=1794998157">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -424,6 +424,7 @@
 
     <!-- We build it for you -->
     <section class="section built" id="build-call" aria-labelledby="built-title">
+      <canvas class="px px--built" data-px="built" aria-hidden="true"></canvas>
       <div class="wrap built__grid">
         <div class="built__copy">
           <h2 class="display display--md reveal" id="built-title">Would rather not build it? <span class="own">Our engineers will.</span></h2>
@@ -439,17 +440,35 @@
           </div>
         </div>
 
-        <figure class="blog reveal" data-blog aria-label="Example build log">
-          <figcaption class="blog__bar"><span class="blog__file">build-log.md</span><span class="blog__tag">Example project</span></figcaption>
-          <ol class="blog__list">
-            <li><time>Mon 09:12</time><p>Kickoff call. Airtable base and 3 spreadsheets shared.</p></li>
-            <li><time>Mon 17:40</time><p>54,200 rows imported. 38 duplicates held for your review.</p></li>
-            <li class="is-key"><time>Wed 10:05</time><p>Prototype is live. <a class="blog__url" tabindex="-1">ops-prototype.frogbot.app</a></p></li>
-            <li><time>Thu 15:30</time><p>Your feedback: 6 changes. All 6 shipped the same day.</p></li>
-            <li><time>Fri, week 2</time><p>Roles set for 3 teams. Slack and Stripe connected.</p></li>
-            <li class="is-key"><time>Mon, week 3</time><p>Live in production. Airtable cancelled.</p></li>
+        <div class="track reveal" data-track aria-label="Example build timeline">
+          <div class="track__bar"><span class="track__title">Build: Ops workspace</span><span class="track__tag">Example</span></div>
+          <ol class="track__list">
+            <li class="track__step" data-step="0">
+              <span class="track__dot"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></span>
+              <div class="track__body">
+                <p class="track__when">Day one</p>
+                <p class="track__what">Bill and workflow reviewed</p>
+                <div class="track__detail"><span class="track__chip">Airtable</span><span class="track__chip">3 spreadsheets</span><span class="track__chip">54,200 rows imported</span></div>
+              </div>
+            </li>
+            <li class="track__step" data-step="1">
+              <span class="track__dot"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></span>
+              <div class="track__body">
+                <p class="track__when">48 hours</p>
+                <p class="track__what">Prototype ready to click through</p>
+                <div class="track__detail"><span class="track__link"><i></i>ops-prototype.frogbot.app</span></div>
+              </div>
+            </li>
+            <li class="track__step" data-step="2">
+              <span class="track__dot"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></span>
+              <div class="track__body">
+                <p class="track__when">2 weeks</p>
+                <p class="track__what">Live in production</p>
+                <div class="track__detail"><span class="track__chip ok">Permissions set</span><span class="track__chip ok">Tools connected</span><span class="track__chip ok">Airtable cancelled</span></div>
+              </div>
+            </li>
           </ol>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -607,6 +626,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.css">
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js" defer></script>
-  <script src="assets/js/site.js?v=1794997933" defer></script>
+  <script src="assets/js/site.js?v=1794998157" defer></script>
 </body>
 </html>

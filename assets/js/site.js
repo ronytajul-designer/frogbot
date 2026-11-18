@@ -694,8 +694,18 @@
     const k = Math.min(n, steps.length - 1), y = d => d.offsetTop + d.offsetParent.offsetTop + 16;
     list.style.setProperty('--line-top', y(dots[0]) + 'px');
     list.style.setProperty('--line-h', (y(dots[steps.length - 1]) - y(dots[0])) + 'px');
-    list.style.setProperty('--fill', (y(dots[k]) - y(dots[0])) + 'px');
+    const to = y(dots[k]) - y(dots[0]);
+    const M = window.Motion;
+    if (!M || matchMedia('(prefers-reduced-motion: reduce)').matches) { list.style.setProperty('--fill', to + 'px'); return; }
+    // spring physics: the progress line overshoots a touch and settles, the finished dot pops, the new step slides in
+    const from = parseFloat(list.style.getPropertyValue('--fill')) || 0;
+    fillAnim && fillAnim.stop && fillAnim.stop();
+    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 170, damping: 22, mass: 1, onUpdate: v => list.style.setProperty('--fill', v + 'px') });
+    if (n > 0 && n <= steps.length) M.animate(dots[n - 1], { scale: [0.6, 1] }, { type: 'spring', stiffness: 520, damping: 16 });
+    if (n < steps.length) M.animate(steps[n].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-8px)', 'translateX(0)'] }, { type: 'spring', stiffness: 260, damping: 24 });
+    if (n === 0) steps.forEach(st => M.animate(st.querySelector('.track__dot'), { scale: [0.9, 1] }, { type: 'spring', stiffness: 400, damping: 20 }));
   };
+  let fillAnim = null;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(steps.length); return; }
   let n = 0, id = null;
   const tick = () => { set(n); n = n >= steps.length ? 0 : n + 1; };
