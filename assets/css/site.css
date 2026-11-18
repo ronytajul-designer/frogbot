@@ -1838,3 +1838,10 @@ html.menu-open .header.is-hidden { transform: none; }
 .split__ring .frog .frog__pupil { fill: #3acf6a !important; }
 /* Bento: four equal cards, two per row */
 @media (min-width: 561px) { .bento > .card, .bento > .card--wide { grid-column: span 6 !important; } }
+/* Bento visuals: taller so the mockups breathe; phones keep their own height */
+@media (min-width: 561px) { .bento .visual { height: 516px !important; } }
+@media (min-width: 561px) { .bento .visual svg:has(.flow__labels) { width: auto !important; max-width: 440px; max-height: 300px; margin: auto; display: block; } }
+@media (min-width: 561px) {
+  .bento .visual:has(.flow__labels) { display: flex; align-items: center; justify-content: center; }
+  .bento .visual svg:has(.flow__labels) { overflow: visible; padding: 0 24px; box-sizing: content-box; }
+}

@@ -569,7 +569,7 @@
     [2050, () => { btn.classList.remove('is-pressed'); card.classList.add('is-moving'); }],
     [2450, () => { wait.textContent = '0'; wait.classList.add('is-zero'); bump(wait); empty.classList.add('is-shown'); }],
     [2650, () => {
-      slot.innerHTML = '<div class="db__card"><b>Globex custom SLA</b><i class="ok">Approved, synced to Stripe</i></div>';
+      slot.innerHTML = '<div class="db__card"><b>Globex SLA</b><i class="ok">Synced to Stripe</i></div>';
       won.textContent = '13'; bump(won);
       stage.textContent = 'Closed won'; stage.className = 'ok';
     }],
