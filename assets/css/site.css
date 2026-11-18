@@ -1845,3 +1845,9 @@ html.menu-open .header.is-hidden { transform: none; }
   .bento .visual:has(.flow__labels) { display: flex; align-items: center; justify-content: center; }
   .bento .visual svg:has(.flow__labels) { overflow: visible; padding: 0 24px; box-sizing: content-box; }
 }
+
+/* Accent headings: the emphasised words are bright white, the rest of the heading is a softer white.
+   Green stays for actions only. */
+:root { --ink-strong: #ffffff; --ink-soft: #9aa2b4; }
+h1:has(.own), h2:has(.own) { color: var(--ink-soft) !important; }
+.own { color: var(--ink-strong) !important; }
