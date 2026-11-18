@@ -700,17 +700,17 @@
     // spring physics: the progress line overshoots a touch and settles, the finished dot pops, the new step slides in
     const from = parseFloat(list.style.getPropertyValue('--fill')) || 0;
     fillAnim && fillAnim.stop && fillAnim.stop();
-    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 170, damping: 22, mass: 1, onUpdate: v => list.style.setProperty('--fill', v + 'px') });
-    if (n > 0 && n <= steps.length) M.animate(dots[n - 1], { scale: [0.6, 1] }, { type: 'spring', stiffness: 520, damping: 16 });
-    if (n < steps.length) M.animate(steps[n].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-8px)', 'translateX(0)'] }, { type: 'spring', stiffness: 260, damping: 24 });
-    if (n === 0) steps.forEach(st => M.animate(st.querySelector('.track__dot'), { scale: [0.9, 1] }, { type: 'spring', stiffness: 400, damping: 20 }));
+    fillAnim = M.animate(from, to, { type: 'spring', stiffness: 60, damping: 18, mass: 1.4, onUpdate: v => list.style.setProperty('--fill', v + 'px') });
+    if (n > 0 && n <= steps.length) M.animate(dots[n - 1], { scale: [0.8, 1] }, { type: 'spring', stiffness: 160, damping: 20 });
+    if (n < steps.length) M.animate(steps[n].querySelector('.track__body'), { opacity: [0.4, 1], transform: ['translateX(-6px)', 'translateX(0)'] }, { type: 'spring', stiffness: 90, damping: 22, mass: 1.2 });
+    if (n === 0) steps.forEach(st => M.animate(st.querySelector('.track__dot'), { scale: [0.94, 1] }, { type: 'spring', stiffness: 120, damping: 20 }));
   };
   let fillAnim = null;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(steps.length); return; }
   let n = 0, id = null;
   const tick = () => { set(n); n = n >= steps.length ? 0 : n + 1; };
   new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !id) { n = 0; tick(); id = setInterval(tick, 1800); }
+    if (e.isIntersecting && !id) { n = 0; tick(); id = setInterval(tick, 2600); }
     else if (!e.isIntersecting && id) { clearInterval(id); id = null; }
   }, { threshold: 0.4 }).observe(track);
 })();
