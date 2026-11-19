@@ -8326,3 +8326,6 @@ html.menu-open .header.is-hidden {
 /* Use cases window: same card surface as every other card, rows one step lighter */
 .uc__win { background: var(--fb-surface-mid) !important; }
 .uc__row { background: var(--fb-surface-raised) !important; border-color: var(--line) !important; }
+/* Use cases window: let the body fit its rows, with the same 20px below the last row as at the sides */
+.uc__body { height: auto !important; min-height: 0 !important; padding-bottom: 20px !important; }
+.uc { align-items: center !important; }
