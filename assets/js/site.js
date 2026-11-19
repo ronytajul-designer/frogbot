@@ -701,7 +701,8 @@
   const fillTo = i => y(dots[i]) - y(dots[0]);
   const tick = i => {
     steps[i].classList.add('is-done');
-    // no movement: the dot simply fades to bright white with its tick (a colour cross-fade, CSS transition)
+    // easeOutBack pop: grows past full size, then settles back, while the colour flips to white
+    if (M && !still) M.animate(dots[i], { scale: [1, 1.22, 1] }, { duration: 0.45, ease: [0.34, 1.56, 0.64, 1], times: [0, 0.45, 1] });
   };
   measure(); addEventListener('resize', measure);
   if (!M || still) { steps.forEach(s => s.classList.add('is-done')); list.style.setProperty('--fill', fillTo(dots.length - 1) + 'px'); return; }
@@ -720,7 +721,7 @@
         // tick in the same frame the bar touches the dot, not a frame later when the animation resolves
         await M.animate(from, to, { duration: 1.1, ease: [0.65, 0, 0.35, 1], onUpdate: v => {
           list.style.setProperty('--fill', v + 'px');
-          if (!done && v >= to - 0.5 && me === run) { done = true; tick(i); }
+          if (!done && v >= to - 14 && me === run) { done = true; tick(i); }
         } });
         if (me !== run) return;
         if (!done) tick(i);
