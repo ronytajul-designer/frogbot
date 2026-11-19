@@ -914,7 +914,7 @@
     let dirty = true;
     let cols = 0, rows = 0, base = null, noise = null, img = null;
     // closing section: a large frog head made of the same pixels, peeking up from the bottom
-    const isFrog = c.dataset.px === 'close';
+    const isFrog = c.dataset.px === 'close' && !c.hasAttribute('data-no-frog'); // the ASCII frog can draw the frog instead
     let frogA = null, sil = null, fcv = null, fctx = null, fbox = null;
     const eye = { x: 0, y: 0, tx: 0, ty: 0, blink: 1 };
     const SKIN = [
@@ -1135,7 +1135,7 @@ void main(){
       });
     }
     // closing CTA: the button sends a slow ripple out every few seconds while the section is on screen
-    if (!reduce && c.dataset.px === 'close') {
+    if (!reduce && c.dataset.px === 'close' && !c.hasAttribute('data-no-frog')) {
       const btn = host.querySelector('.btn--primary');
       let onScreen = false;
       new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(c);

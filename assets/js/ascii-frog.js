@@ -1,8 +1,8 @@
 /* Closing CTA: the FrogBot frog in living ASCII, in brand green.
    Each cell picks a character from a ramp by its tone, and the characters keep changing: cells re-roll among the
    characters of their own tone band, so the frog shimmers like a terminal rather than sitting still. Soft clouds drift
-   down both sides. The pupils follow the pointer and the frog blinks. The cursor scrambles the characters it passes,
-   which settle back over a second.
+   The pupils follow the pointer and the frog blinks; the cursor does nothing else here. The sides and the water ripples
+   come from the site's pixel field drawn underneath.
    One 2D canvas, a glyph atlas drawn once, ~24 fps, paused off screen and while the tab is hidden; a still frame under
    reduced motion. */
 (() => {
@@ -67,7 +67,8 @@
     m.fillStyle = g; SKIN.forEach(p => m.fill(p));
     for (const cx of [21.8, 78.2]) {
       m.save(); m.translate(cx, 46.9); m.scale(1, eye.blink);
-      m.globalCompositeOperation = 'destination-out'; m.beginPath(); m.arc(0, 0, 12, 0, Math.PI * 2); m.fill();
+      // cut the eye hole with a solid fill, so it is fully empty (the body gradient would only half-cut it)
+      m.globalCompositeOperation = 'destination-out'; m.fillStyle = '#fff'; m.beginPath(); m.arc(0, 0, 12, 0, Math.PI * 2); m.fill();
       m.globalCompositeOperation = 'source-over'; m.fillStyle = '#fff'; m.beginPath(); m.arc(eye.x, eye.y / Math.max(eye.blink, 0.3), 5.1, 0, Math.PI * 2); m.fill();
       m.restore();
     }
@@ -77,32 +78,26 @@
   };
 
   let last = 0, t0 = performance.now(), raf = 0, onScreen = false;
-  const pointer = { x: -1e4, y: -1e4 };
   const draw = now => {
     const t = (now - t0) / 1000, k = Math.ceil(cw * dpr), kh = Math.ceil(ch * dpr);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const pcx = pointer.x / cw, pcy = pointer.y / ch, R = 3;
     for (let y = 0; y < rows; y++) {
       const v = y / rows;
       for (let x = 0; x < cols; x++) {
         const i = y * cols + x, u = x / cols;
-        // side clouds: soft lobes on the left and right, drifting slowly
-        const side = Math.max(0, 1 - Math.hypot(Math.min(u, 1 - u) / (cols * cw <= 560 ? 0.12 : 0.2), (v - 0.62) / 0.42));
-        let tone = side > 0 ? side * fbm(x / 10 + t * 0.25, y / 6 - t * 0.18) * 0.9 : 0;
-        tone = Math.max(tone, mask[i] * (0.55 + 0.45 * fbm(x / 7 - t * 0.2, y / 5 + t * 0.15)));
-        // the cursor scrambles what it passes; it settles back over about a second
-        const dx = x - pcx, dy = (y - pcy) * (ch / cw);
-        if (dx * dx + dy * dy < R * R * 4) scramble[i] = Math.max(scramble[i], 1 - Math.sqrt(dx * dx + dy * dy) / (R * 2));
-        if (tone < 0.06 && scramble[i] < 0.05) continue;
+        // only the frog is drawn here; the sides and the water ripples are the pixel field underneath.
+        // Eye holes stay empty: the mask is 0 there, so nothing is drawn.
+        const mk = mask[i];
+        if (mk < 0.08) continue;
+        const tone = mk * (0.55 + 0.45 * fbm(x / 7 - t * 0.2, y / 5 + t * 0.15));
         let gi = Math.min(RAMP.length - 1, Math.max(1, Math.round(tone * (RAMP.length - 1))));
         // living characters: each cell re-rolls within its tone band every so often
-        if (!reduce && seed[i] < 0.08 + scramble[i]) { glyph[i] = Math.min(RAMP.length - 1, Math.max(1, gi + Math.round((Math.random() - 0.5) * 2.4))); seed[i] = Math.random() + 0.4; }
+        if (!reduce && seed[i] < 0.08) { glyph[i] = Math.min(RAMP.length - 1, Math.max(1, gi + Math.round((Math.random() - 0.5) * 2.4))); seed[i] = Math.random() + 0.4; }
         else seed[i] -= 0.02;
         if (!glyph[i]) glyph[i] = gi;
-        const show = scramble[i] > 0.05 ? 1 + Math.floor(Math.random() * (RAMP.length - 1)) : (Math.abs(glyph[i] - gi) <= 1 ? glyph[i] : gi);
-        ctx.globalAlpha = Math.min(1, 0.3 + Math.max(tone, scramble[i] * 0.5) * 0.75);
+        const show = Math.abs(glyph[i] - gi) <= 1 ? glyph[i] : gi;
+        ctx.globalAlpha = Math.min(1, 0.3 + tone * 0.75);
         ctx.drawImage(atlas, show * k, 0, k, kh, Math.round(x * cw * dpr), Math.round(y * ch * dpr), k, kh);
-        scramble[i] *= 0.86;
       }
     }
     ctx.globalAlpha = 1;
@@ -127,12 +122,10 @@
     addEventListener('pointermove', e => {
       if (!onScreen || !box) return;
       const r = host.getBoundingClientRect();
-      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
       const fx = r.left + box.ox + 50 * box.s, fy = r.top + box.oy + 46.9 * box.s;
       const dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1, m = Math.min(1, d / 300) * 3.4;
       eye.tx = dx / d * m; eye.ty = dy / d * m;
     }, { passive: true });
-    host.addEventListener('pointerleave', () => { pointer.x = pointer.y = -1e4; });
   }
   const blink = () => {
     if (onScreen && !document.hidden && box) {
