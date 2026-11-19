@@ -45,7 +45,7 @@ def page(title, desc, body, extra_js=''):
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}">
   <meta name="theme-color" content="#050912">
-  <link rel="icon" href="../brand/logo/favicon.svg?v=4" type="image/svg+xml">
+  <link rel="icon" href="../brand/logo/favicon.svg?v=5" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">

@@ -11,6 +11,7 @@
      The live site mixes #22e05a, #3acf6a and #2f964f; the redesign uses only this one. */
   --fb-green: #3acf6a;          /* brand green: primary buttons, logo, frogs, the highlighted plan only */
   --fb-green-ink: #04210d;      /* text on a green fill */
+  --fb-green-deep: #166d30;     /* FrogBot UI --color-bg-brand-hover and light --color-icon-brand: green on light grounds (the light favicon) */
 
   /* Type */
   --font-display: "Funnel Display", sans-serif;
