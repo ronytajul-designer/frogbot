@@ -194,8 +194,8 @@
 :root {
   --green-rgb: 58 207 106;
   --rent: #ff8a8a;
-  --ink-2: #848ca0;
-  --ink-3: #7c8498;
+  --ink-2: #8a8f99; /* body text, neutral grey: 5.9:1 on the page */
+  --ink-3: #80858f; /* labels and small print, neutral: 5.2:1 on the page, 4.7:1 on items */
   --line: rgb(255 255 255 / 0.1);
   --line-strong: rgb(255 255 255 / 0.2);
   --wrap: 1248px;

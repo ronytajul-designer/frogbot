@@ -45,7 +45,7 @@ Fonts: Funnel Display and Funnel Sans from Google Fonts.
 
 - **Green is for action and brand.** `#3acf6a` (`--fb-green`) appears on primary buttons, the logo and frogs, the 80/20
   ring, card dither, the Most popular plan and the pixel fields. Headings, ticks, tags and links stay neutral.
-- **Text levels:** headings `#f8fafc`, body `#848ca0`, labels `#7c8498`. All pass WCAG AA on the page.
+- **Text levels:** headings `#e6e9ef`, body `#8a8f99`, labels `#80858f`. All pass WCAG AA on the page.
 - **Surfaces:** page `#090e1b`, card `#0e1422`, inset `#050912`, item `#141a2a`.
 - **Section rhythm:** 120 px desktop, 96 px tablet, 56 px phone, above and below every section.
 - **Favicon:** frog head only. Light browser theme `#166d30` (your UI's `--color-bg-brand-hover`), dark theme `#3acf6a`.
