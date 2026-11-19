@@ -701,8 +701,8 @@
   const fillTo = i => y(dots[i]) - y(dots[0]);
   const tick = i => {
     steps[i].classList.add('is-done');
-    // easeOutBack pop: grows past full size, then settles back, while the colour flips to white
-    if (M && !still) M.animate(dots[i], { scale: [1, 1.22, 1] }, { duration: 0.45, ease: [0.34, 1.56, 0.64, 1], times: [0, 0.45, 1] });
+    // soft pop: eases out to 115%, then eases back to full size, while the colour flips to white
+    if (M && !still) M.animate(dots[i], { scale: [1, 1.15, 1] }, { duration: 0.7, times: [0, 0.4, 1], ease: [[0.22, 1, 0.36, 1], [0.45, 0, 0.55, 1]] });
   };
   measure(); addEventListener('resize', measure);
   if (!M || still) { steps.forEach(s => s.classList.add('is-done')); list.style.setProperty('--fill', fillTo(dots.length - 1) + 'px'); return; }
