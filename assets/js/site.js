@@ -1249,3 +1249,45 @@ void main(){
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
 })();
+
+/* Start free: tabs between the agent prompt and the CLI command, and one-click copy with clear feedback. */
+(() => {
+  const box = document.querySelector('[data-start]');
+  if (!box) return;
+  const tabs = [...box.querySelectorAll('[role="tab"]')];
+  const status = box.querySelector('[data-copy-status]');
+  const select = (t, focus) => {
+    tabs.forEach(x => {
+      const on = x === t;
+      x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault(); select(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length], true);
+    });
+  });
+  box.querySelectorAll('[data-copy]').forEach(btn => {
+    const label = btn.querySelector('[data-copy-label]'), rest = label.textContent;
+    let timer = 0;
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy;
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch {
+        // fallback: select the text so the visitor can copy it by hand
+        const code = btn.closest('.start__panel').querySelector('code');
+        const r = document.createRange(); r.selectNodeContents(code);
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      }
+      label.textContent = ok ? 'Copied' : 'Press Ctrl+C to copy';
+      btn.classList.toggle('is-copied', ok);
+      status.textContent = ok ? 'Copied to the clipboard. Paste it into your coding agent.' : 'Text selected. Press Ctrl+C or Cmd+C to copy.';
+      clearTimeout(timer);
+      timer = setTimeout(() => { label.textContent = rest; btn.classList.remove('is-copied'); }, 2000);
+    });
+  });
+})();

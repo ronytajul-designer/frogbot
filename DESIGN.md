@@ -10,7 +10,6 @@ Recorded from the built home page (`index.html`, `assets/css/site.css`) on 2026-
 - Dark surfaces from darkest to lightest: `--fb-surface-sunken`, `--fb-surface`, `--fb-surface-mid`, `--fb-surface-raised`, `--fb-surface-elevated`.
 - Text: headings `#f8fafc` (18.4:1), body `#848ca0` (5.7:1), labels and small print `#7c8498` (5.2:1, the AA floor on cards). Solid greys, never transparent white, so headings and body read as two levels. Hairlines at 10% white, stronger at 20%.
 - Green rule: brand green `#3acf6a` appears only on primary buttons, the logo and frogs, the "Most popular" plan and the hero and closing pixel fields. The 80/20 ring arc and the card corner dither stay green too. Every other accent (headline emphasis, ticks, tags, active tabs, links) is neutral light `#e4e7ee`.
-- Accent headings: the emphasised words (`.own`) are bright white `--ink-strong #ffffff`; the rest of that heading is white at 40% opacity (about 3.8:1, passes AA for large text only). Headings without an accent stay `#f8fafc`.
 - Brand logos (integrations, social) are white or grey at rest and take their own colour only when active or hovered.
 
 **Type**
