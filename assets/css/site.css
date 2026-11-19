@@ -1979,3 +1979,10 @@ html.menu-open .header.is-hidden { transform: none; }
 @media (max-width: 560px) { .listen { flex-wrap: wrap; border-radius: 16px; } .listen__track { order: 3; flex-basis: 100%; } .listen__tools { margin-left: auto; } }
 .listen__skip svg { width: 26px; height: 26px; stroke-width: 1.5; }
 .listen__skip span { inset: 0; top: auto; display: grid; place-items: center; height: 100%; font-size: 9px; font-weight: 700; padding-top: 2px; }
+/* Article title: larger, up to three lines in the text column */
+.article__title { font-size: clamp(30px, 3.2vw, 46px); line-height: 1.12; letter-spacing: -0.025em; }
+@media (max-width: 560px) { .article__title { font-size: 28px !important; line-height: 1.18 !important; } }
+/* Dotted rule with visible, spaced dots */
+.article__meta { border-bottom: 0; position: relative; }
+.article__meta::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background-image: radial-gradient(circle, rgb(255 255 255 / 0.32) 1px, transparent 1.4px); background-size: 8px 2px; background-repeat: repeat-x; }
