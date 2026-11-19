@@ -8317,3 +8317,8 @@ html.menu-open .header.is-hidden {
 /* 80/20: the ring and the floating frog must never be clipped (the card clipped the ring's bottom on phones) */
 .split__card { overflow: visible !important; }
 @media (max-width: 560px) { .split__ring { margin-bottom: 0 !important; } }
+
+/* Our engineers will: timeline on the left, copy on the right (desktop and tablet); phones keep copy first */
+@media (min-width: 961px) {
+  .built__grid > .track { order: -1; }
+}
