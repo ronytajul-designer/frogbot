@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../brand/tokens.css?v=1795082958">
-  <link rel="stylesheet" href="../assets/css/site.css?v=1795083285">
+  <link rel="stylesheet" href="../brand/tokens.css?v=1795083394">
+  <link rel="stylesheet" href="../assets/css/site.css?v=1795083394">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="page-blog">
@@ -125,9 +125,16 @@
           </dl>
           <div class="listen" data-listen hidden>
             <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
-            <span class="listen__label" data-listen-label>Listen to article</span>
-            <span class="listen__track" aria-hidden="true"><i data-listen-bar></i></span>
-            <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+            <div class="listen__info">
+              <span class="listen__label" data-listen-label>Listen to article</span>
+              <span class="listen__time"><span data-listen-now>0:00</span> of <span data-listen-total>0:00</span></span>
+            </div>
+            <div class="listen__track" data-listen-track role="slider" tabindex="0" aria-label="Position in the article" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-listen-bar></i></div>
+            <div class="listen__tools">
+              <button type="button" class="listen__skip" data-listen-skip="-10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 9A7.5 7.5 0 1 1 4.5 13"/><path d="M5 4.5v4.5h4.5"/></svg><span>10</span></button>
+              <button type="button" class="listen__skip" data-listen-skip="10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.4 9A7.5 7.5 0 1 0 19.5 13"/><path d="M19 4.5v4.5h-4.5"/></svg><span>10</span></button>
+              <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+            </div>
           </div>
         </div>
       </header>
@@ -283,8 +290,8 @@ export default buildConfig({
   </button>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js" defer></script>
-  <script src="../assets/js/site.js?v=1795082958" defer></script>
-  <script src="../assets/js/cover.js?v=1795082958" defer></script>
-  <script src="../assets/js/blog.js?v=1795082958" defer></script>
+  <script src="../assets/js/site.js?v=1795083394" defer></script>
+  <script src="../assets/js/cover.js?v=1795083394" defer></script>
+  <script src="../assets/js/blog.js?v=1795083394" defer></script>
 </body>
 </html>

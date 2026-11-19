@@ -24,34 +24,78 @@
   }
 
   // ---- listen to article ----
+  // Speech synthesis has no seeking, so the article is read sentence by sentence. Time is estimated from the words
+  // (about 165 words a minute at 1x), which lets the player show elapsed and total time, skip 10 seconds either way
+  // and jump when the track is clicked.
   const box = document.querySelector('[data-listen]'), prose = document.querySelector('[data-prose]');
   if (box && prose && 'speechSynthesis' in window) {
     box.hidden = false;
-    const play = box.querySelector('[data-listen-play]'), label = box.querySelector('[data-listen-label]');
-    const bar = box.querySelector('[data-listen-bar]'), rateBtn = box.querySelector('[data-listen-rate]');
-    const rates = [1, 1.25, 1.5, 0.75];
-    let rate = 0, state = 'idle', u = null;
-    const title = document.querySelector('.article__title')?.textContent || '';
-    const text = () => title + '. ' + [...prose.querySelectorAll('h2, p, li')].filter(el => !el.closest('.start__box, .codeblock')).map(el => el.textContent.trim()).join(' ');
-    const set = s => { state = s; box.dataset.state = s; label.textContent = s === 'playing' ? 'Pause' : s === 'paused' ? 'Resume' : 'Listen to article'; play.setAttribute('aria-label', label.textContent); };
-    const start = () => {
-      speechSynthesis.cancel();
-      const all = text();
-      u = new SpeechSynthesisUtterance(all); u.rate = rates[rate];
-      u.onboundary = e => { bar.style.width = Math.min(100, (e.charIndex / all.length) * 100) + '%'; };
-      u.onend = () => { set('idle'); bar.style.width = '100%'; };
-      u.onerror = () => set('idle');
-      speechSynthesis.speak(u); set('playing');
+    const $ = s => box.querySelector(s);
+    const play = $('[data-listen-play]'), label = $('[data-listen-label]'), bar = $('[data-listen-bar]'), track = $('[data-listen-track]');
+    const nowEl = $('[data-listen-now]'), totalEl = $('[data-listen-total]'), rateBtn = $('[data-listen-rate]');
+    const rates = [1, 1.25, 1.5, 2, 0.75];
+    const title = document.querySelector('.article__title')?.textContent.trim() || '';
+    const body = [...prose.querySelectorAll('h2, p, li')].filter(el => !el.closest('.start__box, .codeblock')).map(el => el.textContent.trim());
+    const sentences = [title, ...body].join(' ').match(/[^.!?]+[.!?]*\s*/g).map(s => s.trim()).filter(Boolean);
+    const secs = sentences.map(s => s.split(/\s+/).length / 165 * 60); // at 1x
+    const starts = secs.reduce((a, s, i) => (a.push(i ? a[i - 1] + secs[i - 1] : 0), a), []);
+    const total = starts[starts.length - 1] + secs[secs.length - 1];
+    let rate = 0, idx = 0, state = 'idle', sentStart = 0, tick = 0, run = 0;
+    const fmt = t => { t = Math.max(0, Math.round(t)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
+    const r = () => rates[rate];
+    totalEl.textContent = fmt(total / r());
+    const position = () => {
+      if (state !== 'playing') return starts[idx] || (state === 'idle' && idx >= sentences.length ? total : 0);
+      return starts[idx] + Math.min(secs[idx], ((performance.now() - sentStart) / 1000) * r());
     };
+    const paint = () => {
+      const p = Math.min(total, position());
+      nowEl.textContent = fmt(p / r()); bar.style.width = (p / total * 100) + '%';
+      track.setAttribute('aria-valuenow', String(Math.round(p / total * 100)));
+    };
+    const set = s => {
+      state = s; box.dataset.state = s;
+      label.textContent = s === 'playing' ? 'Playing' : s === 'paused' ? 'Paused' : 'Listen to article';
+      play.setAttribute('aria-label', s === 'playing' ? 'Pause' : 'Play the article');
+      cancelAnimationFrame(tick);
+      if (s === 'playing') { const loop = () => { paint(); tick = requestAnimationFrame(loop); }; loop(); } else paint();
+    };
+    const speakFrom = i => {
+      const me = ++run;
+      speechSynthesis.cancel();
+      idx = Math.max(0, Math.min(sentences.length, i));
+      if (idx >= sentences.length) { set('idle'); idx = 0; paint(); return; }
+      const say = () => {
+        if (me !== run) return;
+        if (idx >= sentences.length) { set('idle'); idx = 0; bar.style.width = '100%'; return; }
+        const u = new SpeechSynthesisUtterance(sentences[idx]); u.rate = r();
+        u.onstart = () => { sentStart = performance.now(); };
+        u.onend = () => { if (me !== run || state !== 'playing') return; idx++; say(); };
+        u.onerror = () => { if (me === run && state === 'playing') set('idle'); };
+        sentStart = performance.now();
+        speechSynthesis.speak(u);
+      };
+      set('playing'); say();
+    };
+    // the sentence that holds a given time (seconds of the article at 1x)
+    const at = t => { t = Math.max(0, Math.min(total - 0.01, t)); let i = 0; while (i + 1 < starts.length && starts[i + 1] <= t) i++; return i; };
+    const seek = t => { const i = at(t); if (state === 'playing') speakFrom(i); else { idx = i; paint(); } };
     play.addEventListener('click', () => {
-      if (state === 'idle') start();
-      else if (state === 'playing') { speechSynthesis.pause(); set('paused'); }
-      else { speechSynthesis.resume(); set('playing'); }
+      if (state === 'idle') speakFrom(idx);
+      else if (state === 'playing') { speechSynthesis.pause(); idx = at(position()); set('paused'); }
+      else { speechSynthesis.cancel(); speakFrom(idx); }
+    });
+    box.querySelectorAll('[data-listen-skip]').forEach(b => b.addEventListener('click', () => seek(position() + (+b.dataset.listenSkip) * r())));
+    track.addEventListener('click', e => { const b = track.getBoundingClientRect(); seek((e.clientX - b.left) / b.width * total); });
+    track.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); seek(position() + (e.key === 'ArrowRight' ? 10 : -10)); }
     });
     rateBtn.addEventListener('click', () => {
-      rate = (rate + 1) % rates.length; rateBtn.textContent = rates[rate] + 'x';
-      if (state !== 'idle') start(); // a new rate needs a fresh utterance
+      rate = (rate + 1) % rates.length; rateBtn.textContent = r() + 'x';
+      totalEl.textContent = fmt(total / r());
+      if (state === 'playing') speakFrom(at(position())); else paint();
     });
+    paint();
     addEventListener('pagehide', () => speechSynthesis.cancel());
   }
 

@@ -174,9 +174,16 @@ article = f'''    <article class="article">
           </dl>
           <div class="listen" data-listen hidden>
             <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
-            <span class="listen__label" data-listen-label>Listen to article</span>
-            <span class="listen__track" aria-hidden="true"><i data-listen-bar></i></span>
-            <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+            <div class="listen__info">
+              <span class="listen__label" data-listen-label>Listen to article</span>
+              <span class="listen__time"><span data-listen-now>0:00</span> of <span data-listen-total>0:00</span></span>
+            </div>
+            <div class="listen__track" data-listen-track role="slider" tabindex="0" aria-label="Position in the article" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-listen-bar></i></div>
+            <div class="listen__tools">
+              <button type="button" class="listen__skip" data-listen-skip="-10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 9A7.5 7.5 0 1 1 4.5 13"/><path d="M5 4.5v4.5h4.5"/></svg><span>10</span></button>
+              <button type="button" class="listen__skip" data-listen-skip="10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.4 9A7.5 7.5 0 1 0 19.5 13"/><path d="M19 4.5v4.5h-4.5"/></svg><span>10</span></button>
+              <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+            </div>
           </div>
         </div>
       </header>
