@@ -1959,3 +1959,5 @@ html.menu-open .header.is-hidden { transform: none; }
 .article__cover canvas { aspect-ratio: 16 / 9; }
 .prose__intro { font-size: 19px; line-height: 1.65; color: var(--fb-ink); }
 @media (max-width: 960px) { .article__lane { grid-template-columns: minmax(0, 1fr); gap: 0; } .article__lane > .article__col { grid-column: 1; } }
+.article__title { font-size: clamp(26px, 2.35vw, 34px); line-height: 1.18; letter-spacing: -0.02em; }
+@media (max-width: 560px) { .article__title { font-size: 24px !important; line-height: 1.22 !important; } }
