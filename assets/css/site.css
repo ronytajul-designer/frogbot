@@ -1942,3 +1942,7 @@ html.menu-open .header.is-hidden { transform: none; }
 .maker__actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .maker__preview canvas { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
 @media (max-width: 960px) { .maker__grid { grid-template-columns: 1fr; } }
+/* Closing CTA: living ASCII frog */
+.close { isolation: isolate; }
+.close__ascii { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.close .wrap { position: relative; z-index: 1; }
