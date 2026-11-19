@@ -701,7 +701,7 @@
   const fillTo = i => y(dots[i]) - y(dots[0]);
   const tick = i => {
     steps[i].classList.add('is-done');
-    if (M && !still) M.animate(dots[i], { scale: [0.6, 1] }, { type: 'spring', stiffness: 420, damping: 11 });
+    if (M && !still) M.animate(dots[i], { scale: [0.6, 1] }, { duration: 0.45, ease: [0.65, 0, 0.35, 1] });
   };
   measure(); addEventListener('resize', measure);
   if (!M || still) { steps.forEach(s => s.classList.add('is-done')); list.style.setProperty('--fill', fillTo(dots.length - 1) + 'px'); return; }
