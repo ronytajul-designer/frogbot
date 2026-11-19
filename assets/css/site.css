@@ -8329,3 +8329,4 @@ html.menu-open .header.is-hidden {
 /* Use cases window: let the body fit its rows, with the same 20px below the last row as at the sides */
 .uc__body { height: auto !important; min-height: 0 !important; padding-bottom: 20px !important; }
 .uc { align-items: center !important; }
+.matrix__brand img { width: 24px; height: 24px; object-fit: contain; border-radius: 0; }
