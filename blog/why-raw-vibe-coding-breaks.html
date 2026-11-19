@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../brand/tokens.css?v=1795083394">
-  <link rel="stylesheet" href="../assets/css/site.css?v=1795083681">
+  <link rel="stylesheet" href="../brand/tokens.css?v=1795083895">
+  <link rel="stylesheet" href="../assets/css/site.css?v=1795083895">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="page-blog">
@@ -123,7 +123,7 @@
             <div><dt>Published</dt><dd><time datetime="2026-10-28">Oct 28, 2026</time></dd></div>
             <div><dt>Read time</dt><dd>2 min read</dd></div>
           </dl>
-          <div class="listen" data-listen hidden>
+          <div class="listen" data-listen data-audio="https://frogbot.ai/api/media/file/blog-why-raw-vibe-coding-breaks-narration-original-1-original.mp3" hidden>
             <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
             <div class="listen__info">
               <span class="listen__label" data-listen-label>Listen to article</span>
@@ -143,63 +143,39 @@
         <nav class="toc" aria-label="On this page">
           <p class="toc__title">On this page</p>
           <ol>
-            <li><a href="#takeaways">Key takeaways</a></li>
-            <li><a href="#fails">Where raw vibe-coded apps fail</a></li>
-            <li><a href="#pattern">The 68-line config pattern</a></li>
-            <li><a href="#agents">Built for coding agents first</a></li>
+            <li><a href="#key-takeaways">Key takeaways</a></li>
+            <li><a href="#where-raw-vibe-coded-apps-fail-in-production">Where raw vibe-coded apps fail in production</a></li>
+            <li><a href="#the-68-line-config-pattern">The 68-line config pattern</a></li>
+            <li><a href="#built-for-coding-agents-first">Built for coding agents first</a></li>
             <li><a href="#start-now">Start your first app</a></li>
           </ol>
         </nav>
         <div class="prose" data-prose>
-          <section class="takeaways" id="takeaways" aria-labelledby="tk">
-            <h2 id="tk">Key takeaways</h2>
-            <ul>
-              <li><strong>LLMs are good at schemas and business rules, not plumbing.</strong> Asking an agent to hand-roll auth, table filters and job queues wastes its context window and invites security bugs.</li>
-              <li><strong>Default-secure APIs prevent data leaks.</strong> FrogBot enforces collection and field access control unless you explicitly override it.</li>
-              <li><strong>68 lines of config replace 15,000 lines of glue.</strong> When the schema changes, the Admin UI, Kanban board, REST API and TypeScript types update with it.</li>
-            </ul>
-          </section>
-          <p class="prose__intro">Prompting an LLM from scratch produces 15,000 lines of fragile glue code, leaky endpoints and broken auth. Here is how declarative collections, RBAC and durable jobs keep AI-built apps maintainable in production.</p>
-          <h2 id="fails">Where raw vibe-coded apps fail in production</h2>
-          <p>When teams replace an internal CRM or operations tool with a browser prompt builder or a raw Next.js starter, the failure rarely shows up in the first ten minutes. It shows up in week two:</p>
-          <ul>
-            <li><strong>Inconsistent authorization.</strong> One API route checks the session; another server action forgets to filter by <code>organizationId</code>.</li>
-            <li><strong>UI drift on every schema change.</strong> Adding one <code>status</code> or <code>dueDate</code> field means editing six React components, three forms and two API routes.</li>
-            <li><strong>No durable background work.</strong> Long PDF imports, Stripe syncs and Slack approvals time out inside serverless HTTP handlers.</li>
-          </ul>
-          <h2 id="pattern">The 68-line config pattern</h2>
-          <p>FrogBot separates what changes per app (your data model, access rules, agent instructions and custom views) from what must never break (authentication, migrations, the Admin UI, job retries and OAuth token refresh).</p>
-          <figure class="codeblock">
-            <figcaption><span>frogbot.config.ts</span><button type="button" class="codeblock__copy" data-copy-code>Copy</button></figcaption>
-            <pre><code>import { buildConfig, type CollectionConfig, type AgentConfig } from &#x27;frogbot&#x27;;
-
+<section class="takeaways" id="key-takeaways" aria-labelledby="tk"><h2 id="tk">Key takeaways</h2><ul><li><strong>LLMs excel at declarative schemas and business rules, not repetitive plumbing.</strong> Asking an agent to hand-roll auth, table filters, and job queues wastes context window and introduces security bugs.</li><li><strong>Default-secure Local &amp; REST APIs prevent data leaks.</strong> FrogBot enforces collection and field access control by default unless explicitly overridden.</li><li><strong>68 lines of config replace 15,000 lines of bespoke glue.</strong> When your schema changes, your Admin UI, Kanban board, REST API, and TypeScript types update automatically.</li></ul></section>
+<p class="prose__intro">Prompting an LLM from scratch produces 15,000 lines of fragile glue code, leaky endpoints and broken auth. Here is how declarative collections, RBAC and durable jobs keep AI-built apps maintainable in production.</p>
+<h2 id="where-raw-vibe-coded-apps-fail-in-production">Where raw vibe-coded apps fail in production</h2><p>When teams try to replace an internal CRM or operations tool using a browser prompt builder or a raw Next.js starter, the failure rarely happens in the first ten minutes. It happens in week two:</p><ol><li><strong>Inconsistent authorization:</strong> One API route checks the user's session; another server action forgets to filter by <code>organizationId</code>.</li><li><strong>UI drift on every schema change:</strong> Adding a single <code>status</code> or <code>dueDate</code> field requires editing six React components, three forms, and two API routes.</li><li><strong>No durable background execution:</strong> Long-running PDF imports, Stripe syncs, and Slack approvals time out inside serverless HTTP handlers.</li></ol><h2 id="the-68-line-config-pattern">The 68-line config pattern</h2><p>FrogBot solves this by separating <strong>what changes per app</strong> (your data model, access rules, agent instructions, and custom views) from <strong>what must never break</strong> (authentication, database migrations, Admin UI, job retries, and OAuth token refresh).</p><figure class="codeblock"><figcaption><span>Code</span><button type="button" class="codeblock__copy" data-copy-code>Copy</button></figcaption><pre><code>import { buildConfig, type CollectionConfig, type AgentConfig } from 'frogbot';
 const Deals: CollectionConfig = {
-  slug: &#x27;deals&#x27;,
-  admin: { useAsTitle: &#x27;company&#x27; },
+  slug: 'deals',
+  admin: { useAsTitle: 'company' },
   access: {
     read: ({ req }) =&gt; Boolean(req.user),
-    update: ({ req }) =&gt; req.user?.role === &#x27;admin&#x27;,
+    update: ({ req }) =&gt; req.user?.role === 'admin',
   },
   fields: [
-    { name: &#x27;company&#x27;, type: &#x27;text&#x27;, required: true },
-    { name: &#x27;amount&#x27;, type: &#x27;number&#x27;, required: true },
-    { name: &#x27;stage&#x27;, type: &#x27;select&#x27;, options: [&#x27;Lead&#x27;, &#x27;Proposal&#x27;, &#x27;Won&#x27;] },
+    { name: 'company', type: 'text', required: true },
+    { name: 'amount', type: 'number', required: true },
+    { name: 'stage', type: 'select', options: ['Lead', 'Proposal', 'Won'] },
   ],
 };
-
 const dealDesk: AgentConfig = {
-  slug: &#x27;deal-desk&#x27;,
-  model: &#x27;anthropic/claude-sonnet-4-5&#x27;,
-  instructions: &#x27;Help reps triage deals and pause for approval on discounts over 15%.&#x27;,
+  slug: 'deal-desk',
+  model: 'anthropic/claude-sonnet-4-5',
+  instructions: 'Help reps triage deals and pause for approval on discounts over 15%.',
 };
-
 export default buildConfig({
   collections: [Deals],
   agents: [dealDesk],
-});</code></pre>
-          </figure>
-          <h2 id="agents">Built for coding agents first</h2>
-          <p>Every FrogBot project ships a local agent skill (<code>skills/frogbot/SKILL.md</code>) for Claude Code, Cursor, Codex and OpenCode. The surface area is small and strongly typed, so your agent writes valid collections, hooks and jobs on the first pass, without inventing brittle infrastructure.</p>
+});</code></pre></figure><h2 id="built-for-coding-agents-first">Built for coding agents first</h2><p>Every FrogBot project includes a local agent skill (<code>skills/frogbot/SKILL.md</code>) designed for Claude Code, Cursor, Codex, and OpenCode. Because the surface area is compact and strongly typed, your coding agent writes valid collections, hooks, and jobs on the first pass—without hallucinating brittle infrastructure code.</p>
           <h2 id="start-now">Start your first app</h2>
           <p>Paste this into your coding agent to scaffold a production app in minutes, then deploy it to Dojo for $29 a month with $0 per seat.</p>
         <aside class="start__box start__box--inline" data-start aria-labelledby="art-start">
@@ -227,7 +203,7 @@ export default buildConfig({
         <div class="keep-reading__head"><h2 class="display display--md" id="kr">Keep reading</h2><a class="link" href="./">All posts</a></div>
         <div class="post-grid">
         <article class="post" data-cat="Announcements">
-          <a class="post__link" href="https://frogbot.ai/blog/introducing-frogbot" rel="noopener">
+          <a class="post__link" href="introducing-frogbot.html">
             <canvas class="post__cover" data-cover data-seed="introducing-frogbot" data-kind="Announcements" aria-hidden="true"></canvas>
             <span class="post__body">
               <span class="post__meta"><span class="post__cat">Announcements</span><time datetime="2026-10-31">Oct 31, 2026</time><span>2 min read</span></span>
@@ -237,8 +213,8 @@ export default buildConfig({
           </a>
         </article>
         <article class="post" data-cat="Guides">
-          <a class="post__link" href="https://frogbot.ai/guides" rel="noopener">
-            <canvas class="post__cover" data-cover data-seed="kill-airtable-afternoon" data-kind="Guides" aria-hidden="true"></canvas>
+          <a class="post__link" href="kill-airtable-with-frogbot.html">
+            <canvas class="post__cover" data-cover data-seed="kill-airtable-with-frogbot" data-kind="Guides" aria-hidden="true"></canvas>
             <span class="post__body">
               <span class="post__meta"><span class="post__cat">Guides</span><time datetime="2026-10-30">Oct 30, 2026</time><span>2 min read</span></span>
               <span class="post__title">How to Kill a $13,500/yr Airtable Bill in an Afternoon with Claude Code &amp; FrogBot</span>
@@ -247,8 +223,8 @@ export default buildConfig({
           </a>
         </article>
         <article class="post" data-cat="Guides">
-          <a class="post__link" href="https://frogbot.ai/guides" rel="noopener">
-            <canvas class="post__cover" data-cover data-seed="agency-client-portals" data-kind="Guides" aria-hidden="true"></canvas>
+          <a class="post__link" href="white-label-client-portals.html">
+            <canvas class="post__cover" data-cover data-seed="white-label-client-portals" data-kind="Guides" aria-hidden="true"></canvas>
             <span class="post__body">
               <span class="post__meta"><span class="post__cat">Guides</span><time datetime="2026-10-26">Oct 26, 2026</time><span>2 min read</span></span>
               <span class="post__title">Shipping White-Labeled Client Portals with $0 Seat Fees: The Agency Playbook</span>
@@ -290,8 +266,8 @@ export default buildConfig({
   </button>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js" defer></script>
-  <script src="../assets/js/site.js?v=1795083394" defer></script>
-  <script src="../assets/js/cover.js?v=1795083394" defer></script>
-  <script src="../assets/js/blog.js?v=1795083394" defer></script>
+  <script src="../assets/js/site.js?v=1795083895" defer></script>
+  <script src="../assets/js/cover.js?v=1795083895" defer></script>
+  <script src="../assets/js/blog.js?v=1795083895" defer></script>
 </body>
 </html>

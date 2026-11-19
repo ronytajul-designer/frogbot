@@ -1,0 +1,19 @@
+<h2 id="key-takeaways">Key takeaways</h2><ul><li><strong>Stop losing agency margin to $39/seat portal tools and Retool viewer fees.</strong> Run unlimited client users on a flat $29 (Pro) or $79 (Business) per-app cost.</li><li><strong>3-line white-labeling:</strong> Customize the app icon, title suffix, theme tokens, and custom domain with zero "Powered by" watermarks.</li><li><strong>Clean client isolation &amp; handover:</strong> Group each client's apps into an isolated Dojo Project, or hand over the repository and database in one click when the engagement ends.</li></ul><h2 id="why-per-seat-portal-tools-break-agency-economics">Why per-seat portal tools break agency economics</h2><p>When an agency builds a client portal on Retool, Airtable, or a SaaS portal builder, the client inevitably asks to invite 40 stakeholders. Suddenly the software bill jumps by $600–$1,500/month—eating straight into your monthly retainer or forcing an awkward upsell conversation.</p><p>With FrogBot and Dojo, <strong>client seats cost $0</strong>. You can charge a client a $500/month hosting and maintenance retainer while your underlying Dojo cost is fixed at $29 or $79/month.</p><h2 id="step-1-tenant-isolated-row-level-access-control">Step 1: Tenant-isolated row-level access control</h2><p>Every collection in FrogBot supports declarative access control functions that filter queries automatically at the database layer:</p><pre><code>export const Deliverables: CollectionConfig = {
+  slug: 'deliverables',
+  access: {
+    read: ({ req }) =&gt; {
+      if (req.user?.role === 'agency-admin') return true;
+      return { clientOrg: { equals: req.user?.clientOrg } };
+    },
+  },
+  fields: [
+    { name: 'title', type: 'text', required: true },
+    { name: 'clientOrg', type: 'text', required: true, index: true },
+    { name: 'status', type: 'select', options: ['Draft', 'Needs Client Approval', 'Approved'] },
+  ],
+};</code></pre><h2 id="step-2-white-label-the-admin-ui-in-3-lines">Step 2: White-label the Admin UI in 3 lines</h2><p>Swap in your client's brand mark, favicon, and custom domain in <code>frogbot.config.ts</code>:</p><pre><code>admin: {
+  meta: {
+    titleSuffix: '— Acme Client Portal',
+    appIcon: '/acme-logo.svg',
+  },
+}</code></pre><h2 id="step-3-isolate-client-projects-and-hand-off-cleanly">Step 3: Isolate client projects and hand off cleanly</h2><p>On the Dojo <strong>Business</strong> plan ($79/app/mo), you can place each client's apps inside their own <strong>Project</strong> with an isolated access list so client stakeholders only ever see their own environment. And if a client ever buys out the project to run in-house, you can transfer the Dojo project to their organization—or hand them a standard <code>git clone</code> + <code>pg_dump</code> with $0 transfer fees.</p>

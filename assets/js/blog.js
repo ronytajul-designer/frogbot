@@ -28,7 +28,33 @@
   // (about 165 words a minute at 1x), which lets the player show elapsed and total time, skip 10 seconds either way
   // and jump when the track is clicked.
   const box = document.querySelector('[data-listen]'), prose = document.querySelector('[data-prose]');
-  if (box && prose && 'speechSynthesis' in window) {
+  // A recorded narration, when the post has one: real time, seeking and speed. Falls back to speech synthesis if it fails.
+  const audioMode = () => {
+    const $ = s => box.querySelector(s);
+    const play = $('[data-listen-play]'), label = $('[data-listen-label]'), bar = $('[data-listen-bar]'), track = $('[data-listen-track]');
+    const nowEl = $('[data-listen-now]'), totalEl = $('[data-listen-total]'), rateBtn = $('[data-listen-rate]');
+    const a = new Audio(); a.preload = 'metadata'; a.src = box.dataset.audio;
+    const rates = [1, 1.25, 1.5, 2, 0.75]; let rate = 0;
+    const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
+    const paint = () => {
+      const d = a.duration || 0, t = a.currentTime || 0;
+      nowEl.textContent = fmt(t); totalEl.textContent = fmt(d);
+      bar.style.width = (d ? t / d * 100 : 0) + '%'; track.setAttribute('aria-valuenow', String(d ? Math.round(t / d * 100) : 0));
+    };
+    const state = s => { box.dataset.state = s; label.textContent = s === 'playing' ? 'Playing' : s === 'paused' ? 'Paused' : 'Listen to article'; play.setAttribute('aria-label', s === 'playing' ? 'Pause' : 'Play the article'); };
+    a.addEventListener('loadedmetadata', paint); a.addEventListener('timeupdate', paint);
+    a.addEventListener('play', () => state('playing')); a.addEventListener('pause', () => state(a.ended ? 'idle' : 'paused'));
+    a.addEventListener('ended', () => { state('idle'); paint(); });
+    a.addEventListener('error', () => { box.dataset.audio = ''; a.removeAttribute('src'); if ('speechSynthesis' in window) speechMode(); else box.hidden = true; }, { once: true });
+    play.addEventListener('click', () => { a.paused ? a.play().catch(() => {}) : a.pause(); });
+    box.querySelectorAll('[data-listen-skip]').forEach(b => b.addEventListener('click', () => { a.currentTime = Math.max(0, Math.min(a.duration || 0, a.currentTime + +b.dataset.listenSkip)); }));
+    track.addEventListener('click', e => { const r = track.getBoundingClientRect(); if (a.duration) a.currentTime = (e.clientX - r.left) / r.width * a.duration; });
+    track.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); a.currentTime += e.key === 'ArrowRight' ? 10 : -10; } });
+    rateBtn.addEventListener('click', () => { rate = (rate + 1) % rates.length; a.playbackRate = rates[rate]; rateBtn.textContent = rates[rate] + 'x'; });
+    addEventListener('pagehide', () => a.pause());
+    box.hidden = false; paint();
+  };
+  const speechMode = () => {
     box.hidden = false;
     const $ = s => box.querySelector(s);
     const play = $('[data-listen-play]'), label = $('[data-listen-label]'), bar = $('[data-listen-bar]'), track = $('[data-listen-track]');
@@ -97,7 +123,8 @@
     });
     paint();
     addEventListener('pagehide', () => speechSynthesis.cancel());
-  }
+  };
+  if (box && prose) { if (box.dataset.audio) audioMode(); else if ('speechSynthesis' in window) speechMode(); }
 
   // ---- copy for code blocks ----
   document.querySelectorAll('[data-copy-code]').forEach(btn => {

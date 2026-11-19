@@ -1,0 +1,23 @@
+<h2 id="key-takeaways">Key takeaways</h2><ul><li><strong>LLMs excel at declarative schemas and business rules, not repetitive plumbing.</strong> Asking an agent to hand-roll auth, table filters, and job queues wastes context window and introduces security bugs.</li><li><strong>Default-secure Local &amp; REST APIs prevent data leaks.</strong> FrogBot enforces collection and field access control by default unless explicitly overridden.</li><li><strong>68 lines of config replace 15,000 lines of bespoke glue.</strong> When your schema changes, your Admin UI, Kanban board, REST API, and TypeScript types update automatically.</li></ul><h2 id="where-raw-vibe-coded-apps-fail-in-production">Where raw vibe-coded apps fail in production</h2><p>When teams try to replace an internal CRM or operations tool using a browser prompt builder or a raw Next.js starter, the failure rarely happens in the first ten minutes. It happens in week two:</p><ol><li><strong>Inconsistent authorization:</strong> One API route checks the user's session; another server action forgets to filter by <code>organizationId</code>.</li><li><strong>UI drift on every schema change:</strong> Adding a single <code>status</code> or <code>dueDate</code> field requires editing six React components, three forms, and two API routes.</li><li><strong>No durable background execution:</strong> Long-running PDF imports, Stripe syncs, and Slack approvals time out inside serverless HTTP handlers.</li></ol><h2 id="the-68-line-config-pattern">The 68-line config pattern</h2><p>FrogBot solves this by separating <strong>what changes per app</strong> (your data model, access rules, agent instructions, and custom views) from <strong>what must never break</strong> (authentication, database migrations, Admin UI, job retries, and OAuth token refresh).</p><pre><code>import { buildConfig, type CollectionConfig, type AgentConfig } from 'frogbot';
+const Deals: CollectionConfig = {
+  slug: 'deals',
+  admin: { useAsTitle: 'company' },
+  access: {
+    read: ({ req }) =&gt; Boolean(req.user),
+    update: ({ req }) =&gt; req.user?.role === 'admin',
+  },
+  fields: [
+    { name: 'company', type: 'text', required: true },
+    { name: 'amount', type: 'number', required: true },
+    { name: 'stage', type: 'select', options: ['Lead', 'Proposal', 'Won'] },
+  ],
+};
+const dealDesk: AgentConfig = {
+  slug: 'deal-desk',
+  model: 'anthropic/claude-sonnet-4-5',
+  instructions: 'Help reps triage deals and pause for approval on discounts over 15%.',
+};
+export default buildConfig({
+  collections: [Deals],
+  agents: [dealDesk],
+});</code></pre><h2 id="built-for-coding-agents-first">Built for coding agents first</h2><p>Every FrogBot project includes a local agent skill (<code>skills/frogbot/SKILL.md</code>) designed for Claude Code, Cursor, Codex, and OpenCode. Because the surface area is compact and strongly typed, your coding agent writes valid collections, hooks, and jobs on the first pass—without hallucinating brittle infrastructure code.</p>

@@ -134,96 +134,53 @@ listing = f'''    <section class="blog-head">
 '''
 (ROOT / 'blog/index.html').write_text(page('Blog | FrogBot', 'Engineering deep dives, releases, guides and the math behind replacing per-seat SaaS with apps you own.', listing))
 
-# ---------- article: why-raw-vibe-coding-breaks ----------
-p = next(x for x in posts if x['slug'] == 'why-raw-vibe-coding-breaks')
-code = '''import { buildConfig, type CollectionConfig, type AgentConfig } from 'frogbot';
+HEAD_TPL = '      <header class="article__head wrap article__lane">\n        <div class="article__col">\n          <nav class="crumbs" aria-label="Breadcrumb"><a href="./">Blog</a><span aria-hidden="true">/</span><span>{cat}</span></nav>\n          <h1 class="article__title">{title}</h1>\n          <dl class="article__meta">\n            <div><dt>Published</dt><dd><time datetime="{date}">{datefmt}</time></dd></div>\n            <div><dt>Read time</dt><dd>{read} min read</dd></div>\n          </dl>\n          <div class="listen" data-listen{audio_attr} hidden>\n            <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>\n            <div class="listen__info">\n              <span class="listen__label" data-listen-label>Listen to article</span>\n              <span class="listen__time"><span data-listen-now>0:00</span> of <span data-listen-total>0:00</span></span>\n            </div>\n            <div class="listen__track" data-listen-track role="slider" tabindex="0" aria-label="Position in the article" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-listen-bar></i></div>\n            <div class="listen__tools">\n              <button type="button" class="listen__skip" data-listen-skip="-10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 9A7.5 7.5 0 1 1 4.5 13"/><path d="M5 4.5v4.5h4.5"/></svg><span>10</span></button>\n              <button type="button" class="listen__skip" data-listen-skip="10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.4 9A7.5 7.5 0 1 0 19.5 13"/><path d="M19 4.5v4.5h-4.5"/></svg><span>10</span></button>\n              <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>\n            </div>\n          </div>\n        </div>\n      </header>\n      <div class="article__cover wrap article__lane"><div class="article__col"><canvas data-cover data-seed="{slug}" data-kind="{cat}" data-cell="4" aria-hidden="true"></canvas></div></div>\n'
 
-const Deals: CollectionConfig = {
-  slug: 'deals',
-  admin: { useAsTitle: 'company' },
-  access: {
-    read: ({ req }) => Boolean(req.user),
-    update: ({ req }) => req.user?.role === 'admin',
-  },
-  fields: [
-    { name: 'company', type: 'text', required: true },
-    { name: 'amount', type: 'number', required: true },
-    { name: 'stage', type: 'select', options: ['Lead', 'Proposal', 'Won'] },
-  ],
-};
+# ---------- articles: one page per post, body from blog/content/<slug>.html ----------
+def slugify(t):
+    return re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')
 
-const dealDesk: AgentConfig = {
-  slug: 'deal-desk',
-  model: 'anthropic/claude-sonnet-4-5',
-  instructions: 'Help reps triage deals and pause for approval on discounts over 15%.',
-};
 
-export default buildConfig({
-  collections: [Deals],
-  agents: [dealDesk],
-});'''
-related = [x for x in posts if x is not p][:3]
-article = f'''    <article class="article">
-      <header class="article__head wrap article__lane">
-        <div class="article__col">
-          <nav class="crumbs" aria-label="Breadcrumb"><a href="./">Blog</a><span aria-hidden="true">/</span><span>{esc(p['cat'])}</span></nav>
-          <h1 class="article__title">{esc(p['title'])}</h1>
-          <dl class="article__meta">
-            <div><dt>Published</dt><dd><time datetime="{p['date']}">{fmt(p['date'])}</time></dd></div>
-            <div><dt>Read time</dt><dd>{p['read']} min read</dd></div>
-          </dl>
-          <div class="listen" data-listen hidden>
-            <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
-            <div class="listen__info">
-              <span class="listen__label" data-listen-label>Listen to article</span>
-              <span class="listen__time"><span data-listen-now>0:00</span> of <span data-listen-total>0:00</span></span>
-            </div>
-            <div class="listen__track" data-listen-track role="slider" tabindex="0" aria-label="Position in the article" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-listen-bar></i></div>
-            <div class="listen__tools">
-              <button type="button" class="listen__skip" data-listen-skip="-10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 9A7.5 7.5 0 1 1 4.5 13"/><path d="M5 4.5v4.5h4.5"/></svg><span>10</span></button>
-              <button type="button" class="listen__skip" data-listen-skip="10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.4 9A7.5 7.5 0 1 0 19.5 13"/><path d="M19 4.5v4.5h-4.5"/></svg><span>10</span></button>
-              <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="article__cover wrap article__lane"><div class="article__col"><canvas data-cover data-seed="{esc(p['slug'])}" data-kind="{esc(p['cat'])}" data-cell="4" aria-hidden="true"></canvas></div></div>
-      <div class="article__layout wrap">
+def shape_body(raw, excerpt):
+    """Takeaways box first, the excerpt as the opening paragraph, code blocks with a copy button, ids on every h2."""
+    body = raw
+    m = re.match(r'\s*<h2[^>]*>Key takeaways</h2>(<ul>.*?</ul>)', body, re.S)
+    lead = ''
+    if m:
+        lead = f'<section class="takeaways" id="key-takeaways" aria-labelledby="tk"><h2 id="tk">Key takeaways</h2>{m.group(1)}</section>\n<p class="prose__intro">{esc(excerpt)}</p>'
+        body = body[m.end():]
+    def add_id(mm):
+        attrs, text = mm.group(1), mm.group(2)
+        if 'id=' in attrs: return mm.group(0)
+        return f'<h2 id="{slugify(re.sub("<[^>]+>", "", text))}">{text}</h2>'
+    body = re.sub(r'<h2([^>]*)>(.*?)</h2>', add_id, body)
+    body = re.sub(r'<pre><code>(.*?)</code></pre>', lambda mm: f'<figure class="codeblock"><figcaption><span>Code</span><button type="button" class="codeblock__copy" data-copy-code>Copy</button></figcaption><pre><code>{mm.group(1)}</code></pre></figure>', body, flags=re.S)
+    return lead + '\n' + body
+
+
+def toc_of(body):
+    items = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body)
+    rows = [f'            <li><a href="#{"key-takeaways" if i == "tk" else i}">{re.sub("<[^>]+>", "", t)}</a></li>' for i, t in items]
+    rows.append('            <li><a href="#start-now">Start your first app</a></li>')
+    return '\n'.join(rows)
+
+
+for p in posts:
+    raw = (ROOT / f"blog/content/{p['slug']}.html").read_text()
+    body = shape_body(raw, p['excerpt'])
+    audio_attr = f' data-audio="{esc(p["audio"])}"' if p.get('audio') else ''
+    related = [x for x in posts if x is not p][:3]
+    head = HEAD_TPL.format(cat=esc(p['cat']), title=esc(p['title']), date=p['date'], datefmt=fmt(p['date']), read=p['read'], slug=esc(p['slug']), audio_attr=audio_attr)
+    article = f'''    <article class="article">
+{head}      <div class="article__layout wrap">
         <nav class="toc" aria-label="On this page">
           <p class="toc__title">On this page</p>
           <ol>
-            <li><a href="#takeaways">Key takeaways</a></li>
-            <li><a href="#fails">Where raw vibe-coded apps fail</a></li>
-            <li><a href="#pattern">The 68-line config pattern</a></li>
-            <li><a href="#agents">Built for coding agents first</a></li>
-            <li><a href="#start-now">Start your first app</a></li>
+{toc_of(body)}
           </ol>
         </nav>
         <div class="prose" data-prose>
-          <section class="takeaways" id="takeaways" aria-labelledby="tk">
-            <h2 id="tk">Key takeaways</h2>
-            <ul>
-              <li><strong>LLMs are good at schemas and business rules, not plumbing.</strong> Asking an agent to hand-roll auth, table filters and job queues wastes its context window and invites security bugs.</li>
-              <li><strong>Default-secure APIs prevent data leaks.</strong> FrogBot enforces collection and field access control unless you explicitly override it.</li>
-              <li><strong>68 lines of config replace 15,000 lines of glue.</strong> When the schema changes, the Admin UI, Kanban board, REST API and TypeScript types update with it.</li>
-            </ul>
-          </section>
-          <p class="prose__intro">{esc(p['excerpt'])}</p>
-          <h2 id="fails">Where raw vibe-coded apps fail in production</h2>
-          <p>When teams replace an internal CRM or operations tool with a browser prompt builder or a raw Next.js starter, the failure rarely shows up in the first ten minutes. It shows up in week two:</p>
-          <ul>
-            <li><strong>Inconsistent authorization.</strong> One API route checks the session; another server action forgets to filter by <code>organizationId</code>.</li>
-            <li><strong>UI drift on every schema change.</strong> Adding one <code>status</code> or <code>dueDate</code> field means editing six React components, three forms and two API routes.</li>
-            <li><strong>No durable background work.</strong> Long PDF imports, Stripe syncs and Slack approvals time out inside serverless HTTP handlers.</li>
-          </ul>
-          <h2 id="pattern">The 68-line config pattern</h2>
-          <p>FrogBot separates what changes per app (your data model, access rules, agent instructions and custom views) from what must never break (authentication, migrations, the Admin UI, job retries and OAuth token refresh).</p>
-          <figure class="codeblock">
-            <figcaption><span>frogbot.config.ts</span><button type="button" class="codeblock__copy" data-copy-code>Copy</button></figcaption>
-            <pre><code>{esc(code)}</code></pre>
-          </figure>
-          <h2 id="agents">Built for coding agents first</h2>
-          <p>Every FrogBot project ships a local agent skill (<code>skills/frogbot/SKILL.md</code>) for Claude Code, Cursor, Codex and OpenCode. The surface area is small and strongly typed, so your agent writes valid collections, hooks and jobs on the first pass, without inventing brittle infrastructure.</p>
+{body}
           <h2 id="start-now">Start your first app</h2>
           <p>Paste this into your coding agent to scaffold a production app in minutes, then deploy it to Dojo for $29 a month with $0 per seat.</p>
 {start_card('Copy the prompt into your agent')}
@@ -237,9 +194,9 @@ article = f'''    <article class="article">
 {chr(10).join(card(x) for x in related)}
         </div>
       </div>
-    </section>
-'''
-(ROOT / 'blog/why-raw-vibe-coding-breaks.html').write_text(page(p['title'] + ' | FrogBot', p['excerpt'], article))
+    </article-end>
+'''.replace('</article-end>', '</section>')
+    (ROOT / f"blog/{p['slug']}.html").write_text(page(p['title'] + ' | FrogBot', p['excerpt'], article))
 
 # ---------- cover maker ----------
 opts = '\n'.join(f'<option{" selected" if c == "Engineering" else ""}>{c}</option>' for c in CATS[1:])
