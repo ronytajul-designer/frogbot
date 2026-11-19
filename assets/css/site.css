@@ -1987,3 +1987,8 @@ html.menu-open .header.is-hidden { transform: none; }
 .article__meta::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
   background-image: radial-gradient(circle, rgb(255 255 255 / 0.32) 1px, transparent 1.4px); background-size: 8px 2px; background-repeat: repeat-x; }
 .prose__intro { font-size: inherit; line-height: inherit; color: inherit; } /* the summary reads as ordinary body text */
+/* even rhythm round the summary: the same 48px from the takeaways box above and to the next heading below */
+.prose .prose__intro { margin-top: 48px; }
+/* no dotted rule under the meta row */
+.article__meta::after { content: none; }
+.article__meta { padding-bottom: 0; }
