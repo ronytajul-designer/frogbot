@@ -1948,3 +1948,14 @@ html.menu-open .header.is-hidden { transform: none; }
 .close .wrap { position: relative; z-index: 1; }
 .close .px--close { z-index: 0; }
 .close .close__ascii { z-index: 0; }
+/* Article header and cover share the text column (ElevenLabs-style): crumb, title, meta, dotted rule, full-width player */
+.article__lane { display: grid; grid-template-columns: 220px minmax(0, 720px); gap: 64px; justify-content: center; }
+.article__lane > .article__col { grid-column: 2; min-width: 0; }
+.article__head.article__lane { max-width: none; }
+.article__meta { display: flex; gap: 48px; margin: 32px 0 0; padding-bottom: 24px; border-bottom: 1px dotted var(--line-strong); }
+.article__meta dt { font-size: 13px; color: var(--ink-3); }
+.article__meta dd { margin: 4px 0 0; font-size: 15px; font-weight: 500; color: var(--fb-ink); }
+.article__head .listen { max-width: none; width: 100%; margin-top: 24px; box-sizing: border-box; }
+.article__cover canvas { aspect-ratio: 16 / 9; }
+.prose__intro { font-size: 19px; line-height: 1.65; color: var(--fb-ink); }
+@media (max-width: 960px) { .article__lane { grid-template-columns: minmax(0, 1fr); gap: 0; } .article__lane > .article__col { grid-column: 1; } }

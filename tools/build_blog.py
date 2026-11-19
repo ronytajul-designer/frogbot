@@ -164,19 +164,23 @@ export default buildConfig({
 });'''
 related = [x for x in posts if x is not p][:3]
 article = f'''    <article class="article">
-      <header class="article__head wrap">
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="./">Blog</a><span aria-hidden="true">/</span><span>{esc(p['cat'])}</span></nav>
-        <h1 class="article__title">{esc(p['title'])}</h1>
-        <p class="article__dek">{esc(p['excerpt'])}</p>
-        <div class="article__meta"><time datetime="{p['date']}">{fmt(p['date'])}</time><span>{p['read']} min read</span></div>
-        <div class="listen" data-listen hidden>
-          <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
-          <span class="listen__label" data-listen-label>Listen to article</span>
-          <span class="listen__track" aria-hidden="true"><i data-listen-bar></i></span>
-          <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+      <header class="article__head wrap article__lane">
+        <div class="article__col">
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="./">Blog</a><span aria-hidden="true">/</span><span>{esc(p['cat'])}</span></nav>
+          <h1 class="article__title">{esc(p['title'])}</h1>
+          <dl class="article__meta">
+            <div><dt>Published</dt><dd><time datetime="{p['date']}">{fmt(p['date'])}</time></dd></div>
+            <div><dt>Read time</dt><dd>{p['read']} min read</dd></div>
+          </dl>
+          <div class="listen" data-listen hidden>
+            <button type="button" class="listen__play" data-listen-play aria-label="Listen to article"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="listen__icon-play" d="M8 5v14l11-7z"/><path class="listen__icon-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            <span class="listen__label" data-listen-label>Listen to article</span>
+            <span class="listen__track" aria-hidden="true"><i data-listen-bar></i></span>
+            <button type="button" class="listen__rate" data-listen-rate aria-label="Playback speed">1x</button>
+          </div>
         </div>
       </header>
-      <div class="article__cover wrap"><canvas data-cover data-seed="{esc(p['slug'])}" data-kind="{esc(p['cat'])}" data-cell="4" aria-hidden="true"></canvas></div>
+      <div class="article__cover wrap article__lane"><div class="article__col"><canvas data-cover data-seed="{esc(p['slug'])}" data-kind="{esc(p['cat'])}" data-cell="4" aria-hidden="true"></canvas></div></div>
       <div class="article__layout wrap">
         <nav class="toc" aria-label="On this page">
           <p class="toc__title">On this page</p>
@@ -197,6 +201,7 @@ article = f'''    <article class="article">
               <li><strong>68 lines of config replace 15,000 lines of glue.</strong> When the schema changes, the Admin UI, Kanban board, REST API and TypeScript types update with it.</li>
             </ul>
           </section>
+          <p class="prose__intro">{esc(p['excerpt'])}</p>
           <h2 id="fails">Where raw vibe-coded apps fail in production</h2>
           <p>When teams replace an internal CRM or operations tool with a browser prompt builder or a raw Next.js starter, the failure rarely shows up in the first ten minutes. It shows up in week two:</p>
           <ul>
