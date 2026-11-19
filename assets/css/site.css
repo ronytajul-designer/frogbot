@@ -8322,3 +8322,7 @@ html.menu-open .header.is-hidden {
 @media (min-width: 961px) {
   .built__grid > .track { order: -1; }
 }
+
+/* Use cases window: same card surface as every other card, rows one step lighter */
+.uc__win { background: var(--fb-surface-mid) !important; }
+.uc__row { background: var(--fb-surface-raised) !important; border-color: var(--line) !important; }
