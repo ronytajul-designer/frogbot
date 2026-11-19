@@ -27,7 +27,7 @@ if (hero) {
     bg = background(hero, {
       preset: drift,
       clear,
-      color: '#3acf6a', // brand green (the asciify.org selection used #8f8d86)
+      color: '#8f8d86',
       speed: 1,
       cellSize: 11,
       opacity: 1,
