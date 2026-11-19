@@ -1840,3 +1840,24 @@ h1:has(.own), h2:has(.own) { color: rgb(255 255 255 / 0.4) !important; }
 /* tracker tick: a soft fade (colour cross-fade), no scale, no bounce */
 .track__dot { transition: background-color 0.12s ease-out, border-color 0.12s ease-out, color 0.12s ease-out !important; }
 .track__step.is-done .track__dot { background: #ffffff !important; border-color: #ffffff !important; color: #04210d !important; }
+
+/* ---------- Hero: Asciify Drift background ----------
+   The kit draws its field under the hero content (z-index -1 inside an isolated host), so the hero carries its own ground.
+   Text keeps the text-shaped clear map plus a frosted veil, so characters fade toward the words instead of stopping at an edge. */
+.hero { isolation: isolate; background-color: var(--fb-surface); }
+.hero.has-asciify .hero__dots { display: none; }
+.hero.has-asciify .hero__title, .hero.has-asciify .hero__offer { position: relative; isolation: isolate; }
+.hero.has-asciify .hero__title::before {
+  content: ""; position: absolute; z-index: -1; inset: -36px -64px; pointer-events: none;
+  background: color-mix(in oklab, var(--fb-surface) 62%, transparent);
+  -webkit-backdrop-filter: blur(9px) saturate(1.1); backdrop-filter: blur(9px) saturate(1.1);
+  -webkit-mask-image: radial-gradient(closest-side, #000 52%, rgb(0 0 0 / .6) 74%, transparent);
+  mask-image: radial-gradient(closest-side, #000 52%, rgb(0 0 0 / .6) 74%, transparent);
+}
+.hero.has-asciify .hero__offer::before {
+  content: ""; position: absolute; z-index: -1; inset: -24px -40px; pointer-events: none;
+  background: color-mix(in oklab, var(--fb-surface) 58%, transparent);
+  -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 52%, rgb(0 0 0 / .6) 74%, transparent);
+  mask-image: radial-gradient(closest-side, #000 52%, rgb(0 0 0 / .6) 74%, transparent);
+}

@@ -1085,6 +1085,8 @@ void main(){
     let raf = null;
     const host = c.parentElement;
     const tick = now => {
+      // the hero's Asciify background can replace this canvas; stop once it has been taken out
+      if (!c.isConnected) { raf = null; return; }
       while (ripples.length && now - ripples[0].t > LIFE) ripples.shift();
       let eyesMoving = false;
       if (frogA) {
