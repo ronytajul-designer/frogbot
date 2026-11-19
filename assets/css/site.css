@@ -8313,3 +8313,7 @@ html.menu-open .header.is-hidden {
   font: 600 20px/1.3 var(--font-display);
   color: var(--fb-ink);
 }
+
+/* 80/20: the ring and the floating frog must never be clipped (the card clipped the ring's bottom on phones) */
+.split__card { overflow: visible !important; }
+@media (max-width: 560px) { .split__ring { margin-bottom: 0 !important; } }
