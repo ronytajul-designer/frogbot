@@ -7,30 +7,41 @@
 */
 
 :root {
+  /* Palette: primitive colours, same names as the Figma library (FrogBot Design System > Primitives).
+     Tailwind style steps 50 to 950. Use the named tokens below in components, not these directly. */
+  --neutral-white: #ffffff;
+  --neutral-50: #f5f6f9; --neutral-100: #e6e9ef; --neutral-200: #d6dae2; --neutral-300: #b4b9c4; --neutral-400: #8a8f99; --neutral-500: #6a7084; --neutral-600: #363e52; --neutral-700: #202738; --neutral-800: #141a2a; --neutral-900: #0e1422; --neutral-950: #090e1b;
+  --green-50: #ebfaf0; --green-100: #d1f0db; --green-200: #a0ddb4; --green-300: #5be084; --green-400: #3acf6a; --green-500: #2fb85c; --green-600: #22903f; --green-700: #166d30; --green-800: #114c25; --green-900: #0d2b1a; --green-950: #04210d;
+  --red-50: #fef2f2; --red-100: #fee2e2; --red-200: #fecaca; --red-300: #fca5a5; --red-400: #f87171; --red-500: #ef4444; --red-600: #dc2626; --red-700: #b91c1c; --red-800: #991b1b; --red-900: #7f1d1d; --red-950: #450a0a;
+  --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-200: #fde68a; --amber-300: #fcd34d; --amber-400: #fbbf24; --amber-500: #f59e0b; --amber-600: #d97706; --amber-700: #b45309; --amber-800: #92400e; --amber-900: #78350f; --amber-950: #451a03;
+  --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe; --blue-300: #93c5fd; --blue-400: #60a5fa; --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8; --blue-800: #1e40af; --blue-900: #1e3a8a; --blue-950: #172554;
+  --violet-50: #f5f3ff; --violet-100: #ede9fe; --violet-200: #ddd6fe; --violet-300: #c4b5fd; --violet-400: #a78bfa; --violet-500: #8b5cf6; --violet-600: #7c3aed; --violet-700: #6d28d9; --violet-800: #5b21b6; --violet-900: #4c1d95; --violet-950: #2e1065;
+  --neutral-black: #050912;
+
   /* Brand green. One green everywhere (designer decision, 2026-11-14).
      The live site mixes #22e05a, #3acf6a and #2f964f; the redesign uses only this one. */
-  --fb-green: #3acf6a;          /* brand green: primary buttons, logo, frogs, the highlighted plan only */
-  --fb-green-ink: #04210d;      /* text on a green fill */
-  --fb-green-deep: #166d30;     /* FrogBot UI --color-bg-brand-hover and light --color-icon-brand: green on light grounds (the light favicon) */
+  --fb-green: var(--green-400);          /* brand green: primary buttons, logo, frogs, the highlighted plan only */
+  --fb-green-ink: var(--green-950);      /* text on a green fill */
+  --fb-green-deep: var(--green-700);     /* FrogBot UI --color-bg-brand-hover and light --color-icon-brand: green on light grounds (the light favicon) */
 
   /* Type */
   --font-display: "Funnel Display", sans-serif;
   --font-text: "Funnel Sans", sans-serif;
 
   /* Dark surfaces, darkest to lightest */
-  --fb-surface-sunken: #050912;
-  --fb-surface: #090e1b;        /* page background */
-  --fb-surface-mid: #0e1422;
-  --fb-surface-raised: #141a2a; /* cards, panels */
-  --fb-surface-elevated: #202738;
+  --fb-surface-sunken: var(--neutral-black);
+  --fb-surface: var(--neutral-950);        /* page background */
+  --fb-surface-mid: var(--neutral-900);
+  --fb-surface-raised: var(--neutral-800); /* cards, panels */
+  --fb-surface-elevated: var(--neutral-700);
 
   /* Text and lines */
-  --fb-ink: #e6e9ef;
+  --fb-ink: var(--neutral-100);
   --fb-ink-muted: rgb(248 250 252 / 0.58);
   --fb-border: rgb(255 255 255 / 0.1);
 
   /* Status colors seen in the product mockups on the live site */
-  --fb-warning: #fbbf24;
+  --fb-warning: var(--amber-400);
   --fb-danger: #ff7b7b;
 
   /* Spacing: 8px grid; 4px is the half step for tight inline gaps. Every padding, margin and gap is a multiple of 4. */
